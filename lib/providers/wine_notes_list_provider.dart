@@ -68,46 +68,41 @@ class WineNotesListProvider with ChangeNotifier {
     }
   }
 
-  // WineItemProvider getNote(String id) {
-  //   notifyListeners();
-  //   return _items.firstWhere((element) => element.id == id);
-  // }
-
   /// метод, который извлекает данные о заметки с сервера
   Future<void> getAndFetchNotes() async {
     // try {
-      //загружаем json файл  в виде Map
-      try {
-        final response = await http.get(url);
-        print(response.toString());
-        Map<String, dynamic> loadedData = {};
-        if(json.decode(response.body) != Null) {
-          loadedData = json.decode(response.body) as Map<String, dynamic>;
-        }
-        final List<WineItemProvider> notesLoadedList = [];
-        if (loadedData.isNotEmpty) {
-          //декодируем карту и записываем заметки в лист с заметками
-          print(loadedData.toString());
-          loadedData.forEach((noteId, note) {
-            notesLoadedList.add(WineItemProvider(
-              id: noteId,
-              name: note['name'],
-              aroma: note['aroma'],
-              country: note['country'],
-              grapeVariety: note['grapeVariety'],
-              manufacturer: note['manufacturer'],
-              region: note['region'],
-              taste: note['taste'],
-              wineColors: note['wineColors'],
-              year: note['year'],
-            ));
-          });
-        }
-        _items = notesLoadedList;
-        notifyListeners();
-      }  catch (error) {
-    print('You have a error $error');
-  }
+    //загружаем json файл  в виде Map
+    try {
+      final response = await http.get(url);
+      print(response.toString());
+      Map<String, dynamic> loadedData = {};
+      if (json.decode(response.body) != Null) {
+        loadedData = json.decode(response.body) as Map<String, dynamic>;
+      }
+      final List<WineItemProvider> notesLoadedList = [];
+      if (loadedData.isNotEmpty) {
+        //декодируем карту и записываем заметки в лист с заметками
+        print(loadedData.toString());
+        loadedData.forEach((noteId, note) {
+          notesLoadedList.add(WineItemProvider(
+            id: noteId,
+            name: note['name'],
+            aroma: note['aroma'],
+            country: note['country'],
+            grapeVariety: note['grapeVariety'],
+            manufacturer: note['manufacturer'],
+            region: note['region'],
+            taste: note['taste'],
+            wineColors: note['wineColors'],
+            year: note['year'],
+          ));
+        });
+      }
+      _items = notesLoadedList;
+      notifyListeners();
+    } catch (error) {
+      print('You have a error $error');
+    }
 
     // } catch (error) {
     //   print('You have a error $error');
