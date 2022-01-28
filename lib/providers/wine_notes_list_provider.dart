@@ -68,6 +68,11 @@ class WineNotesListProvider with ChangeNotifier {
     }
   }
 
+  // WineItemProvider getNote(String id) {
+  //   notifyListeners();
+  //   return _items.firstWhere((element) => element.id == id);
+  // }
+
   /// метод, который извлекает данные о заметки с сервера
   Future<void> getAndFetchNotes() async {
     // try {

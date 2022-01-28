@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/wine_notes_list_provider.dart';
 import '../widgets/wine_note_item.dart';
+import 'edit_wine_screen.dart';
 
 //Экран со всеми записями о вине
 
@@ -70,6 +71,13 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
                 ),
               ],
             ),
+      floatingActionButton: buildFloatingActionButton(),
     );
   }
+
+  Widget buildFloatingActionButton() => FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () =>
+            Navigator.of(context).pushNamed(EditWineScreen.routName),
+      );
 }

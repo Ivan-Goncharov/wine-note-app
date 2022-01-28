@@ -17,15 +17,10 @@ class _TabsScreenState extends State<TabsScreen> {
   final List<Map<String, Object>> _pages = [
     {'page': const FavoritesWineScreen()},
     {'page': const WineOverViewScreen()},
-    {'page': const EditWineScreen()},
   ];
 
   //переменная для отслеживания текущего индекса экрана в списке
-  late int _currentSelectIndex;
-
-  void changeSelect() {
-    _selectPage(1);
-  }
+  int _currentSelectIndex = 1;
 
   // метод для изменения индекса, взависимости от выбранной вкладки
   void _selectPage(int index) {
@@ -37,13 +32,6 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // //устанавливаем текст для appbar, взависимости от выбранной вкладки
-      // appBar: AppBar(
-      //   title: Text(
-      //     _pages[_currentSelectIndex]['title'] as String,
-      //   ),
-      // ),
-
       //выводим текущий экран из списка
       body: _pages[_currentSelectIndex]['page'] as Widget,
 
@@ -67,12 +55,6 @@ class _TabsScreenState extends State<TabsScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.wine_bar, size: 30),
             label: 'All Wine',
-          ),
-
-          //редактирование заметок
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle, size: 30),
-            label: 'Add',
           ),
         ],
       ),
