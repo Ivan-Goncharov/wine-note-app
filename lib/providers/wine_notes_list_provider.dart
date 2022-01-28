@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/models/http_exeption.dart';
 import 'package:http/http.dart' as http;
 
 import 'wine_item_provider.dart';
@@ -173,9 +174,23 @@ class WineNotesListProvider with ChangeNotifier {
     }
   }
 
-  //метод для удаления записи о вине
-  void removeNote(String? id) {
-    _items.removeWhere((element) => element.id == id);
+  ///метод для удаления записи о вине
+  ///производим  "оптимимстичное удаление",
+  ///т.е. сохраняем заметку до тех пор, пока объект не удалится с сервера
+  Future<void> removeNote(String? id) async {
+    final urlDeleteNote = Uri.https(
+        'flutter-update-ivan-default-rtdb.firebaseio.com', '/notes/$id.json');
+    final deleteNoteIndex = _items.indexWhere((element) => element.id == id);
+    var deleteNote = _items[deleteNoteIndex];
+    _items.removeAt(deleteNoteIndex);
     notifyListeners();
+
+    try {
+      await http.delete(url);
+    } catch (error) {
+      _items.insert(deleteNoteIndex, deleteNote);
+      notifyListeners();
+      throw HttpExeption(error.toString());
+    }
   }
 }

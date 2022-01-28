@@ -95,6 +95,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
         setState(() {
           _isLoading = false;
         });
+        Navigator.pop(context);
       } catch (error) {
         showDialog(
           context: context,

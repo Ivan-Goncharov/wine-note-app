@@ -34,6 +34,9 @@ class WineNoteItem extends StatelessWidget {
           .changeImage(wineNote.id, wineNote.wineColors);
     }
 
+    //SnackBAr на случай ошибки соединения с сервером
+    final _scaffoldMessange = ScaffoldMessenger.of(context);
+
     return Dismissible(
       key: ValueKey(wineNote.id),
       background: Container(
@@ -74,9 +77,20 @@ class WineNoteItem extends StatelessWidget {
           ),
         );
       },
-      onDismissed: (direction) {
-        Provider.of<WineNotesListProvider>(context, listen: false)
-            .removeNote(wineNote.id);
+      //удаляем заметку, если подтвердили удаление,
+      //но обрабатываем ошибку, которая может возникнуть из-за связи с сервером
+      //если связи нет, то отменяем удаление и выводим snackbar
+      onDismissed: (direction) async {
+        try {
+          await Provider.of<WineNotesListProvider>(context, listen: false)
+              .removeNote(wineNote.id);
+        } catch (_) {
+          _scaffoldMessange.showSnackBar(
+            const SnackBar(
+              content: Text("Не удалось удалить заметку"),
+            ),
+          );
+        }
       },
       child: Card(
         margin: const EdgeInsets.symmetric(

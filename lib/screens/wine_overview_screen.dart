@@ -75,6 +75,7 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
     );
   }
 
+  ///вызов окна для создания новой заметки по нажатию плавающей кнопки
   Widget buildFloatingActionButton() => FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () =>
