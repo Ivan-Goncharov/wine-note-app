@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_my_wine_app/models/http_exeption.dart';
+import 'package:http/http.dart' as http;
 
 //Модель для создания одной заметки вина
 class WineItemProvider with ChangeNotifier {
@@ -64,10 +67,27 @@ class WineItemProvider with ChangeNotifier {
     );
   }
 
+  //метод для возврата предыдщего статуса заметки
+  void _changeStatus(bool status) {
+    isFavorite = status;
+    notifyListeners();
+  }
+
   //метод для изменения статуса любимого у заметки
-  void toogleStatusFavorite() {
+  //также изменяет статус заметки на сервере
+  Future<void> toogleStatusFavorite() async {
+    final oldStatus = isFavorite;
+
+    final urlPatch = Uri.https(
+        'flutter-update-ivan-default-rtdb.firebaseio.com', '/notes/$id');
+
     isFavorite = !isFavorite;
     notifyListeners();
+    http.patch(urlPatch,
+        body: json.encode({
+          'isFavorite': isFavorite,
+        }));
+    print(isFavorite);
   }
 
 // метод возвращает список значений для выпадающего меню выбора цвета

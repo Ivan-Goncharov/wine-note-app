@@ -15,6 +15,9 @@ class WineFullDescripScreen extends StatefulWidget {
 class _WineFullDescripScreenState extends State<WineFullDescripScreen> {
   @override
   Widget build(BuildContext context) {
+    //SnackBAr на случай ошибки соединения с сервером
+    final _scaffoldMessange = ScaffoldMessenger.of(context);
+
     //в качестве аргумента - принимаем заметку о вине
     final wineNote =
         ModalRoute.of(context)?.settings.arguments as WineItemProvider;
@@ -23,10 +26,17 @@ class _WineFullDescripScreenState extends State<WineFullDescripScreen> {
         title: Text(wineNote.name),
         actions: [
           IconButton(
-            onPressed: () {
-              setState(() {
-                wineNote.toogleStatusFavorite();
-              });
+            onPressed: () async {
+              try {
+                setState(() {
+                  wineNote.toogleStatusFavorite();
+                });
+                // await wineNote.toogleStatusFavorite();
+              } catch (_) {
+                _scaffoldMessange.showSnackBar(const SnackBar(
+                  content: Text("Не удалось поменять статус"),
+                ));
+              }
             },
             icon: wineNote.isFavorite
                 ? const Icon(Icons.favorite)

@@ -101,6 +101,7 @@ class WineNotesListProvider with ChangeNotifier {
             taste: note['taste'],
             wineColors: note['wineColors'],
             year: note['year'],
+            isFavorite: note['isFavorite'],
           ));
         });
       }
@@ -131,6 +132,7 @@ class WineNotesListProvider with ChangeNotifier {
           'grapeVariety': wN.grapeVariety,
           'taste': wN.taste,
           'wineColors': wN.wineColors,
+          'isFavorite': wN.isFavorite,
         }),
       );
       wN.id = json.decode(response.body)['name'];
