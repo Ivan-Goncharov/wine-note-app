@@ -29,20 +29,20 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
   ///при первой инициализации приложения - извлекаем данные с сервера
   @override
   void didChangeDependencies() {
-    if (_isInt) {
-      setState(() {
-        _isLoading = true;
-      });
-      Provider.of<WineNotesListProvider>(context).getAndFetchNotes().then(
-        (_) {
-          setState(
-            () {
-              _isLoading = false;
-            },
-          );
-        },
-      );
-    }
+    // if (_isInt) {
+    //   setState(() {
+    //     _isLoading = true;
+    //   });
+    //   Provider.of<WineNotesListProvider>(context).getAndFetchNotes().then(
+    //     (_) {
+    //       setState(
+    //         () {
+    //           _isLoading = false;
+    //         },
+    //       );
+    //     },
+    //   );
+    // }
     _isInt = false;
 
     super.didChangeDependencies();
@@ -50,7 +50,7 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    wineList = Provider.of<WineNotesListProvider>(context).items;
+    // wineList = Provider.of<WineNotesListProvider>(context).items;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Все винные заметки'),
@@ -71,7 +71,8 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
                 ),
               ],
             ),
-      floatingActionButton: buildFloatingActionButton(),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: buildFloatingActionButton(),
     );
   }
 

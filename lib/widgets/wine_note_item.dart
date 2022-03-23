@@ -29,10 +29,10 @@ class WineNoteItem extends StatelessWidget {
   Widget build(BuildContext context) {
     //если пользователь не задал изображение для заметки,
     //то добавляем автоматически, взаивисимости от цвета вина
-    if (wineNote.imageUrl.isEmpty) {
-      Provider.of<WineNotesListProvider>(context)
-          .changeImage(wineNote.id, wineNote.wineColors);
-    }
+    // if (wineNote.imageUrl.isEmpty) {
+    //   Provider.of<WineNotesListProvider>(context)
+    //       .changeImage(wineNote.id, wineNote.wineColors);
+    // }
 
     //SnackBAr на случай ошибки соединения с сервером
     final _scaffoldMessange = ScaffoldMessenger.of(context);
@@ -77,20 +77,21 @@ class WineNoteItem extends StatelessWidget {
           ),
         );
       },
+
       //удаляем заметку, если подтвердили удаление,
       //но обрабатываем ошибку, которая может возникнуть из-за связи с сервером
       //если связи нет, то отменяем удаление и выводим snackbar
       onDismissed: (direction) async {
-        try {
-          await Provider.of<WineNotesListProvider>(context, listen: false)
-              .removeNote(wineNote.id);
-        } catch (_) {
-          _scaffoldMessange.showSnackBar(
-            const SnackBar(
-              content: Text("Не удалось удалить заметку"),
-            ),
-          );
-        }
+        // // try {
+        // //   await Provider.of<WineNotesListProvider>(context, listen: false)
+        // //       .removeNote(wineNote.id);
+        // } catch (_) {
+        //   _scaffoldMessange.showSnackBar(
+        //     const SnackBar(
+        //       content: Text("Не удалось удалить заметку"),
+        //     ),
+        //   );
+        // }
       },
       child: Card(
         margin: const EdgeInsets.symmetric(
@@ -103,7 +104,7 @@ class WineNoteItem extends StatelessWidget {
           //по нажатию на карточку, открырвается полное описание
           onTap: () {
             Navigator.of(context)
-                .pushNamed(WineFullDescripScreen.routname, arguments: wineNote);
+                .pushNamed(WineFullDescripScreen.routName, arguments: wineNote);
           },
 
           leading: SizedBox(

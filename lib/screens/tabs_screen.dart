@@ -1,63 +1,60 @@
 import 'package:flutter/material.dart';
-
-import './edit_wine_screen.dart';
+import 'package:flutter_my_wine_app/screens/last_wine_notes.dart';
+import 'package:flutter_my_wine_app/widgets/bottom_app_bar.dart';
 import './wine_overview_screen.dart';
-import './favorites_wine_screen.dart';
+import 'edit_wine_screen.dart';
 
 //экран для навигации между вкладками
 
 class TabsScreen extends StatefulWidget {
+  const TabsScreen({Key? key}) : super(key: key);
+
   @override
   _TabsScreenState createState() => _TabsScreenState();
 }
 
 class _TabsScreenState extends State<TabsScreen> {
   //список экранов для навигации по вкладкам
-  // также передаем текст для названия appBar
-  final List<Map<String, Object>> _pages = [
-    {'page': const FavoritesWineScreen()},
-    {'page': const WineOverViewScreen()},
+  final _pages = <Widget>[
+    const LastWineNote(),
+    const WineOverViewScreen(),
   ];
 
   //переменная для отслеживания текущего индекса экрана в списке
-  int _currentSelectIndex = 1;
-
-  // метод для изменения индекса, взависимости от выбранной вкладки
-  void _selectPage(int index) {
-    setState(() {
-      _currentSelectIndex = index;
-    });
-  }
+  int _currentSelectIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       //выводим текущий экран из списка
-      body: _pages[_currentSelectIndex]['page'] as Widget,
+      body: _pages[_currentSelectIndex],
 
-      //нижняя панель навигации
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentSelectIndex,
-
-        onTap: _selectPage,
-        //вкладки панели навигации
-        items: const [
-          //любимые
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.favorite,
-              size: 30,
-            ),
-            label: 'Favorites',
-          ),
-
-          //все вина
-          BottomNavigationBarItem(
-            icon: Icon(Icons.wine_bar, size: 30),
-            label: 'All Wine',
-          ),
-        ],
+      //навигационный бар, передаем текущий индекс и функцию для изменения индекса
+      bottomNavigationBar: CustomBottomNavigation(
+        index: _currentSelectIndex,
+        onChangedTab: onChangeTab,
       ),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: buildFloatingActionButton(),
     );
+  }
+
+  ///вызов окна для создания новой заметки по нажатию плавающей кнопки
+  Widget buildFloatingActionButton() => FloatingActionButton(
+        child: const Icon(
+          Icons.add,
+          size: 40,
+        ),
+        onPressed: () =>
+            Navigator.of(context).pushNamed(EditWineScreen.routName),
+      );
+
+  //метод, который меняет вкладку, взависимости от нажатой кнопки
+  void onChangeTab(int index) {
+    setState(() {
+      _currentSelectIndex = index;
+    });
   }
 }
