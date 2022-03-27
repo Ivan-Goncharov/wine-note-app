@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/database/databse.dart';
-import 'package:flutter_my_wine_app/providers/wine_item_provider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_my_wine_app/string_resourses.dart';
 
-import 'edit_screens/country_edit.dart';
+import '../../widgets/edit_wine/wine_year.dart';
+import '../../database/databse.dart';
+import '../../models/wine_item_provider.dart';
+import '../../widgets/edit_wine/search_country.dart';
+import '../../widgets/edit_wine/searh_region.dart';
 
 //экран для добавления и редактирования записей о вине
 class EditWineScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class EditWineScreen extends StatefulWidget {
 }
 
 class _EditWineScreenState extends State<EditWineScreen> {
-  // создаем заметку о вине с дефолтными значениями
+  // создаем заметку о вине с пустыми значениями
   var _note = WineItemProvider(
     id: null,
     name: '',
@@ -31,35 +32,41 @@ class _EditWineScreenState extends State<EditWineScreen> {
     taste: '',
     wineColors: '',
   );
+
   //ключ для сохранения form
   final _key = GlobalKey<FormState>();
-  var _isLoading = false;
 
-  String _countrySvgPath = '';
+  //переменная для экрана загрузки
+  var _isLoading = false;
 
   //контроллер для TextField
   late TextEditingController _textFieldContoller;
   late double _containerHeight;
+  late String _countryName;
 
+  //подключаем контроллер для пол текстового ввода
   @override
   void initState() {
     _textFieldContoller = TextEditingController();
+    _countryName = _note.country;
     super.initState();
   }
 
+  //отключаем контроллер
   @override
   void dispose() {
     _textFieldContoller.dispose();
     super.dispose();
   }
 
+  //назначаем переменную для размера контейнера
   @override
   void didChangeDependencies() {
     _containerHeight = MediaQuery.of(context).size.height * 0.1;
     super.didChangeDependencies();
   }
 
-//сохраняет заметку о вине
+  //сохраняет заметку о вине
   Future<void> _savedNotes() async {
     //проверяем все ли обязательные пооя заполнены
     final isValid = _key.currentState!.validate();
@@ -75,6 +82,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
     setState(() => _isLoading = false);
   }
 
+  //значения отсутпа для полей
   final _edgeInsets = const EdgeInsets.only(
     top: 15,
     left: 25,
@@ -104,9 +112,12 @@ class _EditWineScreenState extends State<EditWineScreen> {
               child: SizedBox(
                 width: double.infinity,
                 height: double.infinity,
+
+                //используем Form для общей валидации
                 child: Form(
                   key: _key,
                   child: SingleChildScrollView(
+                    //при прокручивании полей убираем клавиатуру
                     keyboardDismissBehavior:
                         ScrollViewKeyboardDismissBehavior.onDrag,
                     child: Column(
@@ -122,13 +133,23 @@ class _EditWineScreenState extends State<EditWineScreen> {
                         inputContainer(textFormField: dropDownColorWine()),
 
                         // указываем год вина
-                        yearPicker(context),
+                        WineYear(
+                          currentWineYear: _note.year,
+                          changeDateNote: changeWineDate,
+                        ),
 
                         //Страна вина
-                        searchDataContainer(context),
+                        SearchCountry(
+                          countryName: _countryName,
+                          func: changeNoteCountry,
+                        ),
 
                         //Регион вина
-                        inputContainer(textFormField: textFieldRegion()),
+                        SearchRegion(
+                          regionName: _note.region,
+                          countryName: _note.country,
+                          function: changeNoteRegion,
+                        ),
 
                         //Сорт винограда
                         inputContainer(textFormField: textFieldGrapeVariety()),
@@ -152,117 +173,129 @@ class _EditWineScreenState extends State<EditWineScreen> {
     );
   }
 
-  Widget yearPicker(BuildContext context) {
-    return GestureDetector(
-      onTap: (() {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Выберите год"),
-              content: Container(
-                width: 300,
-                height: 300,
-                child: YearPicker(
-                  firstDate: DateTime(DateTime.now().year - 50, 1),
-                  lastDate: DateTime(DateTime.now().year, 1),
-                  initialDate: DateTime.now(),
-                  selectedDate: DateTime.now(),
-                  onChanged: (DateTime dateTime) {
-                    setState(() {
-                      _note = _note.copyWith(year: dateTime);
-                    });
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            );
-          },
-        );
-      }),
-      child: buttonContainer(
-        context,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Год урожая'),
-            Text(_note.year?.year.toString() ?? ''),
-          ],
-        ),
-      ),
-    );
+  // //виджет для вывода
+  // Widget yearPicker(BuildContext context) {
+  //   return GestureDetector(
+  //     onTap: (() {
+  //       showDialog(
+  //         context: context,
+  //         builder: (BuildContext context) {
+  //           return AlertDialog(
+  //             title: const Text("Выберите год"),
+  //             content: SizedBox(
+  //               width: 300,
+  //               height: 300,
+  //               child: YearPicker(
+  //                 firstDate: DateTime(DateTime.now().year - 50, 1),
+  //                 lastDate: DateTime(DateTime.now().year, 1),
+  //                 initialDate: DateTime.now(),
+  //                 selectedDate: DateTime.now(),
+  //                 onChanged: (DateTime dateTime) {
+  //                   setState(() {
+  //                     _note = _note.copyWith(year: dateTime);
+  //                   });
+  //                   Navigator.pop(context);
+  //                 },
+  //               ),
+  //             ),
+  //           );
+  //         },
+  //       );
+  //     }),
+  //     child: ButtonContainer(
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           const Text('Год урожая'),
+  //           Text(_note.year?.year.toString() ?? ''),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // Widget searchDataContainer(BuildContext context) {
+  //   final size = MediaQuery.of(context).size;
+  //   return GestureDetector(
+  //     onTap: () async {
+  //       final result = await Navigator.pushNamed(
+  //         context,
+  //         CountryEdit.routName,
+  //         arguments: {
+  //           'list': Country.countryList,
+  //           'type': SearchType.countryType,
+  //           'text': _note.country
+  //         },
+  //       );
+  //       if (result == null) {
+  //         return;
+  //       } else if (result is List<String>) {
+  //         setState(() {
+  //           _note = _note.copyWith(country: result[0]);
+  //           _countrySvgPath = '';
+  //         });
+  //       } else {
+  //         final map = (result as List)[0] as Map<String, String>;
+  //         setState(() {
+  //           _note = _note.copyWith(country: map['country']);
+  //           _countrySvgPath = map['svg']!;
+  //         });
+  //       }
+  //     },
+  //     child: ButtonContainer(
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           const Text('Страна'),
+  //           Row(
+  //             children: [
+  //               Text(_note.country),
+  //               _countrySvgPath.isNotEmpty
+  //                   ? Padding(
+  //                       padding: const EdgeInsets.only(left: 16),
+  //                       child: ClipRRect(
+  //                         borderRadius: BorderRadius.circular(8.0),
+  //                         child: SvgPicture.asset(
+  //                           _countrySvgPath,
+  //                           width: size.width * 0.05,
+  //                           height: size.height * 0.05,
+  //                         ),
+  //                       ),
+  //                     )
+  //                   : const SizedBox(),
+  //             ],
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  //метод для изменеия страны в заметке
+  void changeNoteCountry(String countyName) {
+    _note = _note.copyWith(country: countyName);
   }
 
-  Container buttonContainer(BuildContext context, Widget child) {
-    return Container(
-        width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.08,
-        margin: _edgeInsets,
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.only(left: 10, right: 20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: Theme.of(context).colorScheme.onBackground,
-          ),
-        ),
-        child: child);
+  //метод для изменения региона в заметке
+  void changeNoteRegion(String regionName) {
+    _note = _note.copyWith(region: regionName);
+    if (_note.country.isEmpty) {
+      _countryName = Country.countryName(regionName);
+      if (_countryName.isNotEmpty) {
+        setState(() {
+          _note = _note.copyWith(country: _countryName);
+        });
+      }
+    }
   }
 
-  Widget searchDataContainer(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onTap: () async {
-        final result = await Navigator.pushNamed(
-          context,
-          CountryEdit.routName,
-          arguments: _note.country,
-        );
-        if (result == null) {
-          return;
-        } else if (result is List<String>) {
-          setState(() {
-            _note = _note.copyWith(country: result[0]);
-            _countrySvgPath = '';
-          });
-        } else {
-          final map = (result as List)[0] as Map<String, String>;
-          setState(() {
-            _note = _note.copyWith(country: map['country']);
-            _countrySvgPath = map['svg']!;
-          });
-        }
-      },
-      child: buttonContainer(
-        context,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text('Страна'),
-            Row(
-              children: [
-                Text(_note.country),
-                _countrySvgPath.isNotEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: SvgPicture.asset(
-                            _countrySvgPath,
-                            width: size.width * 0.05,
-                            height: size.height * 0.05,
-                          ),
-                        ),
-                      )
-                    : const SizedBox(),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+  //метод для изменения даты в заметке
+  void changeWineDate(DateTime newDate) {
+    _note = _note.copyWith(year: newDate);
   }
 
+  //контейнер для стилизации полей ввода
+  //принимает поле ввода
   Container inputContainer({required Widget textFormField}) {
     return Container(
       width: double.infinity,
@@ -272,6 +305,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
     );
   }
 
+  //поле ввода комментария
   TextFormField textFieldComment() {
     return TextFormField(
       decoration:
@@ -285,6 +319,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
     );
   }
 
+  //поле ввода вкуса
   TextFormField textFieldTaste() {
     return TextFormField(
       decoration: createInputDecoration('Вкус', 'Опишите вкус вина'),
@@ -297,6 +332,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
     );
   }
 
+  //поле ввода аромата
   TextFormField textFieldAroma() {
     return TextFormField(
       decoration: createInputDecoration('Аромат', 'Опишите аромат вина'),
@@ -309,6 +345,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
     );
   }
 
+  //поле ввода винограда
   TextFormField textFieldGrapeVariety() {
     return TextFormField(
       decoration: createInputDecoration('Сорт', 'Укажите сорт винограда'),
@@ -329,46 +366,47 @@ class _EditWineScreenState extends State<EditWineScreen> {
     );
   }
 
-  TextFormField textFieldRegion() {
-    return TextFormField(
-      decoration:
-          createInputDecoration('Регион', 'Укажите регион производителя'),
-      initialValue: _note.region,
-      textInputAction: TextInputAction.next,
-      //сохраняем ввод в переменную name  и пересоздаем объект
-      onSaved: (value) {
-        _note = _note.copyWith(region: value);
-      },
-      // проверяем правильность ввода
-      validator: (value) {
-        return textValidator(
-          value,
-          'Пожалуйста, укажите регион производителя',
-        );
-      },
-    );
-  }
+  // TextFormField textFieldRegion() {
+  //   return TextFormField(
+  //     decoration:
+  //         createInputDecoration('Регион', 'Укажите регион производителя'),
+  //     initialValue: _note.region,
+  //     textInputAction: TextInputAction.next,
+  //     //сохраняем ввод в переменную name  и пересоздаем объект
+  //     onSaved: (value) {
+  //       _note = _note.copyWith(region: value);
+  //     },
+  //     // проверяем правильность ввода
+  //     validator: (value) {
+  //       return textValidator(
+  //         value,
+  //         'Пожалуйста, укажите регион производителя',
+  //       );
+  //     },
+  //   );
+  // }
 
-  TextFormField textFieldCountry() {
-    return TextFormField(
-      decoration:
-          createInputDecoration('Страна', 'Введите страну производителя'),
-      initialValue: _note.country,
-      textInputAction: TextInputAction.next,
-      //сохраняем ввод в переменную name  и пересоздаем объект
-      onSaved: (value) {
-        _note = _note.copyWith(country: value);
-      },
-      // проверяем правильность ввода
-      validator: (value) {
-        return textValidator(
-          value,
-          'Пожалуйста, введите страну производителя',
-        );
-      },
-    );
-  }
+  // TextFormField textFieldCountry() {
+  //   return TextFormField(
+  //     decoration:
+  //         createInputDecoration('Страна', 'Введите страну производителя'),
+  //     initialValue: _note.country,
+  //     textInputAction: TextInputAction.next,
+  //     //сохраняем ввод в переменную name  и пересоздаем объект
+  //     onSaved: (value) {
+  //       _note = _note.copyWith(country: value);
+  //     },
+  //     // проверяем правильность ввода
+  //     validator: (value) {
+  //       return textValidator(
+  //         value,
+  //         'Пожалуйста, введите страну производителя',
+  //       );
+  //     },
+  //   );
+  // }
 
+  //раскрывающийся список цвета винограда
   DropdownButtonFormField<String> dropDownColorWine() {
     return DropdownButtonFormField(
       decoration: InputDecoration(
@@ -388,12 +426,12 @@ class _EditWineScreenState extends State<EditWineScreen> {
     );
   }
 
+  //поле ввода названия производителя
   TextFormField textFieldManufacturer() {
     return TextFormField(
       decoration: createInputDecoration(
           'Производитель вина', 'Введите производителя вина'),
       initialValue: _note.manufacturer,
-      // textInputAction: TextInputAction.next,
       //сохраняем ввод в переменную name  и пересоздаем объект
       onSaved: (value) {
         _note = _note.copyWith(manufacturer: value);
@@ -408,6 +446,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
     );
   }
 
+  //поле ввода названия вина
   TextFormField textFieldName() {
     return TextFormField(
       decoration:

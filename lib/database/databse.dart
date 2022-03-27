@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../providers/wine_item_provider.dart';
+import '../models/wine_item_provider.dart';
 
 //База данных Sqllite - для сохранения заметок пользователей о вине
 class DBProvider {

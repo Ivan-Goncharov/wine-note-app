@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/string_resourses.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../string_resourses.dart';
+
+// экра для текстового ввода стран и регионов, с возможностью подсказки ввода
 class CountryEdit extends StatefulWidget {
   static const routName = '/countryEdit';
   const CountryEdit({Key? key}) : super(key: key);
@@ -11,9 +13,21 @@ class CountryEdit extends StatefulWidget {
 }
 
 class _CountryEditState extends State<CountryEdit> {
+  //контроллер для текстового поля
   TextEditingController? _textController;
-  List<Map<String, String>> _listCountry = [];
 
+  //переменные, которые будем инициализировать через аргументы навигатора
+  //список всех элементов поиска,
+  List<dynamic> _elementsOfRes = [];
+  //тип поиска
+  SearchType _searchType = SearchType.regionType;
+  //текст, который был введен до открытия экрана, в предыдущий раз
+  String _text = '';
+
+  //список для сохранения результатов поиска
+  List<dynamic> _searchList = [];
+
+  //инициализируем контроллер и прикрепляем слушатель
   @override
   void initState() {
     _textController = TextEditingController();
@@ -21,21 +35,70 @@ class _CountryEditState extends State<CountryEdit> {
     super.initState();
   }
 
+  //слушатель контроллера для ввода
   void _inputListener() {
+    //если текст введен
     if (_textController!.text.isNotEmpty) {
+      //если тип - поиск стран, то вызываем метод для поиска стран
+      //заполняем список элементами поиска
+      if (_searchType == SearchType.countryType) {
+        setState(() {
+          _searchList = _searchCountry(_textController!.text);
+        });
+      }
+
+      //если тип - поиск регионов, вызываем метод для поиска регионов
+      else if (_searchType == SearchType.regionType) {
+        setState(() {
+          _searchList = _searchRegion(_textController!.text);
+        });
+      }
+    } else {
       setState(() {
-        _listCountry = Country.searchCountry(_textController!.text);
+        _searchList = [];
       });
     }
   }
 
+  //принимаем аргументынавигации
   @override
   void didChangeDependencies() {
-    final country = ModalRoute.of(context)!.settings.arguments as String;
+    final arg =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    _elementsOfRes = arg['list'];
+    _searchType = arg['type'];
+    _text = arg['text'];
+
+    //меняем текст в поле ввода на текст, который вводили до этого
     setState(() {
-      _textController!.text = country;
+      _textController!.text = _text;
     });
     super.didChangeDependencies();
+  }
+
+  //метод для поиска страны в списке стран
+  List<Map<String, String>> _searchCountry(String item) {
+    List<Map<String, String>> list = [];
+
+    //проходим по списку всех стран и если элемент содержит введенный текст,
+    // то добавляем в список найденных элементов
+    for (var element in _elementsOfRes) {
+      if (element['country']!.toLowerCase().contains(item.toLowerCase())) {
+        list.add(element);
+      }
+    }
+    return list;
+  }
+
+  //метод для поиск региона в списке регионов
+  List<String> _searchRegion(String item) {
+    List<String> list = [];
+    for (var element in _elementsOfRes) {
+      if ((element as String).toLowerCase().contains(item.toLowerCase())) {
+        list.add(element);
+      }
+    }
+    return list;
   }
 
   @override
@@ -49,6 +112,8 @@ class _CountryEditState extends State<CountryEdit> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
+              //поле ввода, подсказка ввода зависит от типа поиска
+              //включаем автофокус для того, чтобы поле открывалось сразу при открытии страницы
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextField(
@@ -56,30 +121,41 @@ class _CountryEditState extends State<CountryEdit> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    hintText: 'Введите страну производителя',
+                    hintText: _searchType == SearchType.countryType
+                        ? 'Введите страну производителя'
+                        : 'Введите регион производителя',
                   ),
                   controller: _textController,
                   autofocus: true,
+                  onSubmitted: (value) => Navigator.pop(context, [value]),
                 ),
               ),
               const SizedBox(height: 10),
-              Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    if (index == _listCountry.length &&
-                        _textController!.text.isNotEmpty) {
-                      return rowButtons(colorScheme, size, context);
-                    } else if (_textController!.text.isEmpty) {
-                      return SizedBox();
-                    }
 
-                    final element = _listCountry[index];
+              //если поле ввода пустое, то ничего не выводим на экран
+              _textController!.text.isEmpty
+                  ? const SizedBox()
 
-                    return itemCountry(context, element, size);
-                  },
-                  itemCount: _listCountry.length + 1,
-                ),
-              ),
+                  //проверка - пустой ли список поиска
+                  : _searchList.isEmpty
+                      //если список пустой, то на экран выводим 2 кнопки для сохранения данных
+                      ? rowButtons(colorScheme, size, context)
+
+                      //если список не пустой, то выводим список элементов
+                      : Expanded(
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              //выводим на экран либо страну, либо регион
+                              final element = _searchList[index];
+                              if (_searchType == SearchType.countryType) {
+                                return itemCountry(context, element, size);
+                              } else {
+                                return itemRegion(context, element, size);
+                              }
+                            },
+                            itemCount: _searchList.length,
+                          ),
+                        ),
             ],
           ),
         ),
@@ -87,9 +163,14 @@ class _CountryEditState extends State<CountryEdit> {
     );
   }
 
-  GestureDetector itemCountry(
+  //метод для вывода одного элемента поиска стран
+  //принимает контекст, карту со значениями страны и размеры экрана
+  Widget itemCountry(
       BuildContext context, Map<String, String> element, Size size) {
+    //обрабатываем нажатие на элемент
     return GestureDetector(
+      //по нажатию, возвращаемся на экран редактирования заметки
+      //передаем страну
       onTap: () {
         Navigator.pop(context, [element]);
       },
@@ -97,6 +178,7 @@ class _CountryEditState extends State<CountryEdit> {
         padding: const EdgeInsets.only(bottom: 16.0),
         child: Row(
           children: [
+            //флаг страны
             ClipRRect(
               borderRadius: BorderRadius.circular(16.0),
               child: SvgPicture.asset(
@@ -106,6 +188,8 @@ class _CountryEditState extends State<CountryEdit> {
               ),
             ),
             const SizedBox(width: 10),
+
+            //название
             Text(
               element['country']!,
               style: const TextStyle(
@@ -119,10 +203,36 @@ class _CountryEditState extends State<CountryEdit> {
     );
   }
 
+//один элемент поиска региона
+//принимает контекст, регион и размеры экрана
+  Widget itemRegion(BuildContext context, String element, Size size) {
+    return GestureDetector(
+      //по нажатию возвращаемся на предыдущий экран и передаем регион
+      onTap: () {
+        Navigator.pop(context, [element]);
+      },
+
+      // название региона
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 16.0),
+        child: Text(
+          element,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+      ),
+    );
+  }
+
+  //метод, который возвращат кнопки 'Назад' и 'Cохранить'
+  //принимает цветовую схему, размер и контекст
   Widget rowButtons(ColorScheme colorScheme, Size size, BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        //кнопка назад
         buttonContainer(
           colorScheme: colorScheme,
           size: size,
@@ -139,6 +249,8 @@ class _CountryEditState extends State<CountryEdit> {
             },
           ),
         ),
+
+        //кнопка "Сохранить"
         buttonContainer(
           colorScheme: colorScheme,
           size: size,
@@ -150,6 +262,8 @@ class _CountryEditState extends State<CountryEdit> {
                 fontSize: 18,
               ),
             ),
+
+            //по нажатию передаем введенный текст в поле ввода
             onPressed: () {
               Navigator.pop(context, [_textController!.text]);
             },
@@ -159,6 +273,7 @@ class _CountryEditState extends State<CountryEdit> {
     );
   }
 
+  //контейнер для стилизации кнопок
   Widget buttonContainer(
       {required ColorScheme colorScheme,
       required Size size,

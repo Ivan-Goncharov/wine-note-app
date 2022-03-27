@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/providers/wine_item_provider.dart';
+import 'package:flutter_my_wine_app/models/wine_item_provider.dart';
 import '../icons/my_custom_icons.dart';
 
 //виджет для вывода подробной информации о вине

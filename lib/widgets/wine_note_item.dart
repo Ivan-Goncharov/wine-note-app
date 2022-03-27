@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/providers/wine_notes_list_provider.dart';
 import 'package:flutter_my_wine_app/screens/wine_full_descrip_screen.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/wine_item_provider.dart';
+import '../models/wine_item_provider.dart';
 
 //виджет для отображения одного элемента в списке вин
 class WineNoteItem extends StatelessWidget {

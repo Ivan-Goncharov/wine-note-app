@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/providers/wine_item_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_my_wine_app/models/wine_item_provider.dart';
 
-import '../providers/wine_notes_list_provider.dart';
 import '../widgets/wine_note_item.dart';
-import 'edit_wine_screen.dart';
+import 'edit_screens/edit_wine_screen.dart';
 
 //Экран со всеми записями о вине
 
@@ -29,20 +27,6 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
   ///при первой инициализации приложения - извлекаем данные с сервера
   @override
   void didChangeDependencies() {
-    // if (_isInt) {
-    //   setState(() {
-    //     _isLoading = true;
-    //   });
-    //   Provider.of<WineNotesListProvider>(context).getAndFetchNotes().then(
-    //     (_) {
-    //       setState(
-    //         () {
-    //           _isLoading = false;
-    //         },
-    //       );
-    //     },
-    //   );
-    // }
     _isInt = false;
 
     super.didChangeDependencies();
@@ -50,7 +34,6 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // wineList = Provider.of<WineNotesListProvider>(context).items;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Все винные заметки'),
@@ -71,8 +54,6 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
                 ),
               ],
             ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: buildFloatingActionButton(),
     );
   }
 
