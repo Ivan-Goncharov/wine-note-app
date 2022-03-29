@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/widgets/edit_wine/button_search.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../string_resourses.dart';
 
 // экра для текстового ввода стран и регионов, с возможностью подсказки ввода
-class CountryEdit extends StatefulWidget {
+class SearchScreen extends StatefulWidget {
   static const routName = '/countryEdit';
-  const CountryEdit({Key? key}) : super(key: key);
+  const SearchScreen({Key? key}) : super(key: key);
 
   @override
-  State<CountryEdit> createState() => _CountryEditState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _CountryEditState extends State<CountryEdit> {
+class _SearchScreenState extends State<SearchScreen> {
   //контроллер для текстового поля
-  TextEditingController? _textController;
+  late TextEditingController _textController;
 
   //переменные, которые будем инициализировать через аргументы навигатора
   //список всех элементов поиска,
   List<dynamic> _elementsOfRes = [];
+
   //тип поиска
   SearchType _searchType = SearchType.regionType;
+
   //текст, который был введен до открытия экрана, в предыдущий раз
   String _text = '';
 
@@ -31,26 +34,27 @@ class _CountryEditState extends State<CountryEdit> {
   @override
   void initState() {
     _textController = TextEditingController();
-    _textController!.addListener(_inputListener);
+    _textController.addListener(_inputListener);
+
     super.initState();
   }
 
   //слушатель контроллера для ввода
   void _inputListener() {
     //если текст введен
-    if (_textController!.text.isNotEmpty) {
+    if (_textController.text.isNotEmpty) {
       //если тип - поиск стран, то вызываем метод для поиска стран
       //заполняем список элементами поиска
       if (_searchType == SearchType.countryType) {
         setState(() {
-          _searchList = _searchCountry(_textController!.text);
+          _searchList = _searchCountry(_textController.text);
         });
       }
 
       //если тип - поиск регионов, вызываем метод для поиска регионов
       else if (_searchType == SearchType.regionType) {
         setState(() {
-          _searchList = _searchRegion(_textController!.text);
+          _searchList = _searchRegion(_textController.text);
         });
       }
     } else {
@@ -60,7 +64,7 @@ class _CountryEditState extends State<CountryEdit> {
     }
   }
 
-  //принимаем аргументынавигации
+  //принимаем аргументы навигации
   @override
   void didChangeDependencies() {
     final arg =
@@ -71,7 +75,7 @@ class _CountryEditState extends State<CountryEdit> {
 
     //меняем текст в поле ввода на текст, который вводили до этого
     setState(() {
-      _textController!.text = _text;
+      _textController.text = _text;
     });
     super.didChangeDependencies();
   }
@@ -121,6 +125,13 @@ class _CountryEditState extends State<CountryEdit> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    //кнопка удаления написанного текста
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.clear_outlined),
+                      onPressed: () {
+                        _textController.clear();
+                      },
+                    ),
                     hintText: _searchType == SearchType.countryType
                         ? 'Введите страну производителя'
                         : 'Введите регион производителя',
@@ -133,13 +144,20 @@ class _CountryEditState extends State<CountryEdit> {
               const SizedBox(height: 10),
 
               //если поле ввода пустое, то ничего не выводим на экран
-              _textController!.text.isEmpty
+              _textController.text.isEmpty
                   ? const SizedBox()
 
                   //проверка - пустой ли список поиска
                   : _searchList.isEmpty
-                      //если список пустой, то на экран выводим 2 кнопки для сохранения данных
-                      ? rowButtons(colorScheme, size, context)
+                      // ? rowButtons(colorScheme, size, context)
+                      ? ButtonsInSearch(
+                          onSave: () {
+                            Navigator.pop(context, [_textController.text]);
+                          },
+                          onBack: () {
+                            Navigator.pop(context);
+                          },
+                        )
 
                       //если список не пустой, то выводим список элементов
                       : Expanded(
@@ -265,7 +283,7 @@ class _CountryEditState extends State<CountryEdit> {
 
             //по нажатию передаем введенный текст в поле ввода
             onPressed: () {
-              Navigator.pop(context, [_textController!.text]);
+              Navigator.pop(context, [_textController.text]);
             },
           ),
         )

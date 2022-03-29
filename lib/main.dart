@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_my_wine_app/screens/edit_screens/country_edit.dart';
+import 'package:flutter_my_wine_app/screens/edit_screens/search_screen.dart';
 import 'package:flutter_my_wine_app/screens/edit_screens/edit_wine_screen.dart';
+import 'package:flutter_my_wine_app/screens/edit_screens/wine_sort.dart';
 import 'package:flutter_my_wine_app/screens/wine_full_descrip_screen.dart';
 import 'package:flutter_my_wine_app/screens/wine_overview_screen.dart';
 import 'package:flutter_my_wine_app/widgets/custom_page_route.dart';
@@ -45,9 +46,17 @@ class _MyAppState extends State<MyApp> {
               settings: settings,
             );
 
-          case CountryEdit.routName:
+          case SearchScreen.routName:
             return CustomPageRoute(
-                child: const CountryEdit(), settings: settings);
+              child: const SearchScreen(),
+              settings: settings,
+            );
+
+          case WineSortScreen.routName:
+            return CustomPageRoute(
+              child: const WineSortScreen(),
+              settings: settings,
+            );
         }
       },
       // routes: {

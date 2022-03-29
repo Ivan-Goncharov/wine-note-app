@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/string_resourses.dart';
+import 'package:flutter_my_wine_app/widgets/edit_wine/search_sort.dart';
 
 import '../../widgets/edit_wine/wine_year.dart';
 import '../../database/databse.dart';
@@ -42,13 +43,18 @@ class _EditWineScreenState extends State<EditWineScreen> {
   //контроллер для TextField
   late TextEditingController _textFieldContoller;
   late double _containerHeight;
+
+  //переменные для изменения состояния виджетов
+  // ввода страны и региона
   late String _countryName;
+  late String _regionName;
 
   //подключаем контроллер для пол текстового ввода
   @override
   void initState() {
     _textFieldContoller = TextEditingController();
     _countryName = _note.country;
+    _regionName = _note.region;
     super.initState();
   }
 
@@ -146,13 +152,17 @@ class _EditWineScreenState extends State<EditWineScreen> {
 
                         //Регион вина
                         SearchRegion(
-                          regionName: _note.region,
-                          countryName: _note.country,
+                          regionName: _regionName,
+                          countryName: _countryName,
                           function: changeNoteRegion,
                         ),
 
                         //Сорт винограда
-                        inputContainer(textFormField: textFieldGrapeVariety()),
+                        // inputContainer(textFormField: textFieldGrapeVariety()),
+                        SearchGrapeSort(
+                          sortName: _note.grapeVariety,
+                          func: changeGrapeSort,
+                        ),
 
                         //Аромат вина
                         inputContainer(textFormField: textFieldAroma()),
@@ -272,15 +282,20 @@ class _EditWineScreenState extends State<EditWineScreen> {
   // }
 
   //метод для изменеия страны в заметке
-  void changeNoteCountry(String countyName) {
-    _note = _note.copyWith(country: countyName);
+  void changeNoteCountry(String name) {
+    setState(() {
+      _note = _note.copyWith(country: name, region: '');
+      _countryName = name;
+      _regionName = '';
+    });
   }
 
   //метод для изменения региона в заметке
-  void changeNoteRegion(String regionName) {
-    _note = _note.copyWith(region: regionName);
+  void changeNoteRegion(String region) {
+    _note = _note.copyWith(region: region);
+    setState(() => _regionName = region);
     if (_note.country.isEmpty) {
-      _countryName = Country.countryName(regionName);
+      _countryName = Country.countryName(region);
       if (_countryName.isNotEmpty) {
         setState(() {
           _note = _note.copyWith(country: _countryName);
@@ -292,6 +307,10 @@ class _EditWineScreenState extends State<EditWineScreen> {
   //метод для изменения даты в заметке
   void changeWineDate(DateTime newDate) {
     _note = _note.copyWith(year: newDate);
+  }
+
+  void changeGrapeSort(String grapeName) {
+    _note = _note.copyWith(grapeVariety: grapeName);
   }
 
   //контейнер для стилизации полей ввода
@@ -345,26 +364,26 @@ class _EditWineScreenState extends State<EditWineScreen> {
     );
   }
 
-  //поле ввода винограда
-  TextFormField textFieldGrapeVariety() {
-    return TextFormField(
-      decoration: createInputDecoration('Сорт', 'Укажите сорт винограда'),
-      initialValue: _note.grapeVariety,
-      textInputAction: TextInputAction.next,
-      //сохраняем ввод в переменную name  и пересоздаем объект
-      onSaved: (value) {
-        _note = _note.copyWith(grapeVariety: value);
-      },
+  // //поле ввода винограда
+  // TextFormField textFieldGrapeVariety() {
+  //   return TextFormField(
+  //     decoration: createInputDecoration('Сорт', 'Укажите сорт винограда'),
+  //     initialValue: _note.grapeVariety,
+  //     textInputAction: TextInputAction.next,
+  //     //сохраняем ввод в переменную name  и пересоздаем объект
+  //     onSaved: (value) {
+  //       _note = _note.copyWith(grapeVariety: value);
+  //     },
 
-      // проверяем правильность ввода
-      validator: (value) {
-        return textValidator(
-          value,
-          'Пожалуйста, укажите сорт винограда',
-        );
-      },
-    );
-  }
+  //     // проверяем правильность ввода
+  //     validator: (value) {
+  //       return textValidator(
+  //         value,
+  //         'Пожалуйста, укажите сорт винограда',
+  //       );
+  //     },
+  //   );
+  // }
 
   // TextFormField textFieldRegion() {
   //   return TextFormField(

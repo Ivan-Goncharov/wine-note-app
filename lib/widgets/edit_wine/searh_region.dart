@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/string_resourses.dart';
 
-import '../../screens/edit_screens/country_edit.dart';
+import '../../screens/edit_screens/search_screen.dart';
 import 'button_container.dart';
 
 class SearchRegion extends StatefulWidget {
@@ -24,19 +24,14 @@ class _SearchRegionState extends State<SearchRegion> {
   late String _regionName;
 
   @override
-  void initState() {
-    _regionName = widget.regionName;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    _regionName = widget.regionName;
     return GestureDetector(
       onTap: () async {
         _listRegions = Country.regionsOfCountry(widget.countryName);
         final result = await Navigator.pushNamed(
           context,
-          CountryEdit.routName,
+          SearchScreen.routName,
           arguments: {
             'list': _listRegions,
             'type': SearchType.regionType,

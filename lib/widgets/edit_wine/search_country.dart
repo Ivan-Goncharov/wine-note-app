@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../screens/edit_screens/country_edit.dart';
+import '../../screens/edit_screens/search_screen.dart';
 import '../../string_resourses.dart';
 import 'button_container.dart';
 
@@ -27,8 +27,21 @@ class _SearchCountryState extends State<SearchCountry> {
   late String _countryName;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     _countryName = widget.countryName;
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant SearchCountry oldWidget) {
+    if (widget.countryName.isNotEmpty) {
+      _countryName = widget.countryName;
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     //если у страны есть есть флаг,
     //то присваиваем путь к нему, если нет, то путь пустой
     if (_countryName.isNotEmpty) {
@@ -42,7 +55,7 @@ class _SearchCountryState extends State<SearchCountry> {
       onTap: () async {
         final result = await Navigator.pushNamed(
           context,
-          CountryEdit.routName,
+          SearchScreen.routName,
           arguments: {
             'list': Country.countryList,
             'type': SearchType.countryType,
