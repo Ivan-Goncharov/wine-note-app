@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/string_resourses.dart';
+import 'package:flutter_my_wine_app/widgets/edit_wine/image_pick.dart';
 import 'package:flutter_my_wine_app/widgets/edit_wine/search_sort.dart';
 
 import '../../widgets/edit_wine/wine_year.dart';
@@ -32,6 +33,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
     grapeVariety: '',
     taste: '',
     wineColors: '',
+    imageUrl: '',
   );
 
   //ключ для сохранения form
@@ -115,7 +117,8 @@ class _EditWineScreenState extends State<EditWineScreen> {
             )
           : GestureDetector(
               onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
-              child: SizedBox(
+              child: Container(
+                padding: const EdgeInsets.only(bottom: 16.0),
                 width: double.infinity,
                 height: double.infinity,
 
@@ -129,6 +132,12 @@ class _EditWineScreenState extends State<EditWineScreen> {
                     child: Column(
                       //вызываем поочередно поля ввода данных для заметки
                       children: [
+                        //выбор изображения для вина
+                        WineImagePick(
+                          imagePath: _note.imageUrl,
+                          function: changeImagePath,
+                        ),
+
                         //название вина
                         inputContainer(textFormField: textFieldName()),
 
@@ -309,8 +318,15 @@ class _EditWineScreenState extends State<EditWineScreen> {
     _note = _note.copyWith(year: newDate);
   }
 
+  //метод для изменения списка сортов винограда
   void changeGrapeSort(String grapeName) {
     _note = _note.copyWith(grapeVariety: grapeName);
+  }
+
+  //метод для изменения пути изображения для вина
+  void changeImagePath(String path) {
+    print('Путь к изображению: $path');
+    _note = _note.copyWith(imageUrl: path);
   }
 
   //контейнер для стилизации полей ввода
