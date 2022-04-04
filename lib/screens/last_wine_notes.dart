@@ -1,16 +1,11 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/database/databse.dart';
-import 'package:flutter_my_wine_app/models/wine_item_provider.dart';
-import 'package:flutter_my_wine_app/screens/edit_screens/search_screen.dart';
-import 'package:flutter_my_wine_app/screens/edit_screens/wine_sort.dart';
-import 'package:flutter_my_wine_app/string_resourses.dart';
-import 'package:flutter_my_wine_app/widgets/edit_wine/image_pick.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:multi_select_flutter/chip_display/multi_select_chip_display.dart';
-import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:flutter_my_wine_app/models/wine_item.dart';
+import 'package:flutter_my_wine_app/models/wine_list_provider.dart';
+import 'package:flutter_my_wine_app/widgets/wine_note_item.dart';
+import 'package:provider/provider.dart';
 
+//Экран для вывода последних 10 записей
 class LastWineNote extends StatefulWidget {
   const LastWineNote({Key? key}) : super(key: key);
 
@@ -18,27 +13,49 @@ class LastWineNote extends StatefulWidget {
   State<LastWineNote> createState() => _LastWineNoteState();
 }
 
-String _string = '';
-
 class _LastWineNoteState extends State<LastWineNote> {
-  late Size _size;
-  late ColorScheme _colorScheme;
+  //провайдер для получения списка заметок
+  WineListProvider? _listProvider;
 
   @override
   void didChangeDependencies() {
-    _size = MediaQuery.of(context).size;
-    _colorScheme = Theme.of(context).colorScheme;
+    createNoteList(context);
     super.didChangeDependencies();
+  }
+
+  //создаем экземпляр провайдера и получаем все заметки из базы данных
+  void createNoteList(BuildContext context) async {
+    _listProvider = Provider.of<WineListProvider>(context);
+    _listProvider!.fetchAllNotes();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('LastWine')),
-      // body: const Padding(
-      //   padding: EdgeInsets.all(8.0),
-      //   child: WineImagePick(),
-      // ),
+      appBar: AppBar(
+        title: const Text('Последние заметки'),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+
+        //выводим заметки на экран, если список пуст, то выводим сообщение
+        child: _listProvider!.wineList.isEmpty
+            ? const Center(
+                child: Text('Вы не добавили ни одной заметки'),
+              )
+            : ListView.builder(
+                // возвращаем одну карту с кратким описанием заметки
+                itemBuilder: (context, index) {
+                  return WineNoteItem(_listProvider!.wineList[index]);
+                },
+
+                // длина списка должна быть не больше 10
+                itemCount: _listProvider!.wineList.length > 10
+                    ? 10
+                    : _listProvider!.wineList.length,
+              ),
+      ),
     );
   }
 }

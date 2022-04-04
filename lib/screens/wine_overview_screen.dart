@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_item_provider.dart';
+import 'package:flutter_my_wine_app/models/wine_item.dart';
 
 import '../widgets/wine_note_item.dart';
 import 'edit_screens/edit_wine_screen.dart';
@@ -16,7 +16,7 @@ class WineOverViewScreen extends StatefulWidget {
 }
 
 class _WineOverViewScreenState extends State<WineOverViewScreen> {
-  List<WineItemProvider> wineList = [];
+  List<WineItem> wineList = [];
 
   //для определения запущено ли приложение
   var _isInt = true;

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_item_provider.dart';
+import 'package:flutter_my_wine_app/models/wine_item.dart';
 import '../icons/my_custom_icons.dart';
 
 //виджет для вывода подробной информации о вине
 class DetailedExpanded extends StatelessWidget {
-  final WineItemProvider wineNote;
+  final WineItem wineNote;
 
-  DetailedExpanded(
-    this.wineNote,
-  );
+  const DetailedExpanded(this.wineNote, {Key? key}) : super(key: key);
 
 // виджет - для одного элемента column с информацией
   Widget rowItemWidget(IconData icon, String? info, BuildContext ctx) {
@@ -63,7 +61,8 @@ class DetailedExpanded extends StatelessWidget {
             // сорт
             rowItemWidget(MyCustomIcons.grape, wineNote.grapeVariety, context),
             // год
-            rowItemWidget(MyCustomIcons.calendar, '${wineNote.year}', context),
+            rowItemWidget(
+                MyCustomIcons.calendar, '${wineNote.year!.year}.г', context),
             // Страна
             rowItemWidget(MyCustomIcons.flag, wineNote.country, context),
             // регион

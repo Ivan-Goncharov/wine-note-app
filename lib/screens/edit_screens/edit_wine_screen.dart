@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/models/wine_list_provider.dart';
 import 'package:flutter_my_wine_app/string_resourses.dart';
 import 'package:flutter_my_wine_app/widgets/edit_wine/image_pick.dart';
 import 'package:flutter_my_wine_app/widgets/edit_wine/search_sort.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/edit_wine/wine_year.dart';
-import '../../database/databse.dart';
-import '../../models/wine_item_provider.dart';
+import '../../models/wine_item.dart';
 import '../../widgets/edit_wine/search_country.dart';
 import '../../widgets/edit_wine/searh_region.dart';
 
@@ -22,18 +23,19 @@ class EditWineScreen extends StatefulWidget {
 
 class _EditWineScreenState extends State<EditWineScreen> {
   // создаем заметку о вине с пустыми значениями
-  var _note = WineItemProvider(
+  WineItem _note = WineItem(
     id: null,
     name: '',
     manufacturer: '',
     country: '',
     region: '',
-    year: null,
+    year: DateTime.now(),
     aroma: '',
     grapeVariety: '',
     taste: '',
     wineColors: '',
     imageUrl: '',
+    comment: '',
   );
 
   //ключ для сохранения form
@@ -41,6 +43,8 @@ class _EditWineScreenState extends State<EditWineScreen> {
 
   //переменная для экрана загрузки
   var _isLoading = false;
+  //переменная для инициализации
+  var _isInit = true;
 
   //контроллер для TextField
   late TextEditingController _textFieldContoller;
@@ -51,12 +55,13 @@ class _EditWineScreenState extends State<EditWineScreen> {
   late String _countryName;
   late String _regionName;
 
+  //провайдер для сохранения заметки
+  WineListProvider? _listProvider;
+
   //подключаем контроллер для пол текстового ввода
   @override
   void initState() {
     _textFieldContoller = TextEditingController();
-    _countryName = _note.country;
-    _regionName = _note.region;
     super.initState();
   }
 
@@ -67,10 +72,28 @@ class _EditWineScreenState extends State<EditWineScreen> {
     super.dispose();
   }
 
-  //назначаем переменную для размера контейнера
+  //передаем значение размера переменной для размера контейнера
+  //инициализируем провайдер
   @override
   void didChangeDependencies() {
     _containerHeight = MediaQuery.of(context).size.height * 0.1;
+    _listProvider = Provider.of<WineListProvider>(context, listen: false);
+
+    //если еще не инициализировали заметку
+    //то принимаем id заметки, если id передан - нам необходимо изменить существующую заметк
+    // если id = null, то создаем новую заметку
+    if (_isInit) {
+      final String? noteId =
+          ModalRoute.of(context)!.settings.arguments as String?;
+      if (noteId != null) {
+        _note = _listProvider!.findById(noteId);
+      }
+
+      //инициализируем переменные страны и региона, для вывода в поиске
+      _countryName = _note.country;
+      _regionName = _note.region;
+      _isInit = false;
+    }
     super.didChangeDependencies();
   }
 
@@ -81,13 +104,21 @@ class _EditWineScreenState extends State<EditWineScreen> {
     if (!isValid) return;
     _key.currentState!.save();
 
-    //для вывода экрана загрузки, пока сохраняется
-    setState(() {
-      _isLoading = true;
-    });
+    //для вывода экрана загрузки
+    setState(() => _isLoading = true);
 
-    await DBProvider.instanse.create(_note);
+    // если id != null - значит мы редактировали заметку и должны ее обновить в списке
+    // иначе создаем новую заметку
+    if (_listProvider != null) {
+      if (_note.id != null) {
+        print('обновляем заметку');
+        _listProvider!.updateNote(_note);
+      } else {
+        _listProvider!.addNote(_note);
+      }
+    }
     setState(() => _isLoading = false);
+    Navigator.pop(context);
   }
 
   //значения отсутпа для полей
@@ -325,7 +356,6 @@ class _EditWineScreenState extends State<EditWineScreen> {
 
   //метод для изменения пути изображения для вина
   void changeImagePath(String path) {
-    print('Путь к изображению: $path');
     _note = _note.copyWith(imageUrl: path);
   }
 
@@ -457,7 +487,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
           _note = _note.copyWith(wineColors: value);
         });
       },
-      items: WineItemProvider.colorDopdownItems,
+      items: WineItem.colorDopdownItems,
     );
   }
 
@@ -505,7 +535,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
 
 // валидатор для проверки правильности ввода
   String? textValidator(String? value, String message) {
-    if (value!.length <= 3) {
+    if (value!.length <= 2) {
       return message;
     } else {
       return null;

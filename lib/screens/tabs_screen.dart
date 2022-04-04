@@ -7,6 +7,7 @@ import 'edit_screens/edit_wine_screen.dart';
 //экран для навигации между вкладками
 
 class TabsScreen extends StatefulWidget {
+  static const routName = './tabScreen';
   const TabsScreen({Key? key}) : super(key: key);
 
   @override
@@ -47,8 +48,8 @@ class _TabsScreenState extends State<TabsScreen> {
           Icons.add,
           size: 40,
         ),
-        onPressed: () =>
-            Navigator.of(context).pushNamed(EditWineScreen.routName),
+        onPressed: () => Navigator.of(context)
+            .pushNamed(EditWineScreen.routName, arguments: null),
       );
 
   //метод, который меняет вкладку, взависимости от нажатой кнопки

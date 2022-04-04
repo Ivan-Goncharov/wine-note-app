@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../models/wine_item_provider.dart';
+import '../models/wine_item.dart';
 
 //База данных Sqllite - для сохранения заметок пользователей о вине
 class DBProvider {
@@ -21,7 +21,7 @@ class DBProvider {
     if (_database != null) return _database!;
 
     //если нет, то создаем ее
-    _database = await _initDB('wine.db');
+    _database = await _initDB('wine_note.db');
     return _database!;
   }
 
@@ -34,7 +34,7 @@ class DBProvider {
     final path = dir.path + filePath;
 
     //открываем базу
-    return await openDatabase(path, version: 2, onCreate: _createDB);
+    return await openDatabase(path, version: 3, onCreate: _createDB);
   }
 
   //метод для созданя базы данных
@@ -62,7 +62,7 @@ CREATE TABLE $_tableName (
   }
 
   //метод для записи одной заметки в базу
-  Future<WineItemProvider> create(WineItemProvider note) async {
+  Future<WineItem> create(WineItem note) async {
     final db = await instanse.getDataBase();
 
     //вставляем заметку в формате map
@@ -77,7 +77,7 @@ CREATE TABLE $_tableName (
 
   //метод для чтения одной заметки о вине
   //принимает id данной заметки
-  Future<WineItemProvider> read(int id) async {
+  Future<WineItem> read(String id) async {
     final db = await instanse.getDataBase();
 
     //читаем заметку, если id совпадает
@@ -90,26 +90,26 @@ CREATE TABLE $_tableName (
 
     //если такая запись есть, то возвращаем заметку
     if (maps.isNotEmpty) {
-      return WineItemProvider.fromMap(maps.first);
+      return WineItem.fromMap(maps.first);
     } else {
       throw Exception('ID $id not found');
     }
   }
 
   //метод для чтения всех заметок о вине
-  Future<List<WineItemProvider>> readAllNotes() async {
+  Future<List<WineItem>> readAllNotes() async {
     final db = await instanse.getDataBase();
 
     //создаем map записей в базе
     final maps = await db.query(_tableName);
 
     //возвращаем список заметок
-    return maps.map((json) => WineItemProvider.fromMap(json)).toList();
+    return maps.map((json) => WineItem.fromMap(json)).toList();
   }
 
   //метод для обновления заметки в базе данных
   //принимает заметку
-  Future<int> update(WineItemProvider note) async {
+  Future<int> update(WineItem note) async {
     final db = await instanse.getDataBase();
 
     //вызываем метод обновления, передавая id записи и заметку
@@ -123,7 +123,7 @@ CREATE TABLE $_tableName (
 
   //метод для удаления записи в базе данных
   //принимает id записи
-  Future<int> delete(int id) async {
+  Future<int> delete(String id) async {
     final db = await instanse.getDataBase();
 
     return await db.delete(

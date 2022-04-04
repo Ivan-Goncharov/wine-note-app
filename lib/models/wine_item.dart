@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //Модель для создания одной заметки вина
-class WineItemProvider with ChangeNotifier {
+class WineItem with ChangeNotifier {
   //необходимые поля для заполнения
   String? id;
   String name;
@@ -16,7 +16,7 @@ class WineItemProvider with ChangeNotifier {
   String comment;
   String imageUrl;
 
-  WineItemProvider({
+  WineItem({
     this.id,
     required this.name,
     required this.manufacturer,
@@ -27,8 +27,8 @@ class WineItemProvider with ChangeNotifier {
     required this.grapeVariety,
     required this.taste,
     required this.wineColors,
-    this.comment = '',
-    this.imageUrl = '',
+    required this.comment,
+    required this.imageUrl,
   });
 
   // метод для преобразования значений заметки в карту для записи в базу данных
@@ -48,14 +48,14 @@ class WineItemProvider with ChangeNotifier {
       };
 
   //метод для преобразования карты из базы данных обратно в заметку
-  static WineItemProvider fromMap(Map<String, dynamic> map) {
-    return WineItemProvider(
+  static WineItem fromMap(Map<String, dynamic> map) {
+    return WineItem(
       id: map[WineNoteFields.id].toString(),
       name: map[WineNoteFields.name] as String,
       manufacturer: map[WineNoteFields.manufacturer] as String,
       country: map[WineNoteFields.country] as String,
       region: map[WineNoteFields.region] as String,
-      year: DateTime.parse(map[WineNoteFields.year] as String),
+      year: DateTime.parse(map[WineNoteFields.year]),
       grapeVariety: map[WineNoteFields.grapeVariety] as String,
       wineColors: map[WineNoteFields.wineColors] as String,
       taste: map[WineNoteFields.taste] as String,
@@ -66,7 +66,7 @@ class WineItemProvider with ChangeNotifier {
   }
 
 // метод для обновления одного параметра для заметки
-  WineItemProvider copyWith({
+  WineItem copyWith({
     String? id,
     String? name,
     String? manufacturer,
@@ -81,7 +81,7 @@ class WineItemProvider with ChangeNotifier {
     String? imageUrl,
     bool? isFavorite,
   }) {
-    return WineItemProvider(
+    return WineItem(
       id: id ?? this.id,
       name: name ?? this.name,
       manufacturer: manufacturer ?? this.manufacturer,
@@ -92,6 +92,8 @@ class WineItemProvider with ChangeNotifier {
       grapeVariety: grapeVariety ?? this.grapeVariety,
       taste: taste ?? this.taste,
       wineColors: wineColors ?? this.wineColors,
+      imageUrl: imageUrl ?? this.imageUrl,
+      comment: comment ?? this.comment,
     );
   }
 
@@ -104,6 +106,27 @@ class WineItemProvider with ChangeNotifier {
       const DropdownMenuItem(child: Text('Розовое'), value: 'Розовое'),
     ];
     return menuItems;
+  }
+
+  //если пользователь не выбра фотографию для вина,
+  // то подставляем дефолтную, взависимости от цвета вина
+  String changeImage() {
+    switch (wineColors) {
+      case 'Белое':
+        return 'assets/images/white_wine.jpg';
+
+      case 'Красное':
+        return 'assets/images/red_wine.jpg';
+
+      case 'Оранжевое':
+        return 'assets/images/orange_wine.jpg';
+
+      case 'Розовое':
+        return 'assets/images/rose_wine.jpg';
+
+      default:
+        return '';
+    }
   }
 }
 
