@@ -37,7 +37,7 @@ class _LastWineNoteState extends State<LastWineNote> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
 
         //выводим заметки на экран, если список пуст, то выводим сообщение
         child: _listProvider!.wineList.isEmpty

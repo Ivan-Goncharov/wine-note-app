@@ -9,6 +9,15 @@ class WineListProvider with ChangeNotifier {
   List<WineItem> _winesList = [];
   List<WineItem> get wineList => _winesList;
 
+  //список, который будет заполняться при поиске заметок
+  List<WineItem> _searchList = [];
+  void clearList() {
+    _searchList = [];
+    notifyListeners();
+  }
+
+  List<WineItem> get searchList => _searchList;
+
   //метод для получения всех заметок о вине
   Future<void> fetchAllNotes() async {
     //вызываем метод, который получает из базы данных все заметки
@@ -45,5 +54,20 @@ class WineListProvider with ChangeNotifier {
   //метод для поиска заметки по id
   WineItem findById(String id) {
     return _winesList.firstWhere((note) => note.id == id);
+  }
+
+  //метод для поиска заметок
+  void searchNotes(String searchText) {
+    for (var note in _winesList) {
+      final text = searchText.toLowerCase();
+      if (note.grapeVariety.toLowerCase().contains(text) ||
+          note.name.toLowerCase().contains(text) ||
+          note.country.toLowerCase().contains(text) ||
+          note.region.toLowerCase().contains(text) ||
+          note.manufacturer.toLowerCase().contains(text)) {
+        _searchList.add(note);
+      }
+    }
+    notifyListeners();
   }
 }

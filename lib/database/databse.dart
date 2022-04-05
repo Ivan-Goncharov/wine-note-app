@@ -21,7 +21,7 @@ class DBProvider {
     if (_database != null) return _database!;
 
     //если нет, то создаем ее
-    _database = await _initDB('wine_note.db');
+    _database = await _initDB('wine_notes.db');
     return _database!;
   }
 

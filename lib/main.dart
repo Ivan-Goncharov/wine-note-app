@@ -4,6 +4,7 @@ import 'package:flutter_my_wine_app/models/wine_list_provider.dart';
 import 'package:flutter_my_wine_app/screens/edit_screens/search_screen.dart';
 import 'package:flutter_my_wine_app/screens/edit_screens/edit_wine_screen.dart';
 import 'package:flutter_my_wine_app/screens/edit_screens/wine_sort.dart';
+import 'package:flutter_my_wine_app/screens/search_wine_note.dart';
 import 'package:flutter_my_wine_app/screens/wine_full_descrip_screen.dart';
 import 'package:flutter_my_wine_app/screens/wine_overview_screen.dart';
 import 'package:flutter_my_wine_app/widgets/custom_page_route.dart';
@@ -35,13 +36,13 @@ class _MyAppState extends State<MyApp> {
           switch (settings.name) {
             case WineFullDescripScreen.routName:
               return MaterialPageRoute(
-                builder: (context) => WineFullDescripScreen(),
+                builder: (context) => const WineFullDescripScreen(),
                 settings: settings,
               );
 
             case TabsScreen.routName:
               return MaterialPageRoute(
-                builder: (context) => TabsScreen(),
+                builder: (context) => const TabsScreen(),
                 settings: settings,
               );
 
@@ -66,6 +67,12 @@ class _MyAppState extends State<MyApp> {
             case WineSortScreen.routName:
               return CustomPageRoute(
                 child: const WineSortScreen(),
+                settings: settings,
+              );
+
+            case SearchWineNote.routName:
+              return CustomPageRoute(
+                child: const SearchWineNote(),
                 settings: settings,
               );
           }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/models/wine_item.dart';
+import 'package:flutter_my_wine_app/screens/search_wine_note.dart';
 
 import '../widgets/wine_note_item.dart';
 import 'edit_screens/edit_wine_screen.dart';
@@ -37,6 +38,17 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Все винные заметки'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, SearchWineNote.routName);
+            },
+            icon: const Icon(
+              Icons.search,
+              size: 35,
+            ),
+          ),
+        ],
       ),
       body: _isLoading
           ? const Center(

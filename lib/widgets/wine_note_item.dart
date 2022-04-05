@@ -36,7 +36,7 @@ class WineNoteItem extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.symmetric(
-        horizontal: 15,
+        // horizontal: 15,
         vertical: 4,
       ),
       //меняем цвет карты, в зависимости от вина
