@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/string_resourses.dart';
+import 'package:flutter_my_wine_app/widgets/custom_text_field.dart';
 import 'package:flutter_my_wine_app/widgets/edit_wine/button_search.dart';
 
 //экран для выбора сорта винограда
@@ -14,7 +15,7 @@ class WineSortScreen extends StatefulWidget {
 class _WineSortScreenState extends State<WineSortScreen> {
   //контроллер для текстового ввода
   late TextEditingController _controller;
-  final focus = FocusNode();
+  final _focus = FocusNode();
 
   //список сортов
   List<String> _listSorts = [];
@@ -38,6 +39,13 @@ class _WineSortScreenState extends State<WineSortScreen> {
     _controller.addListener(_textInputListener);
     _listSorts = Country.grapeVariety;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _focus.dispose();
+    super.dispose();
   }
 
   //слушатель ввода
@@ -74,27 +82,33 @@ class _WineSortScreenState extends State<WineSortScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               //поле ввода названия винограда
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    hintText: 'Укажите сорт винограда',
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(vertical: 8.0),
+              //   child: TextField(
+              //     decoration: InputDecoration(
+              //       border: OutlineInputBorder(
+              //         borderRadius: BorderRadius.circular(10),
+              //       ),
+              //       hintText: 'Укажите сорт винограда',
 
-                    //кнопка удаления написанного текста
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.clear_outlined),
-                      onPressed: () {
-                        _controller.clear();
-                      },
-                    ),
-                  ),
-                  focusNode: focus,
-                  controller: _controller,
-                  autofocus: true,
-                ),
+              //       //кнопка удаления написанного текста
+              //       suffixIcon: IconButton(
+              //         icon: const Icon(Icons.clear_outlined),
+              //         onPressed: () {
+              //           _controller.clear();
+              //         },
+              //       ),
+              //     ),
+              //     focusNode: focus,
+              //     controller: _controller,
+              //     autofocus: true,
+              //   ),
+              // ),
+
+              CustomTextField(
+                textHint: 'Сорт винограда',
+                controller: _controller,
+                focusNode: _focus,
               ),
 
               //если в списке выбранных сортов есть элементы - выводим их
@@ -158,7 +172,7 @@ class _WineSortScreenState extends State<WineSortScreen> {
 
               //нижняя часть экрана
               //1. Если клавиатура показывается на экране
-              focus.hasFocus
+              _focus.hasFocus
                   ? _listSorts.isEmpty
                       //если список сортов пустой, то выводим кнопку назад
                       ? backButton(colorScheme, size, context)

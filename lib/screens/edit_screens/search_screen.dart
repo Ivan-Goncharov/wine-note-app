@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/widgets/custom_text_field.dart';
 import 'package:flutter_my_wine_app/widgets/edit_wine/button_search.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -108,7 +109,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final colorScheme = Theme.of(context).colorScheme;
+    // final colorScheme = Theme.of(context).colorScheme;
 
     return SafeArea(
       child: Scaffold(
@@ -117,30 +118,13 @@ class _SearchScreenState extends State<SearchScreen> {
           child: Column(
             children: [
               //поле ввода, подсказка ввода зависит от типа поиска
-              //включаем автофокус для того, чтобы поле открывалось сразу при открытии страницы
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    //кнопка удаления написанного текста
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.clear_outlined),
-                      onPressed: () {
-                        _textController.clear();
-                      },
-                    ),
-                    hintText: _searchType == SearchType.countryType
-                        ? 'Введите страну производителя'
-                        : 'Введите регион производителя',
-                  ),
-                  controller: _textController,
-                  autofocus: true,
-                  onSubmitted: (value) => Navigator.pop(context, [value]),
-                ),
+              CustomTextField(
+                textHint: _searchType == SearchType.countryType
+                    ? 'Введите страну производителя'
+                    : 'Введите регион производителя',
+                controller: _textController,
               ),
+
               const SizedBox(height: 10),
 
               //если поле ввода пустое, то ничего не выводим на экран
