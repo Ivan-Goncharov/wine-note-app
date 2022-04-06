@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/screens/last_wine_notes.dart';
 import 'package:flutter_my_wine_app/widgets/bottom_app_bar.dart';
-import './wine_overview_screen.dart';
+import 'overview_screens/wine_overview_screen.dart';
 import 'edit_screens/edit_wine_screen.dart';
 
 //экран для навигации между вкладками

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 //навигационный бар
 class CustomBottomNavigation extends StatefulWidget {
-
   //принимает индекс выбранной вкладки и функцию для изменения вкладки
   final int index;
   final ValueChanged<int> onChangedTab;
@@ -21,19 +20,17 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      
       //FAB должна быть в центре, впадать в бар
       notchMargin: 5,
       shape: const CircularNotchedRectangle(),
 
-      //наши вкладки 
+      //наши вкладки
       child: Container(
         padding: const EdgeInsets.only(bottom: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-
             //вкладки со последними винами
             buildTabItem(
               index: 0,
@@ -57,7 +54,6 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
 
 //метод для создания вкладок
   Widget buildTabItem({required int index, required Icon icon}) {
-
     //смотрим, выбрана ли вкладка в данный момент
     final isSelected = index == widget.index;
 

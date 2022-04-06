@@ -82,8 +82,8 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   //метод для поиска страны в списке стран
-  List<Map<String, String>> _searchCountry(String item) {
-    List<Map<String, String>> list = [];
+  List<Map<String, dynamic>> _searchCountry(String item) {
+    List<Map<String, dynamic>> list = [];
 
     //проходим по списку всех стран и если элемент содержит введенный текст,
     // то добавляем в список найденных элементов
@@ -168,7 +168,7 @@ class _SearchScreenState extends State<SearchScreen> {
   //метод для вывода одного элемента поиска стран
   //принимает контекст, карту со значениями страны и размеры экрана
   Widget itemCountry(
-      BuildContext context, Map<String, String> element, Size size) {
+      BuildContext context, Map<String, dynamic> element, Size size) {
     //обрабатываем нажатие на элемент
     return GestureDetector(
       //по нажатию, возвращаемся на экран редактирования заметки

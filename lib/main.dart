@@ -4,9 +4,10 @@ import 'package:flutter_my_wine_app/models/wine_list_provider.dart';
 import 'package:flutter_my_wine_app/screens/edit_screens/search_screen.dart';
 import 'package:flutter_my_wine_app/screens/edit_screens/edit_wine_screen.dart';
 import 'package:flutter_my_wine_app/screens/edit_screens/wine_sort.dart';
+import 'package:flutter_my_wine_app/screens/overview_screens/country_overview.dart';
 import 'package:flutter_my_wine_app/screens/search_wine_note.dart';
 import 'package:flutter_my_wine_app/screens/wine_full_descrip_screen.dart';
-import 'package:flutter_my_wine_app/screens/wine_overview_screen.dart';
+import 'package:flutter_my_wine_app/screens/overview_screens/wine_overview_screen.dart';
 import 'package:flutter_my_wine_app/widgets/custom_page_route.dart';
 import 'package:provider/provider.dart';
 
@@ -73,6 +74,12 @@ class _MyAppState extends State<MyApp> {
             case SearchWineNote.routName:
               return CustomPageRoute(
                 child: const SearchWineNote(),
+                settings: settings,
+              );
+
+            case CountriesOverview.routName:
+              return MaterialPageRoute(
+                builder: (context) => const CountriesOverview(),
                 settings: settings,
               );
           }

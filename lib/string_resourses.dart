@@ -1,34 +1,128 @@
 //класс для хранения ресурсов
+import 'models/wine_item.dart';
+
 class Country {
-  static List<Map<String, String>> countryList = [
-    {'country': 'Австралия', 'svg': 'assets/images/country_flags/au.svg'},
-    {'country': 'Австрия', 'svg': 'assets/images/country_flags/at.svg'},
-    {'country': 'Болгария', 'svg': 'assets/images/country_flags/bg.svg'},
-    {'country': 'Бразилия', 'svg': 'assets/images/country_flags/br.svg'},
-    {'country': 'Швейцария', 'svg': 'assets/images/country_flags/ch.svg'},
-    {'country': 'Чили', 'svg': 'assets/images/country_flags/cl.svg'},
-    {'country': 'Китай', 'svg': 'assets/images/country_flags/cn.svg'},
-    {'country': 'Чехия', 'svg': 'assets/images/country_flags/cz.svg'},
-    {'country': 'Германия', 'svg': 'assets/images/country_flags/de.svg'},
-    {'country': "Испания", 'svg': 'assets/images/country_flags/es.svg'},
-    {'country': 'Франция', 'svg': 'assets/images/country_flags/fr.svg'},
-    {'country': 'Грузия', 'svg': 'assets/images/country_flags/ge.svg'},
-    {'country': 'Греция', 'svg': 'assets/images/country_flags/gr.svg'},
-    {'country': 'Венгрия', 'svg': 'assets/images/country_flags/hu.svg'},
-    {'country': 'Италия', 'svg': 'assets/images/country_flags/it.svg'},
-    {'country': 'Япония', 'svg': 'assets/images/country_flags/jp.svg'},
-    {'country': 'Молдавия', 'svg': 'assets/images/country_flags/md.svg'},
-    {'country': 'Македония', 'svg': 'assets/images/country_flags/me.svg'},
-    {'country': 'Новая Зеландия', 'svg': 'assets/images/country_flags/nz.svg'},
-    {'country': 'Перу', 'svg': 'assets/images/country_flags/pe.svg'},
-    {'country': 'Португалия', 'svg': 'assets/images/country_flags/pt.svg'},
-    {'country': 'Румыния', 'svg': 'assets/images/country_flags/ro.svg'},
-    {'country': 'Россия', 'svg': 'assets/images/country_flags/ru.svg'},
-    {'country': 'США', 'svg': 'assets/images/country_flags/us.svg'},
-    {'country': 'ЮАР', 'svg': 'assets/images/country_flags/za.svg'},
+  static final List<Map<String, dynamic>> countryList = [
+    {
+      'country': 'Австралия',
+      'svg': 'assets/images/country_flags/au.svg',
+      'count': 1
+    },
+    {
+      'country': 'Австрия',
+      'svg': 'assets/images/country_flags/at.svg',
+      'count': 1
+    },
+    {
+      'country': 'Болгария',
+      'svg': 'assets/images/country_flags/bg.svg',
+      'count': 1
+    },
+    {
+      'country': 'Бразилия',
+      'svg': 'assets/images/country_flags/br.svg',
+      'count': 1
+    },
+    {
+      'country': 'Швейцария',
+      'svg': 'assets/images/country_flags/ch.svg',
+      'count': 1
+    },
+    {
+      'country': 'Чили',
+      'svg': 'assets/images/country_flags/cl.svg',
+      'count': 1
+    },
+    {
+      'country': 'Китай',
+      'svg': 'assets/images/country_flags/cn.svg',
+      'count': 1
+    },
+    {
+      'country': 'Чехия',
+      'svg': 'assets/images/country_flags/cz.svg',
+      'count': 1
+    },
+    {
+      'country': 'Германия',
+      'svg': 'assets/images/country_flags/de.svg',
+      'count': 1
+    },
+    {
+      'country': "Испания",
+      'svg': 'assets/images/country_flags/es.svg',
+      'count': 1
+    },
+    {
+      'country': 'Франция',
+      'svg': 'assets/images/country_flags/fr.svg',
+      'count': 1
+    },
+    {
+      'country': 'Грузия',
+      'svg': 'assets/images/country_flags/ge.svg',
+      'count': 1
+    },
+    {
+      'country': 'Греция',
+      'svg': 'assets/images/country_flags/gr.svg',
+      'count': 1
+    },
+    {
+      'country': 'Венгрия',
+      'svg': 'assets/images/country_flags/hu.svg',
+      'count': 1
+    },
+    {
+      'country': 'Италия',
+      'svg': 'assets/images/country_flags/it.svg',
+      'count': 1
+    },
+    {
+      'country': 'Япония',
+      'svg': 'assets/images/country_flags/jp.svg',
+      'count': 1
+    },
+    {
+      'country': 'Молдавия',
+      'svg': 'assets/images/country_flags/md.svg',
+      'count': 1
+    },
+    {
+      'country': 'Македония',
+      'svg': 'assets/images/country_flags/me.svg',
+      'count': 1
+    },
+    {
+      'country': 'Новая Зеландия',
+      'svg': 'assets/images/country_flags/nz.svg',
+      'count': 1
+    },
+    {
+      'country': 'Перу',
+      'svg': 'assets/images/country_flags/pe.svg',
+      'count': 1
+    },
+    {
+      'country': 'Португалия',
+      'svg': 'assets/images/country_flags/pt.svg',
+      'count': 1
+    },
+    {
+      'country': 'Румыния',
+      'svg': 'assets/images/country_flags/ro.svg',
+      'count': 1
+    },
+    {
+      'country': 'Россия',
+      'svg': 'assets/images/country_flags/ru.svg',
+      'count': 1
+    },
+    {'country': 'США', 'svg': 'assets/images/country_flags/us.svg', 'count': 1},
+    {'country': 'ЮАР', 'svg': 'assets/images/country_flags/za.svg', 'count': 1},
   ];
 
-  static List<Map<String, dynamic>> regionList = [
+  static final List<Map<String, dynamic>> regionList = [
     {
       'country': 'ЮАР',
       'region': [
@@ -363,7 +457,7 @@ class Country {
     },
   ];
 
-  static List<String> grapeVariety = [
+  static final List<String> grapeVariety = [
     'Айрен',
     'Александроули',
     'Алиготе',
@@ -525,6 +619,56 @@ class Country {
         list.addAll(element['region']);
       }
     }
+
+    return list;
+  }
+
+  //метод для создания списка стран, которые уже используются в заметках
+  static List<Map<String, dynamic>> userCountriesList(List<WineItem> notes) {
+    List<Map<String, dynamic>> list = [];
+
+    //список стран, которые уже добавили,
+    // чтобы не добавить страну дважды
+    List<String> selectCountries = [];
+
+    //проходимся по списку заметок
+    for (var note in notes) {
+      //если такую страну уже добавляли, то увличиваем счетчик ее, для того,
+      // чтобы затем вывести список по популярноcти стран
+      if (selectCountries.contains(note.country.toLowerCase())) {
+        //получаем индекс заметки
+        final index = list.indexWhere(
+          (element) =>
+              (element['country'] as String).toLowerCase() ==
+              note.country.toLowerCase(),
+        );
+
+        list[index]['count'] += 1;
+      }
+
+      //если еще не добавляли эту страну в список, то добавляем
+      else {
+        selectCountries.add(note.country.toLowerCase());
+        //ищем совпадение в списке стран, чтобы добавить еще и флаг
+        //если нет совпадения, то создаем сами карту;
+        final result = countryList.firstWhere(
+          (element) => element['country'] == note.country,
+          orElse: () => {
+            'country': note.country,
+            'svg': '',
+            'count': 1,
+          },
+        );
+
+        result['count'] = 1;
+        list.add(result);
+      }
+    }
+
+    //сортируем список по количеству вин в заметках
+    list.sort(
+      ((a, b) => (b['count'] as int).compareTo(a['count'] as int)),
+    );
 
     return list;
   }

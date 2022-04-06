@@ -71,7 +71,7 @@ class _SearchCountryState extends State<SearchCountry> {
             _imagePath = '';
           });
         } else {
-          final map = (result as List)[0] as Map<String, String>;
+          final map = (result as List)[0] as Map<String, dynamic>;
           setState(() {
             _countryName = map['country']!;
             widget.func(_countryName);
