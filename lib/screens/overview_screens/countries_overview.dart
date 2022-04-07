@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/models/wine_list_provider.dart';
 import 'package:flutter_my_wine_app/string_resourses.dart';
-import 'package:flutter_my_wine_app/widgets/item_overtview_country.dart';
+import 'package:flutter_my_wine_app/widgets/overview_widget/item_overtview_country.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 

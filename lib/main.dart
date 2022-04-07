@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/models/wine_list_provider.dart';
+import 'package:flutter_my_wine_app/models/wine_sorted_provider.dart';
 
 import 'package:flutter_my_wine_app/screens/edit_screens/search_screen.dart';
 import 'package:flutter_my_wine_app/screens/edit_screens/edit_wine_screen.dart';
 import 'package:flutter_my_wine_app/screens/edit_screens/wine_sort.dart';
-import 'package:flutter_my_wine_app/screens/overview_screens/country_overview.dart';
+import 'package:flutter_my_wine_app/screens/overview_screens/countries_overview.dart';
+import 'package:flutter_my_wine_app/screens/overview_screens/item_country.dart';
 import 'package:flutter_my_wine_app/screens/search_wine_note.dart';
 import 'package:flutter_my_wine_app/screens/wine_full_descrip_screen.dart';
 import 'package:flutter_my_wine_app/screens/overview_screens/wine_overview_screen.dart';
@@ -27,9 +29,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => WineListProvider(),
-      child: MaterialApp(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: WineListProvider()),
+        ChangeNotifierProvider.value(value: WineSortProvider()),
+      ],
+      builder: (context, child) => MaterialApp(
         theme: ThemeData.dark(),
         // home: const TabsScreen(),
         initialRoute: TabsScreen.routName,
@@ -80,6 +85,12 @@ class _MyAppState extends State<MyApp> {
             case CountriesOverview.routName:
               return MaterialPageRoute(
                 builder: (context) => const CountriesOverview(),
+                settings: settings,
+              );
+
+            case ItemCountryNotes.routName:
+              return CustomPageRoute(
+                child: const ItemCountryNotes(),
                 settings: settings,
               );
           }

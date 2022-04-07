@@ -107,6 +107,24 @@ CREATE TABLE $_tableName (
     return maps.map((json) => WineItem.fromMap(json)).toList();
   }
 
+  //метод для получения заметки конкретного типа
+  //принимает имя поля, по которому будем искать
+  //и значение, по которому будем искать
+  Future<List<WineItem>> customReadNotes(String filterName, String data) async {
+    final db = await instanse.getDataBase();
+
+    //составляем список заметок с ныжными параметрами
+    final maps = await db.query(
+      _tableName,
+      columns: WineNoteFields.values,
+      where: '$filterName = ?',
+      whereArgs: [data],
+    );
+
+    //возвращаем список заметок
+    return maps.map((json) => WineItem.fromMap(json)).toList();
+  }
+
   //метод для обновления заметки в базе данных
   //принимает заметку
   Future<int> update(WineItem note) async {

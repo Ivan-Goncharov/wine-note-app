@@ -11,6 +11,7 @@ class WineListProvider with ChangeNotifier {
 
   //список, который будет заполняться при поиске заметок
   List<WineItem> _searchList = [];
+  //метод для очистки листа с найденными заметками
   void clearList() {
     _searchList = [];
     notifyListeners();
