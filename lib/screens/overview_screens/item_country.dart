@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/widgets/overview_widget/region_botsheet.dart';
-import 'package:flutter_my_wine_app/widgets/wine_note_item.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/wine_item.dart';
 import '../../models/wine_sorted_provider.dart';
+import '../../widgets/overview_widget/region_botsheet.dart';
+import '../../widgets/wine_note_item.dart';
 
 //экран для вывода всех заметок, связанных с одной страной
 class ItemCountryNotes extends StatefulWidget {
@@ -24,8 +24,8 @@ class _ItemCountryNotesState extends State<ItemCountryNotes> {
   bool _isInit = false;
   //цветовая схема
   late ColorScheme _colorScheme;
-  //размеры
-  late Size _size;
+  //переменная для сохранения выбранного региона
+  String _selectRegion = '';
 
   @override
   void didChangeDependencies() {
@@ -38,8 +38,6 @@ class _ItemCountryNotesState extends State<ItemCountryNotes> {
       _provider.fetchCustomNotes(WineNoteFields.country, _country);
       //получаем цветовую схему
       _colorScheme = Theme.of(context).colorScheme;
-      //получаем размеры экрана
-      _size = MediaQuery.of(context).size;
       //отмечаем, что инициализация проведена
       _isInit = true;
     }
@@ -61,9 +59,12 @@ class _ItemCountryNotesState extends State<ItemCountryNotes> {
               showModalBottomSheet(
                 context: context,
                 builder: (context) {
+                  //передаем список регионов, выбранный регион
+                  //и метод для изменения региона
                   return RegionBottomSheet(
-                    regions: [],
-                    saveRegion: () {},
+                    regions: _provider.regions,
+                    selectRegion: _selectRegion,
+                    saveRegion: changeRegion,
                   );
                 },
               );
@@ -74,10 +75,11 @@ class _ItemCountryNotesState extends State<ItemCountryNotes> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView.builder(
+          //выводим список всех заметок по стране
           itemBuilder: (context, index) {
-            return WineNoteItem(_provider.notesList[index]);
+            return WineNoteItem(_provider.filterList[index]);
           },
-          itemCount: _provider.notesList.length,
+          itemCount: _provider.filterList.length,
         ),
       ),
     );
@@ -108,5 +110,20 @@ class _ItemCountryNotesState extends State<ItemCountryNotes> {
         ],
       ),
     );
+  }
+
+  //метод для смены региона
+  void changeRegion(String newRegion) {
+    setState(() => _selectRegion = newRegion);
+    //проверяем, выбран ли регион или нет
+    //если фильтр не выбрае, то выводим все заметки по стране
+    if (_selectRegion.isEmpty) {
+      _provider.clearFilter();
+    }
+
+    //если выбран, то применяем фильтр к заметкам
+    else {
+      _provider.selectRegion(_selectRegion);
+    }
   }
 }
