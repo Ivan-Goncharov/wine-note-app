@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_list_provider.dart';
-import 'package:flutter_my_wine_app/models/wine_sorted_provider.dart';
-
-import 'package:flutter_my_wine_app/screens/edit_screens/search_screen.dart';
-import 'package:flutter_my_wine_app/screens/edit_screens/edit_wine_screen.dart';
-import 'package:flutter_my_wine_app/screens/edit_screens/wine_sort.dart';
-import 'package:flutter_my_wine_app/screens/overview_screens/countries_overview.dart';
-import 'package:flutter_my_wine_app/screens/overview_screens/item_country.dart';
-import 'package:flutter_my_wine_app/screens/overview_screens/manufacturer_screen.dart';
-import 'package:flutter_my_wine_app/screens/search_wine_note.dart';
-import 'package:flutter_my_wine_app/screens/wine_full_descrip_screen.dart';
-import 'package:flutter_my_wine_app/screens/overview_screens/wine_overview_screen.dart';
-import 'package:flutter_my_wine_app/widgets/custom_page_route.dart';
 import 'package:provider/provider.dart';
-import 'screens/edit_screens/manuf_name_search.dart';
 
+import './models/wine_list_provider.dart';
+import './models/wine_sorted_provider.dart';
+import './models/wine_manufact_provider.dart';
+import './screens/edit_screens/search_screen.dart';
+import './screens/edit_screens/edit_wine_screen.dart';
+import './screens/edit_screens/wine_sort.dart';
+import './screens/overview_screens/countries_overview.dart';
+import './screens/overview_screens/item_country.dart';
+import './screens/search_wine_note.dart';
+import './screens/wine_full_descrip_screen.dart';
+import './screens/overview_screens/wine_overview_screen.dart';
+import './widgets/custom_page_route.dart';
+import './screens/edit_screens/manuf_name_search.dart';
 import './screens/tabs_screen.dart';
+import './screens/overview_screens/manufacturer_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +35,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider.value(value: WineListProvider()),
         ChangeNotifierProvider.value(value: WineSortProvider()),
+        ChangeNotifierProvider.value(value: WineManufcatProvider()),
       ],
       builder: (context, child) => MaterialApp(
         theme: ThemeData.dark(),
@@ -87,6 +88,12 @@ class _MyAppState extends State<MyApp> {
             case CountriesOverview.routName:
               return MaterialPageRoute(
                 builder: (context) => const CountriesOverview(),
+                settings: settings,
+              );
+
+            case ManufactOverviewScreen.routName:
+              return MaterialPageRoute(
+                builder: (context) => const ManufactOverviewScreen(),
                 settings: settings,
               );
 

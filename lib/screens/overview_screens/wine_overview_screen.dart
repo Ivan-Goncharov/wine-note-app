@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/icons/my_custom_icons.dart';
-import 'package:flutter_my_wine_app/models/wine_item.dart';
-import 'package:flutter_my_wine_app/screens/overview_screens/countries_overview.dart';
-import 'package:flutter_my_wine_app/screens/search_wine_note.dart';
-
-import '../../widgets/wine_note_item.dart';
-import '../edit_screens/edit_wine_screen.dart';
+import 'package:flutter_my_wine_app/screens/overview_screens/manufacturer_screen.dart';
+import '../../icons/my_custom_icons.dart';
+import '../overview_screens/countries_overview.dart';
+import '../../screens/search_wine_note.dart';
 
 //Экран со всеми записями о вине
 class WineOverViewScreen extends StatefulWidget {
@@ -55,6 +52,8 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+            // кнопка со страной, по тапу - переходим на экран со всеми странами,
+            // которые представлены в заметках
             GestureDetector(
               onTap: () =>
                   Navigator.pushNamed(context, CountriesOverview.routName),
@@ -63,9 +62,15 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
                 MyCustomIcons.flag,
               ),
             ),
-            _itemColumn(
-              'Производители',
-              MyCustomIcons.manufacturer,
+
+            //кнопка для перехода на экран с производителями
+            GestureDetector(
+              onTap: () =>
+                  Navigator.pushNamed(context, ManufactOverviewScreen.routName),
+              child: _itemColumn(
+                'Производители',
+                MyCustomIcons.manufacturer,
+              ),
             ),
             _itemColumn(
               'Сорта винограда',

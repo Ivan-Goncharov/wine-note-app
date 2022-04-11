@@ -81,34 +81,11 @@ class _WineSortScreenState extends State<WineSortScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              //поле ввода названия винограда
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(vertical: 8.0),
-              //   child: TextField(
-              //     decoration: InputDecoration(
-              //       border: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(10),
-              //       ),
-              //       hintText: 'Укажите сорт винограда',
-
-              //       //кнопка удаления написанного текста
-              //       suffixIcon: IconButton(
-              //         icon: const Icon(Icons.clear_outlined),
-              //         onPressed: () {
-              //           _controller.clear();
-              //         },
-              //       ),
-              //     ),
-              //     focusNode: focus,
-              //     controller: _controller,
-              //     autofocus: true,
-              //   ),
-              // ),
-
               CustomTextField(
                 textHint: 'Сорт винограда',
                 controller: _controller,
                 focusNode: _focus,
+                isBack: true,
               ),
 
               //если в списке выбранных сортов есть элементы - выводим их

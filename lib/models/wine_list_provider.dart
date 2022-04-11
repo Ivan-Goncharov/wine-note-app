@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_my_wine_app/models/wine_item.dart';
 
+import '../../models/wine_item.dart';
 import '../database/databse.dart';
 
 // класс провайдер для работы с базой данных
@@ -18,18 +18,6 @@ class WineListProvider with ChangeNotifier {
   }
 
   List<WineItem> get searchList => _searchList;
-
-  //списко всех производителей
-  final List<String> _allManufactores = [];
-
-  //список найденных производителей, в которых содержался введенный текст
-  final List<String> _manufactSearch = [];
-  List<String> get manufactSearch => _manufactSearch;
-  //метод для очистки списка производителей
-  void clearManufactList() {
-    _manufactSearch.clear();
-    notifyListeners();
-  }
 
   //метод для получения всех заметок о вине
   Future<void> fetchAllNotes() async {
@@ -81,35 +69,6 @@ class WineListProvider with ChangeNotifier {
         _searchList.add(note);
       }
     }
-    notifyListeners();
-  }
-
-  //метод для поиска всех создания списка всех названий производителей
-  void createManufactList() {
-    //проходимся по списку заметок
-    for (var note in _winesList) {
-      //если название еще не добавлено - то добавляем
-      if (!_allManufactores.contains(note.manufacturer)) {
-        _allManufactores.add(note.manufacturer);
-      }
-    }
-  }
-
-  //метод для создания списка производителей,
-  //названия которых содержат введенный текст
-  void searchManufact(String name) {
-    _manufactSearch.clear();
-    //проходимся по спику регионов
-    for (var item in _allManufactores) {
-      //если название содержит введенный текст, работаем с ним
-      if (item.toLowerCase().contains(name.toLowerCase())) {
-        //добавляем название в список, если оно уже не добавлено
-        if (!_manufactSearch.contains(item)) {
-          _manufactSearch.add(item);
-        }
-      }
-    }
-
     notifyListeners();
   }
 }

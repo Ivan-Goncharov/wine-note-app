@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_list_provider.dart';
-import 'package:flutter_my_wine_app/string_resourses.dart';
-import 'package:flutter_my_wine_app/widgets/overview_widget/item_overtview_country.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+
+import '../../models/wine_list_provider.dart';
+import '../../string_resourses.dart';
+import '../../widgets/overview_widget/item_overtview_country.dart';
 
 //Экран с обзором заметок по странам
 class CountriesOverview extends StatefulWidget {
@@ -43,7 +43,8 @@ class _CountriesOverviewState extends State<CountriesOverview> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Страны'),
-        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

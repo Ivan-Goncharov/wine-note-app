@@ -8,11 +8,18 @@ class CustomTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final TextEditingController controller;
   final FocusNode? focusNode;
+
+  //эти данные передают экран, для того,
+  //чтобы вернуться не на предыдущую страницу, а изменить поведение текущей
+  final Function? function;
+  final bool isBack;
   const CustomTextField(
       {Key? key,
       required this.textHint,
       this.prefixIcon,
       this.focusNode,
+      this.function,
+      required this.isBack,
       required this.controller})
       : super(key: key);
 
@@ -53,7 +60,13 @@ class CustomTextField extends StatelessWidget {
 
         //кнопка для возврата на предыдущий экран
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            if (isBack) {
+              Navigator.pop(context);
+            } else {
+              function!();
+            }
+          },
           child: Text(
             'Отменить',
             style: TextStyle(

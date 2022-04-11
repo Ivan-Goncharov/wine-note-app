@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_list_provider.dart';
+import 'package:flutter_my_wine_app/models/wine_manufact_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/wine_list_provider.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/edit_wine/button_search.dart';
 
@@ -21,16 +22,13 @@ class _ManufSearchNameState extends State<ManufSearchName> {
   bool _isInit = false;
   //контроллер для отслеживания ввода текста
   late TextEditingController _controller;
-  //список предыдущих производителей, для подсказки
-  // List<String> _recentInput = [];
   //провайдер для работы с поиском совпадений в названии производителя
-  late WineListProvider _provider;
+  late WineManufcatProvider _provider;
 
   //инициализируем контроллер и подключаем слушатель
   @override
   void initState() {
     _controller = TextEditingController();
-
     _controller.addListener(listener);
     super.initState();
   }
@@ -39,7 +37,7 @@ class _ManufSearchNameState extends State<ManufSearchName> {
   void listener() {
     //если текстовое поле не пустое - ищем совпадения в заметках
     if (_controller.text.isNotEmpty) {
-      _provider.searchManufact(_controller.text);
+      _provider.searchManufact(_controller.text, true);
     }
 
     //иначе  - очищаем список регионов
@@ -54,7 +52,7 @@ class _ManufSearchNameState extends State<ManufSearchName> {
     if (!_isInit) {
       _oldData = ModalRoute.of(context)!.settings.arguments as String;
       _controller.text = _oldData;
-      _provider = Provider.of<WineListProvider>(context);
+      _provider = Provider.of<WineManufcatProvider>(context);
       //запускаем метод, который создает список всех названий производителей в заметках
       _provider.createManufactList();
       _isInit = true;
@@ -81,6 +79,7 @@ class _ManufSearchNameState extends State<ManufSearchName> {
               CustomTextField(
                 textHint: 'Производитель',
                 controller: _controller,
+                isBack: true,
               ),
 
               const SizedBox(height: 10),
@@ -90,7 +89,7 @@ class _ManufSearchNameState extends State<ManufSearchName> {
                   ? const SizedBox()
 
                   //проверка - пустой ли список поиска
-                  : _provider.manufactSearch.isEmpty
+                  : _provider.hintList.isEmpty
                       ? ButtonsInSearch(
                           onSave: () {
                             Navigator.pop(context, [_controller.text]);
@@ -104,12 +103,32 @@ class _ManufSearchNameState extends State<ManufSearchName> {
                       : Expanded(
                           child: ListView.builder(
                             itemBuilder: (context, index) {
-                              return Text(_provider.manufactSearch[index]);
+                              return createItem(
+                                  _provider.hintList[index], context);
                             },
-                            itemCount: _provider.manufactSearch.length,
+                            itemCount: _provider.hintList.length,
                           ),
                         ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  //метод, который создает один элемент списка подсказок
+  Widget createItem(String title, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),
+      child: GestureDetector(
+        //при нажатии выбираем подсказку
+        //и возвращаемся на экран редактирования заметки, передавая результат
+        onTap: () => Navigator.pop(context, [title]),
+        child: Text(
+          title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
       ),

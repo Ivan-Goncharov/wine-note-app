@@ -122,6 +122,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ? 'Введите страну производителя'
                     : 'Введите регион производителя',
                 controller: _textController,
+                isBack: true,
               ),
 
               const SizedBox(height: 10),

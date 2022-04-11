@@ -70,6 +70,7 @@ class _SearchWineNoteState extends State<SearchWineNote> {
                 textHint: 'Поиск',
                 prefixIcon: const Icon(Icons.search),
                 controller: _controller,
+                isBack: true,
               ),
 
               //выводим список найденных записей
