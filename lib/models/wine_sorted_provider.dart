@@ -44,22 +44,36 @@ class WineSortProvider with ChangeNotifier {
     }
   }
 
-  //метод для фильтрации по регионам
-  void selectRegion(String regionName) {
+  //метод для дополнительной фильтрации
+  //принимает поле для фильтрации и данные, которые должны содержаться в этом поле
+  void selectFilter({required String filterName, required String data}) {
     _filterList = [];
-    for (var note in _allNotes) {
-      if (note.region == regionName) {
-        _filterList.add(note);
+    //если тип фильтрации по регионам
+    if (filterName == WineNoteFields.region) {
+      for (var note in _allNotes) {
+        if (note.region == data) {
+          _filterList.add(note);
+        }
       }
     }
+
+    //если тип фильтрации по цвету
+    else if (filterName == WineNoteFields.wineColors) {
+      for (var note in _allNotes) {
+        if (note.wineColors == data) {
+          _filterList.add(note);
+        }
+      }
+    }
+
     notifyListeners();
   }
 
-  //метод для очистки фильтра по регионам
+  //метод для очистки фильтра
   //список вновь равен всем заметкам
   void clearFilter() {
-    _filterList = _allNotes;
-    _filterList.length;
+    _filterList.clear();
+    _filterList.addAll(_allNotes);
     notifyListeners();
   }
 }

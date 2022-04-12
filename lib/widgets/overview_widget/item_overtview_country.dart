@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/screens/overview_screens/item_country.dart';
+import 'package:flutter_my_wine_app/models/wine_item.dart';
+import 'package:flutter_my_wine_app/screens/overview_screens/item_filter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 //виджет для вывода одного элемента в списке стран
@@ -20,11 +21,14 @@ class ItemOverviewCountry extends StatelessWidget {
     return GestureDetector(
       //при нажатии на плитку со страной -
       //переходим на экран со всеми заметками этой страны
-      //и передаем название страны
+      //и передаем название страны и поле для фильтрации записей
       onTap: () => Navigator.pushNamed(
         context,
-        ItemCountryNotes.routName,
-        arguments: country['country'],
+        ItemFilterNotes.routName,
+        arguments: <String, String>{
+          'dataTitle': country['country'],
+          'filterName': WineNoteFields.country,
+        },
       ),
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 4.0),

@@ -8,7 +8,7 @@ import './screens/edit_screens/search_screen.dart';
 import './screens/edit_screens/edit_wine_screen.dart';
 import './screens/edit_screens/wine_sort.dart';
 import './screens/overview_screens/countries_overview.dart';
-import './screens/overview_screens/item_country.dart';
+import 'screens/overview_screens/item_filter.dart';
 import './screens/search_wine_note.dart';
 import './screens/wine_full_descrip_screen.dart';
 import './screens/overview_screens/wine_overview_screen.dart';
@@ -97,9 +97,9 @@ class _MyAppState extends State<MyApp> {
                 settings: settings,
               );
 
-            case ItemCountryNotes.routName:
+            case ItemFilterNotes.routName:
               return CustomPageRoute(
-                child: const ItemCountryNotes(),
+                child: const ItemFilterNotes(),
                 settings: settings,
               );
 

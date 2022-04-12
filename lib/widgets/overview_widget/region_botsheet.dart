@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/models/wine_item.dart';
 
 //виджет для создания нижней панели для фильтрации вин по регионам
 class RegionBottomSheet extends StatefulWidget {
@@ -59,11 +60,12 @@ class _RegionBottomSheetState extends State<RegionBottomSheet> {
                 onPressed: () {
                   setState(() {
                     regionSelect = '';
-                    widget.saveRegion(regionSelect);
+                    widget.saveRegion(WineNoteFields.region, regionSelect);
                   });
                 },
                 child: Text(
                   'Очистить',
+                  textAlign: TextAlign.end,
                   style: TextStyle(color: colorScheme.secondary),
                 ),
               ),
@@ -82,7 +84,7 @@ class _RegionBottomSheetState extends State<RegionBottomSheet> {
                     if (regionSelect == itemReg) {
                       setState(() {
                         regionSelect = '';
-                        widget.saveRegion(regionSelect);
+                        widget.saveRegion(WineNoteFields.region, regionSelect);
                       });
                     }
 
@@ -90,7 +92,7 @@ class _RegionBottomSheetState extends State<RegionBottomSheet> {
                     else {
                       setState(() {
                         regionSelect = itemReg;
-                        widget.saveRegion(regionSelect);
+                        widget.saveRegion(WineNoteFields.region, regionSelect);
                         Navigator.pop(context);
                       });
                     }

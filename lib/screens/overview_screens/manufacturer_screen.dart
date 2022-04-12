@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/models/wine_item.dart';
 
 import 'package:flutter_my_wine_app/models/wine_manufact_provider.dart';
+import 'package:flutter_my_wine_app/screens/overview_screens/item_filter.dart';
 import 'package:flutter_my_wine_app/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
@@ -109,9 +111,20 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
               child: ListView.builder(
                 itemCount: _provider.manufactSearch.length,
                 itemBuilder: (context, index) {
-                  return itemManufactorer(
-                    _provider.manufactSearch[index]['manufacturer'],
-                    _provider.manufactSearch[index]['count'],
+                  return GestureDetector(
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      ItemFilterNotes.routName,
+                      arguments: {
+                        'dataTitle': _provider.manufactSearch[index]
+                            ['manufacturer'],
+                        'filterName': WineNoteFields.manufacturer,
+                      },
+                    ),
+                    child: itemManufactorer(
+                      _provider.manufactSearch[index]['manufacturer'],
+                      _provider.manufactSearch[index]['count'],
+                    ),
                   );
                 },
               ),
