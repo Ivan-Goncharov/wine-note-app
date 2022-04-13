@@ -9,6 +9,7 @@ class WineItem with ChangeNotifier {
   String country;
   String region;
   DateTime? year;
+  DateTime? creationDate;
   String grapeVariety;
   String wineColors;
   String taste;
@@ -23,6 +24,7 @@ class WineItem with ChangeNotifier {
     required this.country,
     required this.region,
     required this.year,
+    required this.creationDate,
     required this.aroma,
     required this.grapeVariety,
     required this.taste,
@@ -39,6 +41,7 @@ class WineItem with ChangeNotifier {
         WineNoteFields.country: country,
         WineNoteFields.region: region,
         WineNoteFields.year: year?.toIso8601String() ?? '',
+        WineNoteFields.creationDate: year?.toIso8601String() ?? '',
         WineNoteFields.grapeVariety: grapeVariety,
         WineNoteFields.wineColors: wineColors,
         WineNoteFields.taste: taste,
@@ -56,6 +59,7 @@ class WineItem with ChangeNotifier {
       country: map[WineNoteFields.country] as String,
       region: map[WineNoteFields.region] as String,
       year: DateTime.parse(map[WineNoteFields.year]),
+      creationDate: DateTime.parse(map[WineNoteFields.creationDate]),
       grapeVariety: map[WineNoteFields.grapeVariety] as String,
       wineColors: map[WineNoteFields.wineColors] as String,
       taste: map[WineNoteFields.taste] as String,
@@ -73,6 +77,7 @@ class WineItem with ChangeNotifier {
     String? country,
     String? region,
     DateTime? year,
+    DateTime? creationDate,
     String? aroma,
     String? grapeVariety,
     String? taste,
@@ -88,6 +93,7 @@ class WineItem with ChangeNotifier {
       country: country ?? this.country,
       region: region ?? this.region,
       year: year ?? this.year,
+      creationDate: creationDate ?? this.creationDate,
       aroma: aroma ?? this.aroma,
       grapeVariety: grapeVariety ?? this.grapeVariety,
       taste: taste ?? this.taste,
@@ -139,6 +145,7 @@ class WineNoteFields {
     country,
     region,
     year,
+    creationDate,
     grapeVariety,
     wineColors,
     taste,
@@ -153,6 +160,7 @@ class WineNoteFields {
   static const String country = 'country';
   static const String region = 'region';
   static const String year = 'year';
+  static const String creationDate = 'creationDate';
   static const String grapeVariety = 'grapeVariety';
   static const String wineColors = 'wineColors';
   static const String taste = 'taste';

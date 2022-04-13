@@ -32,6 +32,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
     country: '',
     region: '',
     year: DateTime.now(),
+    creationDate: DateTime.now(),
     aroma: '',
     grapeVariety: '',
     taste: '',
@@ -56,7 +57,6 @@ class _EditWineScreenState extends State<EditWineScreen> {
   // ввода страны и региона
   late String _countryName;
   late String _regionName;
-  late String _manufactorName;
 
   //провайдер для сохранения заметки
   WineListProvider? _listProvider;
@@ -80,7 +80,6 @@ class _EditWineScreenState extends State<EditWineScreen> {
       //инициализируем переменные страны и региона, для вывода в поиске
       _countryName = _note.country;
       _regionName = _note.region;
-      _manufactorName = _note.manufacturer;
       _isInit = false;
     }
     super.didChangeDependencies();
@@ -100,6 +99,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
     // иначе создаем новую заметку
     if (_listProvider != null) {
       if (_note.id != null) {
+        _note.copyWith(creationDate: DateTime.now());
         _listProvider!.updateNote(_note);
       } else {
         _listProvider!.addNote(_note);
@@ -355,8 +355,6 @@ class _EditWineScreenState extends State<EditWineScreen> {
       decoration:
           createInputDecoration('Название вина', 'Введите название вина'),
       initialValue: _note.name,
-
-      textInputAction: TextInputAction.next,
 
       //сохраняем ввод в переменную name и пересоздаем объект
       onSaved: (value) {

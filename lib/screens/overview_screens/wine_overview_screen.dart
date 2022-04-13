@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/models/wine_item.dart';
 import 'package:flutter_my_wine_app/screens/overview_screens/manufacturer_screen.dart';
 import '../../icons/my_custom_icons.dart';
 import '../overview_screens/countries_overview.dart';
@@ -65,20 +66,28 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
 
             //кнопка для перехода на экран с производителями
             GestureDetector(
-              onTap: () =>
-                  Navigator.pushNamed(context, ManufactOverviewScreen.routName),
+              onTap: () => Navigator.pushNamed(
+                context,
+                ManufactOverviewScreen.routName,
+                arguments: WineNoteFields.manufacturer,
+              ),
               child: _itemColumn(
                 'Производители',
                 MyCustomIcons.manufacturer,
               ),
             ),
-            _itemColumn(
-              'Сорта винограда',
-              MyCustomIcons.grape,
-            ),
-            _itemColumn(
-              'Год урожая',
-              MyCustomIcons.calendar,
+
+            //кнопка для перехода на экран с производителями
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(
+                context,
+                ManufactOverviewScreen.routName,
+                arguments: WineNoteFields.grapeVariety,
+              ),
+              child: _itemColumn(
+                'Сорта винограда',
+                MyCustomIcons.grape,
+              ),
             ),
           ],
         ),

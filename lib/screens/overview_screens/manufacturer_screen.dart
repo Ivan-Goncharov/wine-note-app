@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/models/wine_item.dart';
 
-import 'package:flutter_my_wine_app/models/wine_manufact_provider.dart';
+import 'package:flutter_my_wine_app/models/wine_overview_provider.dart';
 import 'package:flutter_my_wine_app/screens/overview_screens/item_filter.dart';
 import 'package:flutter_my_wine_app/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';
@@ -21,13 +21,15 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
   //переменная для вывода виджета поиска
   bool _isSearch = false;
   //провайдер для получения списка производителей
-  late WineManufcatProvider _provider;
+  late WineOverviewProvider _provider;
   //контроллер для отслеживания ввода текста
   late TextEditingController _controller;
   //цветовая схема
   late ColorScheme _colorScheme;
   //размерная сетка
   late Size _size;
+  //полученный тип экрана: производители или сорт вина
+  late String _fieldType;
 
   @override
   void initState() {
@@ -41,10 +43,10 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
   void listener() {
     //если поле ввода не пустое,  ищем производителей
     if (_controller.text.isNotEmpty) {
-      _provider.searchManufact(_controller.text, false);
+      _provider.searchData(_controller.text, false);
     } else {
       //иначе поисковый список заполняем всеми производителями
-      _provider.addAllManufactures();
+      _provider.addAllData();
     }
   }
 
@@ -54,9 +56,12 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
     if (!_isInit) {
       _colorScheme = Theme.of(context).colorScheme;
       _size = MediaQuery.of(context).size;
-      _provider = Provider.of<WineManufcatProvider>(context, listen: true);
-      //запускаем метод создания списка
-      _provider.createManufactList();
+      //принимаем тип поиска
+      _fieldType = ModalRoute.of(context)!.settings.arguments as String;
+      _provider = Provider.of<WineOverviewProvider>(context, listen: true);
+      //запускаем метод создания списка и передаем тип поля,
+      //по которому необходимо производить поиск
+      _provider.createAllDataList(_fieldType);
       //инициализация завершена
       _isInit = true;
     }
@@ -71,7 +76,7 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    // final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       //если была нажата кнопка "Поиск", то скрываем AppBar
       appBar: _isSearch
@@ -80,7 +85,9 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
               preferredSize: const Size(0.0, 0.0),
             )
           : AppBar(
-              title: const Text('Производители'),
+              title: Text(_fieldType == WineNoteFields.manufacturer
+                  ? 'Производители'
+                  : 'Сорта винограда'),
               elevation: 0,
               backgroundColor: Colors.transparent,
 
@@ -99,7 +106,9 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
             // если была нажата кнопка 'Поиск', то выводим на экран строку с поиском производителя
             _isSearch
                 ? CustomTextField(
-                    textHint: 'Поиск производителя',
+                    textHint: _fieldType == WineNoteFields.manufacturer
+                        ? 'Поиск производителя'
+                        : 'Поиск сорта винограда',
                     controller: _controller,
                     isBack: false,
                     function: hideSearchBar,
@@ -116,13 +125,12 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
                       context,
                       ItemFilterNotes.routName,
                       arguments: {
-                        'dataTitle': _provider.manufactSearch[index]
-                            ['manufacturer'],
-                        'filterName': WineNoteFields.manufacturer,
+                        'dataTitle': _provider.manufactSearch[index]['title'],
+                        'filterName': _fieldType,
                       },
                     ),
                     child: itemManufactorer(
-                      _provider.manufactSearch[index]['manufacturer'],
+                      _provider.manufactSearch[index]['title'],
                       _provider.manufactSearch[index]['count'],
                     ),
                   );
@@ -180,7 +188,7 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
   //метод для изменения экрана, после нажатия кнопки 'отменить' в виджете поиска
   //скрываем поисковую строку и выводим всех производителей
   void hideSearchBar() {
-    _provider.addAllManufactures();
+    _provider.addAllData();
 
     setState(() {
       _isSearch = false;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_manufact_provider.dart';
+import 'package:flutter_my_wine_app/models/wine_overview_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/wine_list_provider.dart';
+import '../../models/wine_item.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/edit_wine/button_search.dart';
 
@@ -23,7 +23,7 @@ class _ManufSearchNameState extends State<ManufSearchName> {
   //контроллер для отслеживания ввода текста
   late TextEditingController _controller;
   //провайдер для работы с поиском совпадений в названии производителя
-  late WineManufcatProvider _provider;
+  late WineOverviewProvider _provider;
 
   //инициализируем контроллер и подключаем слушатель
   @override
@@ -37,7 +37,7 @@ class _ManufSearchNameState extends State<ManufSearchName> {
   void listener() {
     //если текстовое поле не пустое - ищем совпадения в заметках
     if (_controller.text.isNotEmpty) {
-      _provider.searchManufact(_controller.text, true);
+      _provider.searchData(_controller.text, true);
     }
 
     //иначе  - очищаем список регионов
@@ -52,9 +52,9 @@ class _ManufSearchNameState extends State<ManufSearchName> {
     if (!_isInit) {
       _oldData = ModalRoute.of(context)!.settings.arguments as String;
       _controller.text = _oldData;
-      _provider = Provider.of<WineManufcatProvider>(context);
+      _provider = Provider.of<WineOverviewProvider>(context);
       //запускаем метод, который создает список всех названий производителей в заметках
-      _provider.createManufactList();
+      _provider.createAllDataList(WineNoteFields.manufacturer);
       _isInit = true;
     }
     super.didChangeDependencies();

@@ -40,7 +40,6 @@ class CustomTextField extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 hintText: textHint,
-
                 prefixIcon: prefixIcon,
 
                 //кнопка удаления написанного текста

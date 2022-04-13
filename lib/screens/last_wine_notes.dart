@@ -16,10 +16,15 @@ class LastWineNote extends StatefulWidget {
 class _LastWineNoteState extends State<LastWineNote> {
   //провайдер для получения списка заметок
   WineListProvider? _listProvider;
+  //переменная для инициализации
+  bool _isInit = false;
 
   @override
   void didChangeDependencies() {
-    createNoteList(context);
+    if (!_isInit) {
+      createNoteList(context);
+      _isInit = true;
+    }
     super.didChangeDependencies();
   }
 
@@ -47,6 +52,7 @@ class _LastWineNoteState extends State<LastWineNote> {
             : ListView.builder(
                 // возвращаем одну карту с кратким описанием заметки
                 itemBuilder: (context, index) {
+                  print(_listProvider!.wineList[index].creationDate);
                   return WineNoteItem(_listProvider!.wineList[index]);
                 },
 

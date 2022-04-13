@@ -23,8 +23,9 @@ class _WineFullDescripScreenState extends State<WineFullDescripScreen> {
   Widget build(BuildContext context) {
     //в качестве аргумента - принимаем заметку о вине
     final wineNoteId = ModalRoute.of(context)?.settings.arguments as String;
-    final wineNote =
-        Provider.of<WineListProvider>(context).findById(wineNoteId);
+    print(wineNoteId);
+    final wineNote = Provider.of<WineListProvider>(context, listen: false)
+        .findById(wineNoteId);
     return Scaffold(
       appBar: AppBar(
         title: Text(wineNote.name),
@@ -104,6 +105,7 @@ class _WineFullDescripScreenState extends State<WineFullDescripScreen> {
           onPressed: () {
             Provider.of<WineListProvider>(context, listen: false)
                 .deleteNote(id);
+
             Navigator.popUntil(
                 context, ModalRoute.withName(TabsScreen.routName));
           },

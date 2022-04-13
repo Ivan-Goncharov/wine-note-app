@@ -21,7 +21,7 @@ class DBProvider {
     if (_database != null) return _database!;
 
     //если нет, то создаем ее
-    _database = await _initDB('wine_notes.db');
+    _database = await _initDB('wines_notes.db');
     return _database!;
   }
 
@@ -51,6 +51,7 @@ CREATE TABLE $_tableName (
   ${WineNoteFields.country} $textType,
   ${WineNoteFields.region} $textType,
   ${WineNoteFields.year} $textType,
+  ${WineNoteFields.creationDate} $textType,
   ${WineNoteFields.grapeVariety} $textType,
   ${WineNoteFields.wineColors} $textType,
   ${WineNoteFields.taste} $textType,
@@ -113,7 +114,7 @@ CREATE TABLE $_tableName (
   Future<List<WineItem>> customReadNotes(String filterName, String data) async {
     final db = await instanse.getDataBase();
 
-    //составляем список заметок с ныжными параметрами
+    //составляем список заметок с нужными параметрами
     final maps = await db.query(
       _tableName,
       columns: WineNoteFields.values,

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_item.dart';
-import 'package:flutter_my_wine_app/widgets/overview_widget/colors_botsheet.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/wine_item.dart';
 import '../../models/wine_sorted_provider.dart';
 import '../../widgets/overview_widget/region_botsheet.dart';
 import '../../widgets/wine_note_item.dart';
+import '../../widgets/overview_widget/colors_botsheet.dart';
 
-//экран для вывода всех заметок, связанных с одной страной/ производителем
+//экран для вывода всех заметок, связанных с одной страной/ производителем / сортом
 class ItemFilterNotes extends StatefulWidget {
   static const routName = ' ./itemFilter';
   const ItemFilterNotes({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class ItemFilterNotes extends StatefulWidget {
 class _ItemFilterNotesState extends State<ItemFilterNotes> {
   //провайдер
   late WineSortProvider _provider;
-  //название страны
+  //название
   String _dataTitle = '';
   //поле для фильтрации записей
   String _filterName = '';
@@ -41,7 +41,7 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
       _dataTitle = arguments['dataTitle']!;
       _filterName = arguments['filterName']!;
 
-      //запускаем метод с поиском всех заметок с этой страной
+      //запускаем метод с поиском всех заметок связынных с этим полем фильтрации
       _provider.fetchCustomNotes(_filterName, _dataTitle);
       //получаем цветовую схему
       _colorScheme = Theme.of(context).colorScheme;
@@ -60,9 +60,12 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
         elevation: 0,
         actions: [
           //кнопка для вывода меню с фильтром по регионам
-          GestureDetector(
-            child: _filterButton(context),
-            onTap: () {
+          IconButton(
+            icon: const Icon(
+              Icons.tune,
+              size: 32,
+            ),
+            onPressed: () {
               showModalBottomSheet(
                 context: context,
                 builder: (context) {
@@ -95,32 +98,11 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
           itemCount: _provider.filterList.length,
         ),
       ),
-    );
-  }
 
-  //кнопка - фильтр для appbar
-  Widget _filterButton(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8.0),
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        color: _colorScheme.surfaceVariant,
-      ),
-      child: Row(
-        children: [
-          Text(
-            'Фильтр',
-            style: TextStyle(
-              color: _colorScheme.onSurfaceVariant,
-              fontSize: 15,
-            ),
-          ),
-          Icon(
-            Icons.keyboard_arrow_down_outlined,
-            color: _colorScheme.onSurfaceVariant,
-          )
-        ],
+      // кнопка для сортировки
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.sort),
       ),
     );
   }
@@ -128,7 +110,6 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
   //метод для смены региона
   //принимает тип фильтрации и данные для нового фильтра
   void _changeData(String filterName, String newData) {
-    print(filterName);
     setState(() => _selectData = newData);
     //проверяем, выбран ли регион или нет
     //если фильтр не выбрае, то выводим все заметки по стране
@@ -141,20 +122,4 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
       _provider.selectFilter(filterName: filterName, data: _selectData);
     }
   }
-
-  //метод для смены цвета
-  // void _changeColor(String newColor) {
-  //   setState(() => _selectData = newColor);
-  //   //проверяем, выбран ли регион или нет
-  //   //если фильтр не выбрае, то выводим все заметки по стране
-  //   if (_selectData.isEmpty) {
-  //     _provider.clearFilter();
-  //   }
-
-  //   //если выбран, то применяем фильтр к заметкам
-  //   else {
-  //     _provider.selectFilter(
-  //         filterName: WineNoteFields.region, data: _selectData);
-  //   }
-  // }
 }

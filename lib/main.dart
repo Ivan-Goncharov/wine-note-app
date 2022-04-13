@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import './models/wine_list_provider.dart';
 import './models/wine_sorted_provider.dart';
-import './models/wine_manufact_provider.dart';
+import 'models/wine_overview_provider.dart';
 import './screens/edit_screens/search_screen.dart';
 import './screens/edit_screens/edit_wine_screen.dart';
 import './screens/edit_screens/wine_sort.dart';
@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider.value(value: WineListProvider()),
         ChangeNotifierProvider.value(value: WineSortProvider()),
-        ChangeNotifierProvider.value(value: WineManufcatProvider()),
+        ChangeNotifierProvider.value(value: WineOverviewProvider()),
       ],
       builder: (context, child) => MaterialApp(
         theme: ThemeData.dark(),
