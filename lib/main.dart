@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/models/my_themes.dart';
 import 'package:provider/provider.dart';
 
 import './models/wine_list_provider.dart';
@@ -38,8 +39,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider.value(value: WineOverviewProvider()),
       ],
       builder: (context, child) => MaterialApp(
-        theme: ThemeData.dark(),
-        // home: const TabsScreen(),
+        themeMode: ThemeMode.system,
+        theme: MyTheme.lightTheme,
+        darkTheme: MyTheme.darkTheme,
         initialRoute: TabsScreen.routName,
         onGenerateRoute: (settings) {
           switch (settings.name) {

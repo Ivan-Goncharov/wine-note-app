@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/models/wine_item.dart';
 import 'package:flutter_my_wine_app/screens/overview_screens/manufacturer_screen.dart';
+import 'package:flutter_my_wine_app/widgets/system_widget/app_bar.dart';
 import '../../icons/my_custom_icons.dart';
 import '../overview_screens/countries_overview.dart';
 import '../../screens/search_wine_note.dart';
@@ -33,11 +34,25 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Все винные заметки'),
+      // appBar: AppBar(
+      //   title: const Text('Все винные заметки'),
 
-        //кнопка для перехода на экран с поиском винограда
-        actions: [
+      //   //кнопка для перехода на экран с поиском винограда
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {
+      //         Navigator.pushNamed(context, SearchWineNote.routName);
+      //       },
+      //       icon: const Icon(
+      //         Icons.search,
+      //         size: 35,
+      //       ),
+      //     ),
+      //   ],
+      // ),
+      appBar: CustomAppBar(
+        title: 'Все заметки',
+        listOfAction: [
           IconButton(
             onPressed: () {
               Navigator.pushNamed(context, SearchWineNote.routName);

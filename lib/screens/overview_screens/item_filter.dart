@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/widgets/overview_widget/notes_sorting.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/wine_item.dart';
@@ -19,16 +20,17 @@ class ItemFilterNotes extends StatefulWidget {
 class _ItemFilterNotesState extends State<ItemFilterNotes> {
   //провайдер
   late WineSortProvider _provider;
+  // переменная для отслеживания - инициализированны данные или нет
+  bool _isInit = false;
+
   //название
   String _dataTitle = '';
   //поле для фильтрации записей
   String _filterName = '';
-  // переменная для отслеживания - инициализированны данные или нет
-  bool _isInit = false;
-  //цветовая схема
-  late ColorScheme _colorScheme;
   //переменная для сохранения выбранного фильтра
   String _selectData = '';
+  //тип выбранной сортировки - по умолчанию никакого типа
+  TypeOfSotring _typeOfSotring = TypeOfSotring.none;
 
   @override
   void didChangeDependencies() {
@@ -43,8 +45,6 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
 
       //запускаем метод с поиском всех заметок связынных с этим полем фильтрации
       _provider.fetchCustomNotes(_filterName, _dataTitle);
-      //получаем цветовую схему
-      _colorScheme = Theme.of(context).colorScheme;
       //отмечаем, что инициализация проведена
       _isInit = true;
     }
@@ -59,6 +59,23 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
+          IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return NoteSorting(
+                    currentType: _typeOfSotring,
+                    sortNotes: _sortNotes,
+                  );
+                },
+              );
+            },
+            icon: const Icon(
+              Icons.sort,
+              size: 32,
+            ),
+          ),
           //кнопка для вывода меню с фильтром по регионам
           IconButton(
             icon: const Icon(
@@ -100,10 +117,6 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
       ),
 
       // кнопка для сортировки
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.sort),
-      ),
     );
   }
 
@@ -121,5 +134,12 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
     else {
       _provider.selectFilter(filterName: filterName, data: _selectData);
     }
+  }
+
+  //метод для сортировки списка заметок
+  //принимает тип сортировки
+  void _sortNotes(TypeOfSotring type) {
+    _typeOfSotring = type;
+    _provider.sortNotes(type);
   }
 }

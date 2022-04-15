@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/widgets/overview_widget/notes_sorting.dart';
 
 import '../database/databse.dart';
 import '../models/wine_item.dart';
@@ -74,7 +75,27 @@ class WineSortProvider with ChangeNotifier {
   void clearFilter() {
     _filterList.clear();
     _filterList.addAll(_allNotes);
-    print(_filterList.length);
+    notifyListeners();
+  }
+
+  //метод для сорптировки списка заметок
+  //принимает тип сортировки
+  //сортирует список определнным образом, в зависимости от типа
+  void sortNotes(TypeOfSotring type) {
+    switch (type) {
+      case TypeOfSotring.alphabet:
+        _filterList.sort(
+            (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+        break;
+      case TypeOfSotring.creationDate:
+        _filterList.sort((a, b) => a.creationDate!.compareTo(b.creationDate!));
+        break;
+      case TypeOfSotring.grapeYear:
+        _filterList.sort((a, b) => a.year!.compareTo(b.year!));
+        break;
+      default:
+        _filterList.shuffle();
+    }
     notifyListeners();
   }
 }

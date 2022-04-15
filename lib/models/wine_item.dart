@@ -41,7 +41,7 @@ class WineItem with ChangeNotifier {
         WineNoteFields.country: country,
         WineNoteFields.region: region,
         WineNoteFields.year: year?.toIso8601String() ?? '',
-        WineNoteFields.creationDate: year?.toIso8601String() ?? '',
+        WineNoteFields.creationDate: creationDate?.toIso8601String() ?? '',
         WineNoteFields.grapeVariety: grapeVariety,
         WineNoteFields.wineColors: wineColors,
         WineNoteFields.taste: taste,

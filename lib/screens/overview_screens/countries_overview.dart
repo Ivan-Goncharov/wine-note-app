@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/widgets/system_widget/app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/wine_list_provider.dart';
@@ -41,11 +42,7 @@ class _CountriesOverviewState extends State<CountriesOverview> {
     final size = MediaQuery.of(context).size;
     final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Страны'),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: CustomAppBar(title: 'Страны'),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView.builder(

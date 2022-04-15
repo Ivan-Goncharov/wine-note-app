@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_overview_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/wine_overview_provider.dart';
 import '../../models/wine_item.dart';
-import '../../widgets/custom_text_field.dart';
+import '../../widgets/system_widget/custom_text_field.dart';
 import '../../widgets/edit_wine/button_search.dart';
 
 //экран для ввода названия производиля

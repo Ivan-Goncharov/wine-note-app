@@ -22,10 +22,16 @@ class WineListProvider with ChangeNotifier {
   //метод для получения всех заметок о вине
   Future<void> fetchAllNotes() async {
     //вызываем метод, который получает из базы данных все заметки
-    await DBProvider.instanse.readAllNotes().then((value) {
-      _winesList = value;
-      notifyListeners();
-    });
+    await DBProvider.instanse.readAllNotes().then(
+      (value) {
+        _winesList = value;
+        _winesList.sort(
+          (a, b) => a.creationDate!.compareTo(b.creationDate!),
+        );
+
+        notifyListeners();
+      },
+    );
   }
 
   //метод для добавления одной заметки в список
@@ -46,7 +52,7 @@ class WineListProvider with ChangeNotifier {
 
   void updateNote(WineItem note) {
     final indexNote = _winesList.indexWhere((element) => element.id == note.id);
-    DBProvider.instanse.update(note).then((value) {
+    DBProvider.instanse.update(note).then((_) {
       _winesList[indexNote] = note;
       notifyListeners();
     });

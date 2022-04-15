@@ -17,16 +17,36 @@ class CustomBottomNavigation extends StatefulWidget {
 }
 
 class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
+  late Size _size;
+  late ColorScheme _colors;
+  bool _isInit = false;
+
+  @override
+  void didChangeDependencies() {
+    if (!_isInit) {
+      _size = MediaQuery.of(context).size;
+      _colors = Theme.of(context).colorScheme;
+      _isInit = true;
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
       //FAB должна быть в центре, впадать в бар
-      notchMargin: 5,
+      notchMargin: 7,
       shape: const CircularNotchedRectangle(),
+      color: _colors.background,
 
       //наши вкладки
       child: Container(
-        padding: const EdgeInsets.only(bottom: 20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+          color: _colors.surfaceVariant,
+        ),
+        height: _size.height * 0.09,
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,17 +54,14 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
             //вкладки со последними винами
             buildTabItem(
               index: 0,
-              icon: const Icon(Icons.history_rounded, size: 50),
+              iconData: Icons.home_outlined,
             ),
             opacityTab(),
 
             //вкладка со всеми винами
             buildTabItem(
               index: 1,
-              icon: const Icon(
-                Icons.wine_bar_sharp,
-                size: 50,
-              ),
+              iconData: Icons.access_time_rounded,
             ),
           ],
         ),
@@ -53,20 +70,20 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
   }
 
 //метод для создания вкладок
-  Widget buildTabItem({required int index, required Icon icon}) {
+  Widget buildTabItem({required int index, required IconData iconData}) {
     //смотрим, выбрана ли вкладка в данный момент
     final isSelected = index == widget.index;
 
-    return IconTheme(
-      //меняем цвет вкладки, взависимости от того, выбрана она или нет
-      data: IconThemeData(
-        color: isSelected ? Colors.red : Colors.amber,
-      ),
-
-      // по нажатию на вкладку, вызываем метод смены вкладки и передаем индекс
-      child: IconButton(
-        onPressed: () => widget.onChangedTab(index),
-        icon: icon,
+    return GestureDetector(
+      onTap: () => widget.onChangedTab(index),
+      child: Container(
+        alignment: Alignment.center,
+        child: Icon(
+          iconData,
+          color:
+              isSelected ? _colors.onSurfaceVariant : _colors.onInverseSurface,
+          size: 40,
+        ),
       ),
     );
   }

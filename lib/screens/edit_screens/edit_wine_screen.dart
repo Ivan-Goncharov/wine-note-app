@@ -98,8 +98,10 @@ class _EditWineScreenState extends State<EditWineScreen> {
     // если id != null - значит мы редактировали заметку и должны ее обновить в списке
     // иначе создаем новую заметку
     if (_listProvider != null) {
+      final date = DateTime.now();
+
+      _note.creationDate = date;
       if (_note.id != null) {
-        _note.copyWith(creationDate: DateTime.now());
         _listProvider!.updateNote(_note);
       } else {
         _listProvider!.addNote(_note);

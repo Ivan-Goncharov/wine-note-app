@@ -3,7 +3,7 @@ import 'package:flutter_my_wine_app/models/wine_item.dart';
 
 import 'package:flutter_my_wine_app/models/wine_overview_provider.dart';
 import 'package:flutter_my_wine_app/screens/overview_screens/item_filter.dart';
-import 'package:flutter_my_wine_app/widgets/custom_text_field.dart';
+import 'package:flutter_my_wine_app/widgets/system_widget/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
 //экран для вывода всех производителей вина, которые использовались в заметках
