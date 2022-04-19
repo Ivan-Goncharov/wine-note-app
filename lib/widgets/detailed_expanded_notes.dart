@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_item.dart';
+
+import '../models/wine_item.dart';
 import '../icons/my_custom_icons.dart';
 
 //виджет для вывода подробной информации о вине
@@ -12,33 +13,45 @@ class DetailedExpanded extends StatelessWidget {
   Widget rowItemWidget(IconData icon, String? info, BuildContext ctx) {
     if (info!.isNotEmpty) {
       return Card(
+        color: Theme.of(ctx).colorScheme.primaryContainer,
         elevation: 6,
         child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 8,
-              vertical: 12,
-            ),
-            child: LayoutBuilder(builder: (ctx, BoxConstraints constraints) {
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8,
+            vertical: 12,
+          ),
+          child: LayoutBuilder(
+            builder: (ctx, BoxConstraints constraints) {
               return Row(
                 children: [
+                  //иконка
                   Container(
                     padding: const EdgeInsets.only(right: 5),
                     width: constraints.maxWidth * 0.1,
-                    child: Icon(icon),
+                    child: Icon(
+                      icon,
+                      color: Theme.of(ctx).colorScheme.tertiary,
+                    ),
                   ),
+
+                  //название
                   SizedBox(
                     width: constraints.maxWidth * 0.9 - 5,
                     child: Text(
                       info,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(ctx).colorScheme.onPrimaryContainer,
                       ),
                       softWrap: true,
                     ),
                   ),
                 ],
               );
-            })),
+            },
+          ),
+        ),
       );
     } else {
       return const SizedBox.shrink();

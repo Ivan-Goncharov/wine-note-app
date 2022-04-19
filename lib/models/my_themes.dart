@@ -34,6 +34,17 @@ class MyTheme {
       shadow: Color(0xFF000000),
     ),
     fontFamily: 'Roboto',
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(
+        color: Color(0xFF1C1B1F),
+        fontSize: 16,
+      ),
+      bodyLarge: TextStyle(
+        color: Color(0xFF625B71),
+        fontSize: 17,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
   );
 
   static final darkTheme = ThemeData(
@@ -68,5 +79,16 @@ class MyTheme {
       shadow: Color(0xFF000000),
     ),
     fontFamily: 'Roboto',
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(
+        color: Color(0xFFE6E1E5),
+        fontSize: 16,
+      ),
+      bodyLarge: TextStyle(
+        color: Color(0xFFD0BCFF),
+        fontSize: 17,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
   );
 }

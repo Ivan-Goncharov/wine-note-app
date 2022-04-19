@@ -96,6 +96,9 @@ flutter:
           weight: 500
         - asset: assets/fonts/Roboto-Thin.ttf
           weight: 100
+    - family:  MyCustomIcons
+      fonts:
+       - asset: assets/fonts/MyCustomIcons.ttf      
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

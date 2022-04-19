@@ -102,6 +102,7 @@ class _SearchGrapeSortState extends State<SearchGrapeSort> {
               child: Text(
                 _sortName,
                 textAlign: TextAlign.end,
+                style: Theme.of(context).textTheme.bodyLarge,
                 overflow: TextOverflow.visible,
                 maxLines: 1,
                 softWrap: true,

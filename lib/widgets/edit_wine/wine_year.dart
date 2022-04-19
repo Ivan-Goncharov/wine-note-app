@@ -54,7 +54,10 @@ class _WineYearState extends State<WineYear> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text('Год урожая'),
-            Text(widget.currentWineYear?.year.toString() ?? ''),
+            Text(
+              widget.currentWineYear?.year.toString() ?? '',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
           ],
         ),
       ),

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_list_provider.dart';
-import 'package:flutter_my_wine_app/screens/edit_screens/manuf_name_search.dart';
-import 'package:flutter_my_wine_app/string_resourses.dart';
-import 'package:flutter_my_wine_app/widgets/edit_wine/image_pick.dart';
-import 'package:flutter_my_wine_app/widgets/edit_wine/search_manufactor.dart';
-import 'package:flutter_my_wine_app/widgets/edit_wine/search_sort.dart';
 import 'package:provider/provider.dart';
 
-import '../../widgets/edit_wine/wine_year.dart';
+import '../../string_resourses.dart';
+import '../../models/wine_list_provider.dart';
 import '../../models/wine_item.dart';
+import '../../widgets/edit_wine/wine_year.dart';
 import '../../widgets/edit_wine/search_country.dart';
 import '../../widgets/edit_wine/searh_region.dart';
+import '../../widgets/edit_wine/image_pick.dart';
+import '../../widgets/edit_wine/search_manufactor.dart';
+import '../../widgets/edit_wine/search_sort.dart';
+import '../../widgets/system_widget/app_bar.dart';
 
 //экран для добавления и редактирования записей о вине
 class EditWineScreen extends StatefulWidget {
@@ -49,9 +49,10 @@ class _EditWineScreenState extends State<EditWineScreen> {
   //переменная для инициализации
   var _isInit = true;
 
-  //контроллер для TextField
-  late TextEditingController _textManufactuerContr;
+  late FocusNode _nameFocus;
   late double _containerHeight;
+  //ntvf
+  late ThemeData _theme;
 
   //переменные для изменения состояния виджетов
   // ввода страны и региона
@@ -60,6 +61,12 @@ class _EditWineScreenState extends State<EditWineScreen> {
 
   //провайдер для сохранения заметки
   WineListProvider? _listProvider;
+
+  @override
+  void initState() {
+    _nameFocus = FocusNode();
+    super.initState();
+  }
 
   //передаем значение размера переменной для размера контейнера
   //инициализируем провайдер
@@ -80,6 +87,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
       //инициализируем переменные страны и региона, для вывода в поиске
       _countryName = _note.country;
       _regionName = _note.region;
+      _theme = Theme.of(context);
       _isInit = false;
     }
     super.didChangeDependencies();
@@ -121,15 +129,15 @@ class _EditWineScreenState extends State<EditWineScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Добавить заметку'),
-        actions: [
+      appBar: CustomAppBar(
+        title: 'Добавить заметку',
+        listOfAction: [
           IconButton(
             onPressed: () {
               _savedNotes();
             },
             icon: const Icon(Icons.save),
-          )
+          ),
         ],
       ),
       body: _isLoading
@@ -274,9 +282,13 @@ class _EditWineScreenState extends State<EditWineScreen> {
   //поле ввода комментария
   TextFormField textFieldComment() {
     return TextFormField(
-      decoration:
-          createInputDecoration('Комментарий', 'Замечания о производителе'),
+      decoration: createInputDecoration(
+        'Комментарий',
+        'Замечания о производителе',
+      ),
+
       initialValue: _note.comment,
+      style: _theme.textTheme.bodyLarge,
 
       //сохраняем ввод в переменную name  и пересоздаем объект
       onSaved: (value) {
@@ -288,9 +300,14 @@ class _EditWineScreenState extends State<EditWineScreen> {
   //поле ввода вкуса
   TextFormField textFieldTaste() {
     return TextFormField(
-      decoration: createInputDecoration('Вкус', 'Опишите вкус вина'),
+      decoration: createInputDecoration(
+        'Вкус',
+        'Опишите вкус вина',
+      ),
       initialValue: _note.taste,
       textInputAction: TextInputAction.next,
+      style: _theme.textTheme.bodyLarge,
+
       //сохраняем ввод в переменную name  и пересоздаем объект
       onSaved: (value) {
         _note = _note.copyWith(taste: value);
@@ -301,12 +318,19 @@ class _EditWineScreenState extends State<EditWineScreen> {
   //поле ввода аромата
   TextFormField textFieldAroma() {
     return TextFormField(
-      decoration: createInputDecoration('Аромат', 'Опишите аромат вина'),
+      decoration: createInputDecoration(
+        'Аромат',
+        'Опишите аромат вина',
+      ),
       initialValue: _note.aroma,
       textInputAction: TextInputAction.next,
+      style: _theme.textTheme.bodyLarge,
+
       //сохраняем ввод в переменную name  и пересоздаем объект
       onSaved: (value) {
-        _note = _note.copyWith(aroma: value);
+        setState(() {
+          _note = _note.copyWith(aroma: value);
+        });
       },
     );
   }
@@ -317,51 +341,34 @@ class _EditWineScreenState extends State<EditWineScreen> {
       decoration: InputDecoration(
         labelText: 'Цвет',
         hintText: "Укажите цвет винограда",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        enabledBorder: _inputBorder(_theme.colorScheme.onBackground),
+        focusedBorder: _inputBorder(_theme.colorScheme.primary),
+        labelStyle: _theme.textTheme.bodyMedium,
       ),
       value: _note.wineColors.isEmpty ? null : _note.wineColors,
+      style: _theme.textTheme.bodyLarge,
       onChanged: (String? value) {
-        setState(() {
-          _note = _note.copyWith(wineColors: value);
-        });
+        _note = _note.copyWith(wineColors: value);
       },
       items: WineItem.colorDopdownItems,
-    );
-  }
-
-  //поле ввода названия производителя
-  TextFormField textFieldManufacturer() {
-    return TextFormField(
-      decoration: createInputDecoration(
-          'Производитель вина', 'Введите производителя вина'),
-      controller: _textManufactuerContr,
-      //сохраняем ввод в переменную name  и пересоздаем объект
-      onSaved: (value) {
-        _note = _note.copyWith(manufacturer: value);
-      },
-      // проверяем правильность ввода
-      validator: (value) {
-        return textValidator(
-          value,
-          'Пожалуйста, введите производителя вина',
-        );
-      },
     );
   }
 
   //поле ввода названия вина
   TextFormField textFieldName() {
     return TextFormField(
-      decoration:
-          createInputDecoration('Название вина', 'Введите название вина'),
+      decoration: createInputDecoration(
+        'Название вина',
+        'Введите название вина',
+      ),
       initialValue: _note.name,
+      style: _theme.textTheme.bodyLarge,
 
       //сохраняем ввод в переменную name и пересоздаем объект
       onSaved: (value) {
         _note = _note.copyWith(name: value);
       },
+
       // проверяем правильность ввода
       validator: (value) {
         return textValidator(
@@ -382,13 +389,26 @@ class _EditWineScreenState extends State<EditWineScreen> {
   }
 
 // внешний вид поля для ввода информации о вине
-  InputDecoration createInputDecoration(String dataLable, dataHint) {
+  InputDecoration createInputDecoration(String dataLable, String dataHint) {
     return InputDecoration(
       labelText: dataLable,
       hintText: dataHint,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
+      enabledBorder: _inputBorder(_theme.colorScheme.onBackground),
+      focusedBorder: _inputBorder(_theme.colorScheme.primary),
+      labelStyle: _theme.textTheme.bodyMedium,
+      hintStyle: TextStyle(
+        color: _theme.colorScheme.outline,
+        fontWeight: FontWeight.normal,
+        fontSize: 15,
       ),
+    );
+  }
+
+  //метод для создания рамки для ввода
+  OutlineInputBorder _inputBorder(Color color) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: BorderSide(color: color),
     );
   }
 }

@@ -45,11 +45,11 @@ class _MyAppState extends State<MyApp> {
         initialRoute: TabsScreen.routName,
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            case WineFullDescripScreen.routName:
-              return MaterialPageRoute(
-                builder: (context) => const WineFullDescripScreen(),
-                settings: settings,
-              );
+            // case WineFullDescripScreen.routName:
+            //   return MaterialPageRoute(
+            //     builder: (context) => const WineFullDescripScreen(),
+            //     settings: settings,
+            //   );
 
             case TabsScreen.routName:
               return MaterialPageRoute(

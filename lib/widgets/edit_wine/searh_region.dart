@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/string_resourses.dart';
 
+import '../../string_resourses.dart';
 import '../../screens/edit_screens/search_screen.dart';
 import 'button_container.dart';
 
+//виджет для вывода кнопки выбора региона
 class SearchRegion extends StatefulWidget {
+  //принимает данные о выбранном регионе и стране и функцию для сохранения выбора
   final String regionName;
   final String countryName;
   final Function function;
@@ -20,15 +22,22 @@ class SearchRegion extends StatefulWidget {
 }
 
 class _SearchRegionState extends State<SearchRegion> {
+  //список регионов данной страны
   late List<String> _listRegions;
   late String _regionName;
 
   @override
   Widget build(BuildContext context) {
     _regionName = widget.regionName;
+    final _colors = Theme.of(context).colorScheme;
     return GestureDetector(
+      //при нажатии  - происходит переход на страницу с выбором региона
+      //запускаем метод, который создает список регионов, если уже выбрана страна
       onTap: () async {
         _listRegions = Country.regionsOfCountry(widget.countryName);
+        //переход на страницу
+        //передаем список регионов, тип поиска и выбранный на данный момент регион
+        //сохраняем результат выбора в переменную
         final result = await Navigator.pushNamed(
           context,
           SearchScreen.routName,
@@ -39,6 +48,7 @@ class _SearchRegionState extends State<SearchRegion> {
           },
         );
 
+        //обрабатываем выбор пользователя и вызываем функцию для сохранения выбора
         if (result == null) {
           return;
         } else if (result is List<String>) {
@@ -48,14 +58,28 @@ class _SearchRegionState extends State<SearchRegion> {
           });
         }
       },
+
+      //данные для кнопки
       child: ButtonContainer(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text('Регион'),
+            //заголовок
+            Text(
+              'Регион',
+              style: TextStyle(
+                color: _colors.onBackground,
+                fontSize: 16,
+              ),
+            ),
+
+            //выбранный регион
             Row(
               children: [
-                Text(_regionName),
+                Text(
+                  _regionName,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
               ],
             ),
           ],

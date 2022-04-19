@@ -86,7 +86,10 @@ class _SearchCountryState extends State<SearchCountry> {
             const Text('Cтрана'),
             Row(
               children: [
-                Text(_countryName),
+                Text(
+                  _countryName,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
                 _imagePath.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.only(left: 16),

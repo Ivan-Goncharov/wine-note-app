@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/edit_screens/edit_wine_screen.dart';
+
 //навигационный бар
 class CustomBottomNavigation extends StatefulWidget {
   //принимает индекс выбранной вкладки и функцию для изменения вкладки
@@ -54,14 +56,14 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
             //вкладки со последними винами
             buildTabItem(
               index: 0,
-              iconData: Icons.home_outlined,
+              iconData: Icons.access_time_rounded,
             ),
             opacityTab(),
 
             //вкладка со всеми винами
             buildTabItem(
               index: 1,
-              iconData: Icons.access_time_rounded,
+              iconData: Icons.home_outlined,
             ),
           ],
         ),

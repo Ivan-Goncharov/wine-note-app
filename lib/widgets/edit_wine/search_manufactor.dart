@@ -29,6 +29,7 @@ class _SearchManufacturerState extends State<SearchManufacturer> {
 
   @override
   Widget build(BuildContext context) {
+    final _theme = Theme.of(context);
     return GestureDetector(
       onTap: () async {
         //при нажатии - переходим на экран с вводом названия производителя
@@ -52,7 +53,10 @@ class _SearchManufacturerState extends State<SearchManufacturer> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text('Производитель'),
+            Text(
+              'Производитель',
+              style: _theme.textTheme.bodyMedium,
+            ),
             const SizedBox(width: 10),
 
             //производитель
@@ -60,6 +64,7 @@ class _SearchManufacturerState extends State<SearchManufacturer> {
               child: Text(
                 _manufName,
                 textAlign: TextAlign.end,
+                style: Theme.of(context).textTheme.bodyLarge,
                 overflow: TextOverflow.visible,
                 maxLines: 1,
                 softWrap: true,

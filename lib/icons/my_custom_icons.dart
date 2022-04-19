@@ -7,11 +7,9 @@
 ///
 /// flutter:
 ///   fonts:
-///    - family:  MyCustomIcons
-///      fonts:
-///       - asset: fonts/MyCustomIcons.ttf
+// /
 ///
-/// 
+///
 ///
 import 'package:flutter/widgets.dart';
 
@@ -21,10 +19,16 @@ class MyCustomIcons {
   static const _kFontFam = 'MyCustomIcons';
   static const String? _kFontPkg = null;
 
-  static const IconData grape = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData calendar = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData flag = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData manufacturer = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData taste = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData aroma = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData grape =
+      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData calendar =
+      IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData flag =
+      IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData manufacturer =
+      IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData taste =
+      IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData aroma =
+      IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
