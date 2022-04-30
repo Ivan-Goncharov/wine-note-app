@@ -42,7 +42,7 @@ class _SearchManufacturerState extends State<SearchManufacturer> {
           return;
         } else {
           setState(() {
-            _manufName = (result as List<String>)[0];
+            _manufName = (result as List<dynamic>)[0];
             widget.changeName(_manufName);
           });
         }

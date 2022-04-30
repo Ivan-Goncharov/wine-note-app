@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/widgets/system_widget/custom_text_field.dart';
-import 'package:flutter_my_wine_app/widgets/edit_wine/button_search.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../widgets/edit_wine/item_search_country.dart';
+import '../../widgets/edit_wine/item_search_region.dart';
 import '../../string_resourses.dart';
+import '../../widgets/system_widget/custom_text_field.dart';
+import '../../widgets/edit_wine/button_search.dart';
 
-// экра для текстового ввода стран и регионов, с возможностью подсказки ввода
+// экран для текстового ввода стран и регионов, с возможностью подсказки ввода
 class SearchScreen extends StatefulWidget {
   static const routName = '/countryEdit';
   const SearchScreen({Key? key}) : super(key: key);
@@ -108,8 +109,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -135,12 +134,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   : _searchList.isEmpty
                       // ? rowButtons(colorScheme, size, context)
                       ? ButtonsInSearch(
-                          onSave: () {
-                            Navigator.pop(context, [_textController.text]);
-                          },
-                          onBack: () {
-                            Navigator.pop(context);
-                          },
+                          saveInfo: _textController.text,
                         )
 
                       //если список не пустой, то выводим список элементов
@@ -150,9 +144,9 @@ class _SearchScreenState extends State<SearchScreen> {
                               //выводим на экран либо страну, либо регион
                               final element = _searchList[index];
                               if (_searchType == SearchType.countryType) {
-                                return itemCountry(context, element, size);
+                                return ItemSearchCountry(element: element);
                               } else {
-                                return itemRegion(context, element, size);
+                                return ItemSearchRegion(region: element);
                               }
                             },
                             itemCount: _searchList.length,
@@ -162,132 +156,6 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  //метод для вывода одного элемента поиска стран
-  //принимает контекст, карту со значениями страны и размеры экрана
-  Widget itemCountry(
-      BuildContext context, Map<String, dynamic> element, Size size) {
-    //обрабатываем нажатие на элемент
-    return GestureDetector(
-      //по нажатию, возвращаемся на экран редактирования заметки
-      //передаем страну
-      onTap: () {
-        Navigator.pop(context, [element]);
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
-        child: Row(
-          children: [
-            //флаг страны
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16.0),
-              child: SvgPicture.asset(
-                element['svg']!,
-                width: size.width * 0.05,
-                height: size.height * 0.05,
-              ),
-            ),
-            const SizedBox(width: 10),
-
-            //название
-            Text(
-              element['country']!,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-//один элемент поиска региона
-//принимает контекст, регион и размеры экрана
-  Widget itemRegion(BuildContext context, String element, Size size) {
-    return GestureDetector(
-      //по нажатию возвращаемся на предыдущий экран и передаем регион
-      onTap: () {
-        Navigator.pop(context, [element]);
-      },
-
-      // название региона
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
-        child: Text(
-          element,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
-      ),
-    );
-  }
-
-  //метод, который возвращат кнопки 'Назад' и 'Cохранить'
-  //принимает цветовую схему, размер и контекст
-  Widget rowButtons(ColorScheme colorScheme, Size size, BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        //кнопка назад
-        buttonContainer(
-          colorScheme: colorScheme,
-          size: size,
-          button: TextButton(
-            child: Text(
-              'Назад',
-              style: TextStyle(
-                color: colorScheme.onPrimary,
-                fontSize: 18,
-              ),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
-
-        //кнопка "Сохранить"
-        buttonContainer(
-          colorScheme: colorScheme,
-          size: size,
-          button: TextButton(
-            child: Text(
-              'Сохранить',
-              style: TextStyle(
-                color: colorScheme.onPrimary,
-                fontSize: 18,
-              ),
-            ),
-
-            //по нажатию передаем введенный текст в поле ввода
-            onPressed: () {
-              Navigator.pop(context, [_textController.text]);
-            },
-          ),
-        )
-      ],
-    );
-  }
-
-  //контейнер для стилизации кнопок
-  Widget buttonContainer(
-      {required ColorScheme colorScheme,
-      required Size size,
-      required Widget button}) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        color: colorScheme.primary,
-      ),
-      width: size.width * 0.4,
-      height: size.height * 0.07,
-      child: button,
     );
   }
 }

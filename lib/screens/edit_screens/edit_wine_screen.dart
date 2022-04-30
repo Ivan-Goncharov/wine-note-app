@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../models/wine_list_provider.dart';
 import '../../models/wine_item.dart';
-import '../../screens/edit_screens/text_field_container.dart';
+import '../../widgets/edit_wine/text_field_container.dart';
 import '../../screens/edit_screens/drop_down_colors.dart';
 import '../../string_resourses.dart';
 import '../../widgets/edit_wine/wine_year.dart';

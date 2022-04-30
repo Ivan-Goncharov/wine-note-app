@@ -91,12 +91,7 @@ class _ManufSearchNameState extends State<ManufSearchName> {
                   //проверка - пустой ли список поиска
                   : _provider.hintList.isEmpty
                       ? ButtonsInSearch(
-                          onSave: () {
-                            Navigator.pop(context, [_controller.text]);
-                          },
-                          onBack: () {
-                            Navigator.pop(context);
-                          },
+                          saveInfo: _controller.text,
                         )
 
                       //если список не пустой, то выводим подсказку по вводу

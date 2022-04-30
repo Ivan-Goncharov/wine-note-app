@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ButtonsInSearch extends StatelessWidget {
-  final Function onSave;
-  final Function onBack;
+  final dynamic saveInfo;
   const ButtonsInSearch({
     Key? key,
-    required this.onSave,
-    required this.onBack,
+    required this.saveInfo,
   }) : super(key: key);
 
   @override
@@ -28,7 +26,7 @@ class ButtonsInSearch extends StatelessWidget {
                 fontSize: 18,
               ),
             ),
-            onPressed: () => onBack(),
+            onPressed: () => Navigator.pop(context),
           ),
         ),
 
@@ -46,7 +44,7 @@ class ButtonsInSearch extends StatelessWidget {
             ),
 
             //по нажатию передаем введенный текст в поле ввода
-            onPressed: () => onSave(),
+            onPressed: () => Navigator.pop(context, [saveInfo]),
           ),
         )
       ],

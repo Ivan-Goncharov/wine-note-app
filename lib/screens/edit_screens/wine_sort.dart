@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/string_resourses.dart';
-import 'package:flutter_my_wine_app/widgets/system_widget/custom_text_field.dart';
-import 'package:flutter_my_wine_app/widgets/edit_wine/button_search.dart';
+
+import '../../string_resourses.dart';
+import '../../widgets/edit_wine/button_search.dart';
+import '../../widgets/edit_wine/grape_item.dart';
+import '../../widgets/edit_wine/grape_select_item.dart';
+import '../../widgets/system_widget/custom_text_field.dart';
 
 //экран для выбора сорта винограда
 class WineSortScreen extends StatefulWidget {
@@ -73,7 +76,6 @@ class _WineSortScreenState extends State<WineSortScreen> {
   Widget build(BuildContext context) {
     //переменные для пользовательского интерфейса
     final size = MediaQuery.of(context).size;
-    final colorScheme = Theme.of(context).colorScheme;
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -101,15 +103,15 @@ class _WineSortScreenState extends State<WineSortScreen> {
                         physics: const ClampingScrollPhysics(),
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                            //обрабатываем нажатие, удаляя сорт из списка
-                            onTap: () {
-                              setState(() {
-                                _selectedItems.remove(_selectedItems[index]);
-                              });
-                            },
-                            child:
-                                _selectItem(_selectedItems[index], colorScheme),
-                          );
+                              //обрабатываем нажатие, удаляя сорт из списка
+                              onTap: () {
+                                setState(() {
+                                  _selectedItems.remove(_selectedItems[index]);
+                                });
+                              },
+                              child: GrapeSelectItem(
+                                grapeName: _selectedItems[index],
+                              ));
                         },
                         itemCount: _selectedItems.length,
                       ),
@@ -126,7 +128,15 @@ class _WineSortScreenState extends State<WineSortScreen> {
                         itemBuilder: (context, index) {
                           //если сорт еще не выбран, то выводим его на экран
                           if (!_selectedItems.contains(_listSorts[index])) {
-                            return sortItem(_listSorts[index], context);
+                            return GrapeItem(
+                              grapeName: _listSorts[index],
+                              addGrapeInList: () {
+                                FocusManager.instance.primaryFocus!.unfocus();
+                                setState(() =>
+                                    _selectedItems.add(_listSorts[index]));
+                                _controller.clear();
+                              },
+                            );
                           } else {
                             return const SizedBox();
                           }
@@ -152,7 +162,7 @@ class _WineSortScreenState extends State<WineSortScreen> {
               _focus.hasFocus
                   ? _listSorts.isEmpty
                       //если список сортов пустой, то выводим кнопку назад
-                      ? backButton(colorScheme, size, context)
+                      ? const BackButton()
                       //если список сортов не пустой, то ничего не выводим
                       : const SizedBox()
 
@@ -160,21 +170,7 @@ class _WineSortScreenState extends State<WineSortScreen> {
                   : Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ButtonsInSearch(
-                        //кнопка сохранить
-                        //если выбраны элементы, то передаем список,
-                        //если нет, то просто возвращаемся на предыдущий экран
-                        onSave: () {
-                          // if (_selectedItems.isEmpty) {
-                          //   Navigator.pop(context);
-                          // } else {
-                          Navigator.pop(context, [_selectedItems]);
-                          // }
-                        },
-
-                        //кнопка 'назад'
-                        onBack: () {
-                          Navigator.pop(context);
-                        },
+                        saveInfo: _selectedItems,
                       ),
                     )
             ],
@@ -183,91 +179,33 @@ class _WineSortScreenState extends State<WineSortScreen> {
       ),
     );
   }
+}
 
-  //кнопка 'назад' для случая, если клавиатура показана на экране
-  Container backButton(
-      ColorScheme colorScheme, Size size, BuildContext context) {
+//кнопка 'назад' для случая, если список пустой
+class BackButton extends StatelessWidget {
+  const BackButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 6.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
-        color: colorScheme.primary,
+        color: Theme.of(context).colorScheme.primary,
       ),
-      width: size.width * 0.4,
-      height: size.height * 0.07,
+      width: MediaQuery.of(context).size.width * 0.4,
+      height: MediaQuery.of(context).size.height * 0.07,
       child: TextButton(
         child: Text(
           'Назад',
           style: TextStyle(
-            color: colorScheme.onPrimary,
+            color: Theme.of(context).colorScheme.onPrimary,
             fontSize: 18,
           ),
         ),
         onPressed: () {
           Navigator.pop(context);
         },
-      ),
-    );
-  }
-
-  //метод возвращает виджет с описанием одного сорта в поиске
-  Widget sortItem(String sortName, BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        GestureDetector(
-          //при нажатии добавляем сорт в список выбранных сортов
-          onTap: () {
-            FocusManager.instance.primaryFocus!.unfocus();
-            setState(() => _selectedItems.add(sortName));
-            _controller.clear();
-          },
-
-          //название винограда
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-            child: Text(
-              sortName,
-              style: const TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-        const Divider(
-          height: 5,
-        ),
-      ],
-    );
-  }
-
-  //метод, который возвращаем один элемент в списке выбранных сортов
-  Widget _selectItem(String selectItName, ColorScheme colors) {
-    return Container(
-      margin: const EdgeInsets.all(8.0),
-      padding: const EdgeInsets.all(10.0),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        color: colors.primary,
-      ),
-      child: Row(
-        children: [
-          //название винограда
-          Text(
-            selectItName,
-            style: TextStyle(
-              color: colors.onPrimary,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(
-            width: 5,
-          ),
-
-          //иконка для удаления из списка
-          const Icon(Icons.highlight_remove_outlined)
-        ],
       ),
     );
   }
