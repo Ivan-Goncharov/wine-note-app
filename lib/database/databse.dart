@@ -153,9 +153,9 @@ CREATE TABLE $_tableName (
   }
 
   //метод для закрытия базы данных
-  Future _close() async {
-    final db = await instanse.getDataBase();
+  // Future _close() async {
+  //   final db = await instanse.getDataBase();
 
-    db.close();
-  }
+  //   db.close();
+  // }
 }

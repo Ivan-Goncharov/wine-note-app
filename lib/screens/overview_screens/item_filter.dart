@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/widgets/overview_widget/notes_sorting.dart';
+import 'package:flutter_my_wine_app/widgets/system_widget/app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/wine_item.dart';
@@ -54,11 +55,15 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_dataTitle),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
+      // appBar: AppBar(
+      //   title: Text(_dataTitle),
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      //   actions:
+      // ),
+      appBar: CustomAppBar(
+        title: _dataTitle,
+        listOfAction: [
           IconButton(
             onPressed: () {
               showModalBottomSheet(

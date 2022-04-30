@@ -80,7 +80,10 @@ class _ColorsBotoomsheetState extends State<ColorsBotoomsheet> {
                     child: Text(
                       'Очистить',
                       textAlign: TextAlign.end,
-                      style: TextStyle(color: _colorScheme.secondary),
+                      style: TextStyle(
+                        color: _colorScheme.tertiary,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
@@ -145,7 +148,7 @@ class _ColorsBotoomsheetState extends State<ColorsBotoomsheet> {
             color: title == _selectColor
                 ? _colorScheme.primary
                 : _colorScheme.onSurfaceVariant,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w600,
             fontSize: 18,
           ),
         ),

@@ -41,6 +41,7 @@ class _RegionBottomSheetState extends State<RegionBottomSheet> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(child: Container()),
               //заголовок
@@ -66,7 +67,7 @@ class _RegionBottomSheetState extends State<RegionBottomSheet> {
                 child: Text(
                   'Очистить',
                   textAlign: TextAlign.end,
-                  style: TextStyle(color: colorScheme.secondary),
+                  style: TextStyle(color: colorScheme.tertiary, fontSize: 16),
                 ),
               ),
             ],

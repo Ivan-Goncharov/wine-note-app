@@ -103,8 +103,7 @@ class _ManufSearchNameState extends State<ManufSearchName> {
                       : Expanded(
                           child: ListView.builder(
                             itemBuilder: (context, index) {
-                              return createItem(
-                                  _provider.hintList[index], context);
+                              return ItemHint(title: _provider.hintList[index]);
                             },
                             itemCount: _provider.hintList.length,
                           ),
@@ -115,9 +114,16 @@ class _ManufSearchNameState extends State<ManufSearchName> {
       ),
     );
   }
+}
 
-  //метод, который создает один элемент списка подсказок
-  Widget createItem(String title, BuildContext context) {
+//виджет для вывода одного элемента подсказки
+class ItemHint extends StatelessWidget {
+  //текст подсказки
+  final String title;
+  const ItemHint({Key? key, required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),
       child: GestureDetector(

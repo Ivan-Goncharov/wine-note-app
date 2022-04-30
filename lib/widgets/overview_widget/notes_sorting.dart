@@ -19,8 +19,6 @@ class NoteSorting extends StatefulWidget {
 }
 
 class _NoteSortingState extends State<NoteSorting> {
-  //цвет темы и размеры экрана
-  late Size _size;
   late ColorScheme _colors;
   //текущее значение сортировки
   late TypeOfSotring _currentType;
@@ -32,7 +30,6 @@ class _NoteSortingState extends State<NoteSorting> {
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      _size = MediaQuery.of(context).size;
       _colors = Theme.of(context).colorScheme;
       _currentType = widget.currentType;
       _isInit = true;
@@ -82,7 +79,7 @@ class _NoteSortingState extends State<NoteSorting> {
               child: Text(
                 'Отмена',
                 style: TextStyle(
-                  color: _colors.secondary,
+                  color: _colors.tertiary,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),

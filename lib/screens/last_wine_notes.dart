@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/database/databse.dart';
-import 'package:flutter_my_wine_app/models/wine_item.dart';
 import 'package:flutter_my_wine_app/models/wine_list_provider.dart';
 import 'package:flutter_my_wine_app/widgets/system_widget/app_bar.dart';
 import 'package:flutter_my_wine_app/widgets/wine_note_item.dart';

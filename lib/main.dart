@@ -11,7 +11,6 @@ import './screens/edit_screens/wine_sort.dart';
 import './screens/overview_screens/countries_overview.dart';
 import 'screens/overview_screens/item_filter.dart';
 import './screens/search_wine_note.dart';
-import './screens/wine_full_descrip_screen.dart';
 import './screens/overview_screens/wine_overview_screen.dart';
 import './widgets/custom_page_route.dart';
 import './screens/edit_screens/manuf_name_search.dart';
@@ -45,12 +44,6 @@ class _MyAppState extends State<MyApp> {
         initialRoute: TabsScreen.routName,
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            // case WineFullDescripScreen.routName:
-            //   return MaterialPageRoute(
-            //     builder: (context) => const WineFullDescripScreen(),
-            //     settings: settings,
-            //   );
-
             case TabsScreen.routName:
               return MaterialPageRoute(
                 builder: (context) => const TabsScreen(),

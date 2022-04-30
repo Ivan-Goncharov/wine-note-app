@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_item.dart';
-import 'package:flutter_my_wine_app/screens/overview_screens/item_filter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../models/wine_item.dart';
+import '../../screens/overview_screens/item_filter.dart';
 
 //виджет для вывода одного элемента в списке стран
 class ItemOverviewCountry extends StatelessWidget {
@@ -68,7 +69,12 @@ class ItemOverviewCountry extends StatelessWidget {
             const SizedBox(width: 10),
 
             //количество винных заметок
-            Text(createCount(country['count'] as int)),
+            Text(
+              createCount(country['count'] as int),
+              style: TextStyle(
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ),
             const SizedBox(width: 5),
           ],
         ),

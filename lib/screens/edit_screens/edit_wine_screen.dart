@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../string_resourses.dart';
 import '../../models/wine_list_provider.dart';
 import '../../models/wine_item.dart';
+import '../../screens/edit_screens/text_field_container.dart';
+import '../../screens/edit_screens/drop_down_colors.dart';
+import '../../string_resourses.dart';
 import '../../widgets/edit_wine/wine_year.dart';
 import '../../widgets/edit_wine/search_country.dart';
 import '../../widgets/edit_wine/searh_region.dart';
@@ -49,24 +51,12 @@ class _EditWineScreenState extends State<EditWineScreen> {
   //переменная для инициализации
   var _isInit = true;
 
-  late FocusNode _nameFocus;
-  late double _containerHeight;
-  //ntvf
-  late ThemeData _theme;
-
-  //переменные для изменения состояния виджетов
   // ввода страны и региона
   late String _countryName;
   late String _regionName;
 
   //провайдер для сохранения заметки
   WineListProvider? _listProvider;
-
-  @override
-  void initState() {
-    _nameFocus = FocusNode();
-    super.initState();
-  }
 
   //передаем значение размера переменной для размера контейнера
   //инициализируем провайдер
@@ -76,7 +66,6 @@ class _EditWineScreenState extends State<EditWineScreen> {
     //то принимаем id заметки, если id передан - нам необходимо изменить существующую заметк
     // если id = null, то создаем новую заметку
     if (_isInit) {
-      _containerHeight = MediaQuery.of(context).size.height * 0.1;
       _listProvider = Provider.of<WineListProvider>(context, listen: false);
       final String? noteId =
           ModalRoute.of(context)!.settings.arguments as String?;
@@ -87,7 +76,6 @@ class _EditWineScreenState extends State<EditWineScreen> {
       //инициализируем переменные страны и региона, для вывода в поиске
       _countryName = _note.country;
       _regionName = _note.region;
-      _theme = Theme.of(context);
       _isInit = false;
     }
     super.didChangeDependencies();
@@ -118,13 +106,6 @@ class _EditWineScreenState extends State<EditWineScreen> {
     setState(() => _isLoading = false);
     Navigator.pop(context);
   }
-
-  //значения отсутпа для полей
-  final _edgeInsets = const EdgeInsets.only(
-    top: 15,
-    left: 25,
-    right: 25,
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +149,15 @@ class _EditWineScreenState extends State<EditWineScreen> {
                         ),
 
                         //название вина
-                        inputContainer(textFormField: textFieldName()),
+                        TextFieldInput(
+                          initialValue: _note.name,
+                          lableText: 'Название вина',
+                          hintText: 'Введите название вина',
+                          changeNote: (value) {
+                            _note = _note.copyWith(name: value);
+                          },
+                          fieldAction: TextInputAction.next,
+                        ),
 
                         //Производитель вина
                         SearchManufacturer(
@@ -177,7 +166,12 @@ class _EditWineScreenState extends State<EditWineScreen> {
                         ),
 
                         // указываем цвета вина
-                        inputContainer(textFormField: dropDownColorWine()),
+                        DropDownColor(
+                          wineColor: _note.wineColors,
+                          saveColor: (value) {
+                            _note = _note.copyWith(wineColors: value);
+                          },
+                        ),
 
                         // указываем год вина
                         WineYear(
@@ -205,15 +199,37 @@ class _EditWineScreenState extends State<EditWineScreen> {
                         ),
 
                         //Аромат вина
-                        inputContainer(textFormField: textFieldAroma()),
+                        TextFieldInput(
+                          initialValue: _note.aroma,
+                          lableText: 'Аромат',
+                          hintText: 'Опишите аромат вина',
+                          changeNote: (value) {
+                            _note = _note.copyWith(aroma: value);
+                          },
+                          fieldAction: TextInputAction.next,
+                        ),
 
                         //Вкус вина
-                        inputContainer(textFormField: textFieldTaste()),
+                        TextFieldInput(
+                          initialValue: _note.taste,
+                          lableText: 'Вкус',
+                          hintText: 'Опишите вкус вина',
+                          changeNote: (value) {
+                            _note = _note.copyWith(taste: value);
+                          },
+                          fieldAction: TextInputAction.next,
+                        ),
 
-                        //Комментарий о вине
-                        inputContainer(
-                          textFormField: textFieldComment(),
-                        )
+                        //Комментарий по заметке
+                        TextFieldInput(
+                          initialValue: _note.comment,
+                          lableText: 'Комментарий',
+                          hintText: 'Заметки о вине',
+                          changeNote: (value) {
+                            _note = _note.copyWith(comment: value);
+                          },
+                          fieldAction: TextInputAction.done,
+                        ),
                       ],
                     ),
                   ),
@@ -266,149 +282,5 @@ class _EditWineScreenState extends State<EditWineScreen> {
   //метод для изменения пути изображения для вина
   void changeImagePath(String path) {
     _note = _note.copyWith(imageUrl: path);
-  }
-
-  //контейнер для стилизации полей ввода
-  //принимает поле ввода
-  Container inputContainer({required Widget textFormField}) {
-    return Container(
-      width: double.infinity,
-      height: _containerHeight,
-      padding: _edgeInsets,
-      child: textFormField,
-    );
-  }
-
-  //поле ввода комментария
-  TextFormField textFieldComment() {
-    return TextFormField(
-      decoration: createInputDecoration(
-        'Комментарий',
-        'Замечания о производителе',
-      ),
-
-      initialValue: _note.comment,
-      style: _theme.textTheme.bodyLarge,
-
-      //сохраняем ввод в переменную name  и пересоздаем объект
-      onSaved: (value) {
-        _note = _note.copyWith(comment: value);
-      },
-    );
-  }
-
-  //поле ввода вкуса
-  TextFormField textFieldTaste() {
-    return TextFormField(
-      decoration: createInputDecoration(
-        'Вкус',
-        'Опишите вкус вина',
-      ),
-      initialValue: _note.taste,
-      textInputAction: TextInputAction.next,
-      style: _theme.textTheme.bodyLarge,
-
-      //сохраняем ввод в переменную name  и пересоздаем объект
-      onSaved: (value) {
-        _note = _note.copyWith(taste: value);
-      },
-    );
-  }
-
-  //поле ввода аромата
-  TextFormField textFieldAroma() {
-    return TextFormField(
-      decoration: createInputDecoration(
-        'Аромат',
-        'Опишите аромат вина',
-      ),
-      initialValue: _note.aroma,
-      textInputAction: TextInputAction.next,
-      style: _theme.textTheme.bodyLarge,
-
-      //сохраняем ввод в переменную name  и пересоздаем объект
-      onSaved: (value) {
-        setState(() {
-          _note = _note.copyWith(aroma: value);
-        });
-      },
-    );
-  }
-
-  //раскрывающийся список цвета винограда
-  DropdownButtonFormField<String> dropDownColorWine() {
-    return DropdownButtonFormField(
-      decoration: InputDecoration(
-        labelText: 'Цвет',
-        hintText: "Укажите цвет винограда",
-        enabledBorder: _inputBorder(_theme.colorScheme.onBackground),
-        focusedBorder: _inputBorder(_theme.colorScheme.primary),
-        labelStyle: _theme.textTheme.bodyMedium,
-      ),
-      value: _note.wineColors.isEmpty ? null : _note.wineColors,
-      style: _theme.textTheme.bodyLarge,
-      onChanged: (String? value) {
-        _note = _note.copyWith(wineColors: value);
-      },
-      items: WineItem.colorDopdownItems,
-    );
-  }
-
-  //поле ввода названия вина
-  TextFormField textFieldName() {
-    return TextFormField(
-      decoration: createInputDecoration(
-        'Название вина',
-        'Введите название вина',
-      ),
-      initialValue: _note.name,
-      style: _theme.textTheme.bodyLarge,
-
-      //сохраняем ввод в переменную name и пересоздаем объект
-      onSaved: (value) {
-        _note = _note.copyWith(name: value);
-      },
-
-      // проверяем правильность ввода
-      validator: (value) {
-        return textValidator(
-          value,
-          'Пожалуйста, введите название вина',
-        );
-      },
-    );
-  }
-
-// валидатор для проверки правильности ввода
-  String? textValidator(String? value, String message) {
-    if (value!.length <= 2) {
-      return message;
-    } else {
-      return null;
-    }
-  }
-
-// внешний вид поля для ввода информации о вине
-  InputDecoration createInputDecoration(String dataLable, String dataHint) {
-    return InputDecoration(
-      labelText: dataLable,
-      hintText: dataHint,
-      enabledBorder: _inputBorder(_theme.colorScheme.onBackground),
-      focusedBorder: _inputBorder(_theme.colorScheme.primary),
-      labelStyle: _theme.textTheme.bodyMedium,
-      hintStyle: TextStyle(
-        color: _theme.colorScheme.outline,
-        fontWeight: FontWeight.normal,
-        fontSize: 15,
-      ),
-    );
-  }
-
-  //метод для создания рамки для ввода
-  OutlineInputBorder _inputBorder(Color color) {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
-      borderSide: BorderSide(color: color),
-    );
   }
 }
