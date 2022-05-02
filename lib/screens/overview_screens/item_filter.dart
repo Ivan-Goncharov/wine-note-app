@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/widgets/overview_widget/notes_sorting.dart';
-import 'package:flutter_my_wine_app/widgets/system_widget/app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/wine_item.dart';
 import '../../models/wine_sorted_provider.dart';
+import '../../widgets/overview_widget/notes_sorting.dart';
+import '../../widgets/system_widget/app_bar.dart';
 import '../../widgets/overview_widget/region_botsheet.dart';
 import '../../widgets/wine_note_item.dart';
 import '../../widgets/overview_widget/colors_botsheet.dart';
@@ -55,12 +55,6 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(_dataTitle),
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   actions:
-      // ),
       appBar: CustomAppBar(
         title: _dataTitle,
         listOfAction: [

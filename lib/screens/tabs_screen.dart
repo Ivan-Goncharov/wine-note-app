@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'edit_screens/edit_wine_screen.dart';
+import 'overview_screens/wine_overview_screen.dart';
 import '../../screens/last_wine_notes.dart';
 import '../../widgets/bottom_app_bar.dart';
-import 'overview_screens/wine_overview_screen.dart';
-import 'edit_screens/edit_wine_screen.dart';
 
 //экран для навигации между вкладками
 
@@ -40,26 +40,33 @@ class _TabsScreenState extends State<TabsScreen> {
       ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: buildFloatingActionButton(context),
+      floatingActionButton: const FloatButton(),
     );
   }
-
-  ///вызов окна для создания новой заметки по нажатию плавающей кнопки
-  Widget buildFloatingActionButton(BuildContext ctx) => FloatingActionButton(
-        child: const Icon(
-          Icons.add,
-          size: 40,
-        ),
-        foregroundColor: Theme.of(ctx).colorScheme.onPrimary,
-        backgroundColor: Theme.of(ctx).colorScheme.primary,
-        onPressed: () => Navigator.of(context)
-            .pushNamed(EditWineScreen.routName, arguments: null),
-      );
 
   //метод, который меняет вкладку, взависимости от нажатой кнопки
   void onChangeTab(int index) {
     setState(() {
       _currentSelectIndex = index;
     });
+  }
+}
+
+//вызов окна для создания новой заметки по нажатию плавающей кнопки
+class FloatButton extends StatelessWidget {
+  const FloatButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      child: const Icon(
+        Icons.add,
+        size: 40,
+      ),
+      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      onPressed: () => Navigator.of(context)
+          .pushNamed(EditWineScreen.routName, arguments: null),
+    );
   }
 }

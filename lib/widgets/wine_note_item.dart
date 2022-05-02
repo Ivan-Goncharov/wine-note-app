@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/screens/wine_full_descrip_screen.dart';
 
+import '../screens/wine_full_descrip_screen.dart';
 import '../models/wine_item.dart';
 
 //виджет для отображения одного элемента в списке вин

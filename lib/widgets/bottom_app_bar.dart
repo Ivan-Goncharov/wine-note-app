@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../screens/edit_screens/edit_wine_screen.dart';
-
 //навигационный бар
 class CustomBottomNavigation extends StatefulWidget {
   //принимает индекс выбранной вкладки и функцию для изменения вкладки

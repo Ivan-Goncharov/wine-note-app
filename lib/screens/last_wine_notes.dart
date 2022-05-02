@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_list_provider.dart';
-import 'package:flutter_my_wine_app/widgets/system_widget/app_bar.dart';
-import 'package:flutter_my_wine_app/widgets/wine_note_item.dart';
 import 'package:provider/provider.dart';
+
+import '../../models/wine_list_provider.dart';
+import '../widgets/system_widget/app_bar.dart';
+import '../widgets/wine_note_item.dart';
 
 //Экран для вывода последних 10 записей
 class LastWineNote extends StatefulWidget {

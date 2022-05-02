@@ -9,11 +9,75 @@ class DetailedExpanded extends StatelessWidget {
 
   const DetailedExpanded(this.wineNote, {Key? key}) : super(key: key);
 
-// виджет - для одного элемента column с информацией
-  Widget rowItemWidget(IconData icon, String? info, BuildContext ctx) {
-    if (info!.isNotEmpty) {
+  @override
+  Widget build(BuildContext context) {
+    //выводим поочередно факты о вине
+    return Expanded(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(6),
+        child: Column(
+          children: [
+            // название вина
+            ItemColumnInfo(info: wineNote.name, icon: Icons.wine_bar),
+
+            // производитель
+            ItemColumnInfo(
+                info: wineNote.manufacturer, icon: MyCustomIcons.manufacturer),
+
+            // сорт
+            ItemColumnInfo(
+                info: wineNote.grapeVariety, icon: MyCustomIcons.grape),
+
+            // год
+            ItemColumnInfo(
+              info: '${wineNote.year?.year ?? DateTime.now().year} г.',
+              icon: MyCustomIcons.calendar,
+            ),
+
+            // Страна
+            ItemColumnInfo(info: wineNote.country, icon: MyCustomIcons.flag),
+
+            // регион
+            ItemColumnInfo(info: wineNote.region, icon: Icons.map_outlined),
+
+            // цвет вина
+            ItemColumnInfo(info: wineNote.wineColors, icon: Icons.color_lens),
+
+            // аромат
+            ItemColumnInfo(info: wineNote.aroma, icon: MyCustomIcons.aroma),
+
+            // вкус
+            ItemColumnInfo(info: wineNote.taste, icon: MyCustomIcons.taste),
+
+            // комментарий
+            ItemColumnInfo(
+              info: wineNote.comment,
+              icon: Icons.comment_outlined,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//виджет для вывода одного свойства заметки
+class ItemColumnInfo extends StatelessWidget {
+  //информация, заполненная пользователем
+  final String info;
+
+  //иконка свойства
+  final IconData icon;
+  const ItemColumnInfo({Key? key, required this.info, required this.icon})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    //проверяем, заполнено ли свойство
+    //если да, то выводим иконоку и информацию
+    if (info.isNotEmpty) {
       return Card(
-        color: Theme.of(ctx).colorScheme.primaryContainer,
+        color: Theme.of(context).colorScheme.primaryContainer,
         elevation: 6,
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -34,7 +98,7 @@ class DetailedExpanded extends StatelessWidget {
                     ),
                   ),
 
-                  //название
+                  //информаця
                   SizedBox(
                     width: constraints.maxWidth * 0.9 - 5,
                     child: Text(
@@ -53,44 +117,10 @@ class DetailedExpanded extends StatelessWidget {
           ),
         ),
       );
+
+      //если информация не заполнена, то ничего не выводим
     } else {
       return const SizedBox.shrink();
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    //выводим поочередно факты о вине
-    return Expanded(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(6),
-        child: Column(
-          children: [
-            // название вина
-            rowItemWidget(Icons.wine_bar, wineNote.name, context),
-            // производитель
-            rowItemWidget(
-                MyCustomIcons.manufacturer, wineNote.manufacturer, context),
-            // сорт
-            rowItemWidget(MyCustomIcons.grape, wineNote.grapeVariety, context),
-            // год
-            rowItemWidget(
-                MyCustomIcons.calendar, '${wineNote.year!.year}.г', context),
-            // Страна
-            rowItemWidget(MyCustomIcons.flag, wineNote.country, context),
-            // регион
-            rowItemWidget(Icons.map_outlined, wineNote.region, context),
-            // цвет вина
-            rowItemWidget(Icons.color_lens, wineNote.wineColors, context),
-            // аромат
-            rowItemWidget(MyCustomIcons.aroma, wineNote.aroma, context),
-            // вкус
-            rowItemWidget(MyCustomIcons.taste, wineNote.taste, context),
-            // комментарий
-            rowItemWidget(Icons.comment_outlined, wineNote.comment, context),
-          ],
-        ),
-      ),
-    );
   }
 }

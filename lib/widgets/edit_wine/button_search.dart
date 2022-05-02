@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+//виджет двух кнопок, который вызывается, если подсказка по вводу не помогла пользователю
 class ButtonsInSearch extends StatelessWidget {
+  //информация, которую надо передать на предыдущий экран
   final dynamic saveInfo;
   const ButtonsInSearch({
     Key? key,

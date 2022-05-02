@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 import 'button_container.dart';
@@ -8,17 +10,17 @@ class WineYear extends StatefulWidget {
   //и функцию, которая меняет дату в замтеке
   DateTime? currentWineYear;
   final Function changeDateNote;
-  WineYear(
-      {Key? key, required this.currentWineYear, required this.changeDateNote})
-      : super(key: key);
+  WineYear({
+    Key? key,
+    required this.currentWineYear,
+    required this.changeDateNote,
+  }) : super(key: key);
 
   @override
   State<WineYear> createState() => _WineYearState();
 }
 
 class _WineYearState extends State<WineYear> {
-  // late DateTime currentWineYear;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/widgets/system_widget/app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../models/wine_list_provider.dart';
 import '../screens/edit_screens/edit_wine_screen.dart';
 import '../screens/tabs_screen.dart';
 import '../widgets/detailed_expanded_notes.dart';
+import '../widgets/system_widget/app_bar.dart';
 
 //Экран для полного описания вина
 class WineFullDescripScreen extends StatefulWidget {
@@ -40,7 +40,7 @@ class _WineFullDescripScreenState extends State<WineFullDescripScreen> {
               showDialog(
                 context: context,
                 builder: (context) {
-                  return dialogCreate(context, wineNote.id!);
+                  return DeleteDialog(id: wineNote.id!);
                 },
               );
             },
@@ -70,7 +70,6 @@ class _WineFullDescripScreenState extends State<WineFullDescripScreen> {
         children: [
           //выводим изображение вина
           Container(
-            // color: _,
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
@@ -100,10 +99,16 @@ class _WineFullDescripScreenState extends State<WineFullDescripScreen> {
       ),
     );
   }
+}
 
-  //метод для создания диалога, который подтверждает удаление заметки
-  //принимаем context и id удаляемой заметки
-  Widget dialogCreate(BuildContext context, String id) {
+//виджет диалога, который подтверждает удаление заметки
+//принимаем  id удаляемой заметки
+class DeleteDialog extends StatelessWidget {
+  final String id;
+  const DeleteDialog({Key? key, required this.id}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Удаление заметки'),
       content: const Text('Желаете удалить заметку?'),

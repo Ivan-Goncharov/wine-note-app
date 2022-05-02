@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_item.dart';
 
-//виджет нижней панели с фильтрами по цвету вино в заметке
+import '../../models/wine_item.dart';
+
+//виджет нижней панели с фильтрами по цвету вина в заметке
 class ColorsBotoomsheet extends StatefulWidget {
   //принимает функцию для сохранения выбора и переменную, которая хранит выбранное значение
   final Function saveColor;

@@ -48,6 +48,7 @@ class _WineImagePickState extends State<WineImagePick> {
       //присваиваем новое значение переменной, которая хранит изображение
       setState(() => image = imageTemp);
     } on PlatformException catch (e) {
+      // ignore: avoid_print
       print('Ошибка в выборе изображения $e');
     }
   }
@@ -92,16 +93,24 @@ class _WineImagePickState extends State<WineImagePick> {
           isDismissible: true,
           context: context,
           builder: (context) {
-            return createModalBottomBody();
+            return BodyBottomSheet(
+              imagePick: imagePick,
+            );
           },
         );
       },
     );
   }
+}
 
-  //метод для создания тела в modalBottomSheet
-  //создает три кнопки: вызов камеры, вызов галери и отмена
-  Column createModalBottomBody() {
+//тело в modalBottomSheet
+//создает три кнопки: вызов камеры, вызов галери и отмена
+class BodyBottomSheet extends StatelessWidget {
+  final Function imagePick;
+  const BodyBottomSheet({Key? key, required this.imagePick}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

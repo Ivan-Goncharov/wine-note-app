@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../screens/edit_screens/manuf_name_search.dart';
 
 import 'button_container.dart';
+import '../../screens/edit_screens/manuf_name_search.dart';
 
 //виджет для ввода открытия страницы - ввода названия производителя
 class SearchManufacturer extends StatefulWidget {

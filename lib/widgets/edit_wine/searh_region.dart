@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../screens/edit_screens/search_screen.dart';
 
 import '../../string_resourses.dart';
-import '../../screens/edit_screens/search_screen.dart';
 import 'button_container.dart';
 
 //виджет для вывода кнопки выбора региона

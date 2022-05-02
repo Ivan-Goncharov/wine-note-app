@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_item.dart';
-
-import 'package:flutter_my_wine_app/models/wine_overview_provider.dart';
-import 'package:flutter_my_wine_app/screens/overview_screens/item_filter.dart';
-import 'package:flutter_my_wine_app/widgets/system_widget/custom_text_field.dart';
 import 'package:provider/provider.dart';
+
+import '../../screens/overview_screens/item_filter.dart';
+import '../../models/wine_item.dart';
+import '../../models/wine_overview_provider.dart';
+import '../../widgets/system_widget/custom_text_field.dart';
 
 //экран для вывода всех производителей вина, которые использовались в заметках
 class ManufactOverviewScreen extends StatefulWidget {
@@ -24,10 +24,6 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
   late WineOverviewProvider _provider;
   //контроллер для отслеживания ввода текста
   late TextEditingController _controller;
-  //цветовая схема
-  late ColorScheme _colorScheme;
-  //размерная сетка
-  late Size _size;
   //полученный тип экрана: производители или сорт вина
   late String _fieldType;
 
@@ -54,8 +50,6 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
   void didChangeDependencies() {
     //инициализируем данные при первом запуске
     if (!_isInit) {
-      _colorScheme = Theme.of(context).colorScheme;
-      _size = MediaQuery.of(context).size;
       //принимаем тип поиска
       _fieldType = ModalRoute.of(context)!.settings.arguments as String;
       _provider = Provider.of<WineOverviewProvider>(context, listen: true);
@@ -85,13 +79,18 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
               preferredSize: const Size(0.0, 0.0),
             )
           : AppBar(
-              title: Text(_fieldType == WineNoteFields.manufacturer
-                  ? 'Производители'
-                  : 'Сорта винограда'),
-              elevation: 0,
+              title: Text(
+                _fieldType == WineNoteFields.manufacturer
+                    ? 'Производители'
+                    : 'Сорта винограда',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              ),
               backgroundColor: Colors.transparent,
-
-              //кнопка для показа строки поиска производителя
+              foregroundColor: Theme.of(context).colorScheme.secondary,
+              elevation: 0,
               actions: [
                 IconButton(
                   onPressed: () => setState(() => _isSearch = true),
@@ -121,19 +120,19 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
                 itemCount: _provider.manufactSearch.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () => Navigator.pushNamed(
-                      context,
-                      ItemFilterNotes.routName,
-                      arguments: {
-                        'dataTitle': _provider.manufactSearch[index]['title'],
-                        'filterName': _fieldType,
-                      },
-                    ),
-                    child: itemManufactorer(
-                      _provider.manufactSearch[index]['title'],
-                      _provider.manufactSearch[index]['count'],
-                    ),
-                  );
+                      onTap: () => Navigator.pushNamed(
+                            context,
+                            ItemFilterNotes.routName,
+                            arguments: {
+                              'dataTitle': _provider.manufactSearch[index]
+                                  ['title'],
+                              'filterName': _fieldType,
+                            },
+                          ),
+                      child: ItemManufacturer(
+                        title: _provider.manufactSearch[index]['title'],
+                        count: _provider.manufactSearch[index]['count'],
+                      ));
                 },
               ),
             )
@@ -143,14 +142,37 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
     );
   }
 
-  Widget itemManufactorer(String title, int count) {
+  //метод для изменения экрана, после нажатия кнопки 'отменить' в виджете поиска
+  //скрываем поисковую строку и выводим всех производителей
+  void hideSearchBar() {
+    _provider.addAllData();
+
+    setState(() {
+      _isSearch = false;
+      _controller.clear();
+    });
+  }
+}
+
+//вывод одного производителя
+class ItemManufacturer extends StatelessWidget {
+  //название производителя
+  final String title;
+  //количество заметок
+  final int count;
+
+  const ItemManufacturer({Key? key, required this.title, required this.count})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4.0),
       padding: const EdgeInsets.all(8.0),
-      height: _size.height * 0.07,
+      height: MediaQuery.of(context).size.height * 0.07,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
-        color: _colorScheme.surfaceVariant,
+        color: Theme.of(context).colorScheme.surfaceVariant,
       ),
       child: Row(
         children: [
@@ -158,7 +180,7 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
             child: Text(
               title,
               style: TextStyle(
-                color: _colorScheme.onSurfaceVariant,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -183,16 +205,5 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
       title = '$count вин';
     }
     return title;
-  }
-
-  //метод для изменения экрана, после нажатия кнопки 'отменить' в виджете поиска
-  //скрываем поисковую строку и выводим всех производителей
-  void hideSearchBar() {
-    _provider.addAllData();
-
-    setState(() {
-      _isSearch = false;
-      _controller.clear();
-    });
   }
 }

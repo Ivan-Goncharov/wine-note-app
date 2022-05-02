@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_item.dart';
+
+import '../../models/wine_item.dart';
 
 //виджет для создания нижней панели для фильтрации вин по регионам
 class RegionBottomSheet extends StatefulWidget {

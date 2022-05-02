@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../icons/my_custom_icons.dart';
 import '../overview_screens/countries_overview.dart';
+import '../../models/wine_item.dart';
 import '../../screens/search_wine_note.dart';
 import '../../screens/overview_screens/manufacturer_screen.dart';
-import '../../models/wine_item.dart';
 import '../../widgets/system_widget/app_bar.dart';
-import '../../icons/my_custom_icons.dart';
 
 //Экран со всеми записями о вине
 class WineOverViewScreen extends StatefulWidget {
@@ -18,20 +18,6 @@ class WineOverViewScreen extends StatefulWidget {
 }
 
 class _WineOverViewScreenState extends State<WineOverViewScreen> {
-  late Size _size;
-  late ColorScheme _colorScheme;
-  bool _isInit = false;
-
-  @override
-  void didChangeDependencies() {
-    if (!_isInit) {
-      _size = MediaQuery.of(context).size;
-      _colorScheme = Theme.of(context).colorScheme;
-      _isInit = true;
-    }
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +36,7 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
           ),
         ],
       ),
-      backgroundColor: _colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Container(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -60,9 +46,9 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
             GestureDetector(
               onTap: () =>
                   Navigator.pushNamed(context, CountriesOverview.routName),
-              child: _itemColumn(
-                'Страны',
-                MyCustomIcons.flag,
+              child: const ItemColumn(
+                icon: MyCustomIcons.flag,
+                title: 'Страны',
               ),
             ),
 
@@ -73,9 +59,9 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
                 ManufactOverviewScreen.routName,
                 arguments: WineNoteFields.manufacturer,
               ),
-              child: _itemColumn(
-                'Производители',
-                MyCustomIcons.manufacturer,
+              child: const ItemColumn(
+                icon: MyCustomIcons.manufacturer,
+                title: 'Производители',
               ),
             ),
 
@@ -86,9 +72,9 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
                 ManufactOverviewScreen.routName,
                 arguments: WineNoteFields.grapeVariety,
               ),
-              child: _itemColumn(
-                'Сорта винограда',
-                MyCustomIcons.grape,
+              child: const ItemColumn(
+                icon: MyCustomIcons.grape,
+                title: 'Сорта винограда',
               ),
             ),
           ],
@@ -96,33 +82,42 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
       ),
     );
   }
+}
 
-  // метод для создания одного элемента выбора сортировки
-  // принимает название сортировки и иконку
-  Widget _itemColumn(String title, IconData icon) {
+// виджет для создания одного элемента выбора сортировки
+// принимает название сортировки и иконку
+class ItemColumn extends StatelessWidget {
+  final IconData icon;
+  final String title;
+
+  const ItemColumn({Key? key, required this.icon, required this.title})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.symmetric(vertical: 6.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
-        color: _colorScheme.secondaryContainer,
+        color: Theme.of(context).colorScheme.secondaryContainer,
       ),
       width: double.infinity,
-      height: _size.height * 0.17,
+      height: MediaQuery.of(context).size.height * 0.17,
       child: Row(
         children: [
           Icon(
             icon,
             size: 40,
-            color: _colorScheme.onSecondaryContainer,
+            color: Theme.of(context).colorScheme.onSecondaryContainer,
           ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
               title,
               style: TextStyle(
-                color: _colorScheme.onSecondaryContainer,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
