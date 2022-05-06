@@ -4,18 +4,18 @@ import 'package:provider/provider.dart';
 
 import './models/wine_list_provider.dart';
 import './models/wine_sorted_provider.dart';
-import 'models/wine_overview_provider.dart';
+import './models/wine_overview_provider.dart';
 import './screens/edit_screens/search_screen.dart';
 import './screens/edit_screens/edit_wine_screen.dart';
 import './screens/edit_screens/wine_sort.dart';
 import './screens/overview_screens/countries_overview.dart';
-import 'screens/overview_screens/item_filter.dart';
+import './screens/overview_screens/item_filter.dart';
 import './screens/search_wine_note.dart';
 import './screens/overview_screens/wine_overview_screen.dart';
-import './widgets/custom_page_route.dart';
 import './screens/edit_screens/manuf_name_search.dart';
 import './screens/tabs_screen.dart';
 import './screens/overview_screens/manufacturer_screen.dart';
+import './widgets/custom_page_route.dart';
 
 void main() {
   runApp(const MyApp());

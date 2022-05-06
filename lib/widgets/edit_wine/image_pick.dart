@@ -23,7 +23,8 @@ class _WineImagePickState extends State<WineImagePick> {
 
   @override
   void initState() {
-    if (widget.imagePath.isNotEmpty) {
+    //проверяем - было ли выбрано уже изображение и не стоит ли изображение по умолчанию
+    if (widget.imagePath.isNotEmpty && !widget.imagePath.contains('assets')) {
       image = File(widget.imagePath);
     }
     super.initState();
@@ -82,6 +83,7 @@ class _WineImagePickState extends State<WineImagePick> {
                     child: Image.file(
                       image!,
                       height: size.height * 0.32,
+                      width: size.width * 0.75,
                       fit: BoxFit.contain,
                     ),
                   ),

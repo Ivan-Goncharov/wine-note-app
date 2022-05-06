@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../models/wine_list_provider.dart';
 import '../widgets/system_widget/custom_text_field.dart';
-import '../widgets/wine_note_item.dart';
+import '../widgets/system_widget/wine_note_item.dart';
 
 //экран для поиска винных заметок
 class SearchWineNote extends StatefulWidget {
@@ -77,7 +77,10 @@ class _SearchWineNoteState extends State<SearchWineNote> {
               Expanded(
                 child: ListView.builder(
                   itemBuilder: (context, index) {
-                    return WineNoteItem(_provider.searchList[index]);
+                    return WineNoteItem(
+                      _provider.searchList[index],
+                      SearchWineNote.routName,
+                    );
                   },
                   itemCount: _provider.searchList.length,
                 ),

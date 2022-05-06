@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/screens/tabs_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/wine_list_provider.dart';
 import '../widgets/system_widget/app_bar.dart';
-import '../widgets/wine_note_item.dart';
+import '../widgets/system_widget/wine_note_item.dart';
 
 //Экран для вывода последних 10 записей
 class LastWineNote extends StatefulWidget {
@@ -53,7 +54,10 @@ class _LastWineNoteState extends State<LastWineNote> {
               : ListView.builder(
                   // возвращаем одну карту с кратким описанием заметки
                   itemBuilder: (context, index) {
-                    return WineNoteItem(_listProvider!.wineList[index]);
+                    return WineNoteItem(
+                      _listProvider!.wineList[index],
+                      TabsScreen.routName,
+                    );
                   },
 
                   // длина списка должна быть не больше 10

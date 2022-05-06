@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/widgets/system_widget/toast_message.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/wine_list_provider.dart';
@@ -12,7 +14,7 @@ import '../../widgets/edit_wine/searh_region.dart';
 import '../../widgets/edit_wine/image_pick.dart';
 import '../../widgets/edit_wine/search_manufactor.dart';
 import '../../widgets/edit_wine/search_sort.dart';
-import '../../widgets/system_widget/app_bar.dart';
+import '../tabs_screen.dart';
 
 //экран для добавления и редактирования записей о вине
 class EditWineScreen extends StatefulWidget {
@@ -46,14 +48,15 @@ class _EditWineScreenState extends State<EditWineScreen> {
   //ключ для сохранения form
   final _key = GlobalKey<FormState>();
 
-  //переменная для экрана загрузки
-  var _isLoading = false;
   //переменная для инициализации
   var _isInit = true;
 
   // ввода страны и региона
   late String _countryName;
   late String _regionName;
+
+  // тоаст
+  late FToast _fToast;
 
   //провайдер для сохранения заметки
   WineListProvider? _listProvider;
@@ -76,20 +79,19 @@ class _EditWineScreenState extends State<EditWineScreen> {
       //инициализируем переменные страны и региона, для вывода в поиске
       _countryName = _note.country;
       _regionName = _note.region;
+      _fToast = FToast();
+      _fToast.init(context);
       _isInit = false;
     }
     super.didChangeDependencies();
   }
 
   //сохраняет заметку о вине
-  Future<void> _savedNotes() async {
+  Future<void> _savedNote() async {
     //проверяем все ли обязательные пооя заполнены
     final isValid = _key.currentState!.validate();
     if (!isValid) return;
     _key.currentState!.save();
-
-    //для вывода экрана загрузки
-    setState(() => _isLoading = true);
 
     // если id != null - значит мы редактировали заметку и должны ее обновить в списке
     // иначе создаем новую заметку
@@ -98,144 +100,175 @@ class _EditWineScreenState extends State<EditWineScreen> {
 
       _note.creationDate = date;
       if (_note.id != null) {
+        //обновляем заметку и выводим соотвествующий тоаст
         _listProvider!.updateNote(_note);
+        _fToast.showToast(
+          child: const ToastMessage(
+            message: 'Заметка обновлена',
+            iconData: Icons.update_outlined,
+          ),
+        );
+        //возвращаемся на экран с обзором заметки
+        Navigator.pop(context);
       } else {
+        //создаем новую заметку
         _listProvider!.addNote(_note);
+
+        //выводим тоаст о том, что заметка создана
+        _fToast.showToast(
+          child: const ToastMessage(
+            message: 'Заметка создана',
+            iconData: Icons.check,
+          ),
+        );
+        Navigator.of(context).popUntil(
+          ModalRoute.withName(TabsScreen.routName),
+        );
       }
     }
-    setState(() => _isLoading = false);
-    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: 'Добавить заметку',
-        listOfAction: [
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () => showDialog(
+            context: context,
+            builder: (context) => EditWineDialog(
+              saveNote: _savedNote,
+            ),
+          ),
+        ),
+        title: const Text(
+          'Добавить заметку',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        foregroundColor: Theme.of(context).colorScheme.secondary,
+        elevation: 0,
+        actions: [
           IconButton(
             onPressed: () {
-              _savedNotes();
+              _savedNote();
             },
             icon: const Icon(Icons.save),
           ),
         ],
       ),
-      body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : GestureDetector(
-              onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
-              child: Container(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                width: double.infinity,
-                height: double.infinity,
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
+        child: Container(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          width: double.infinity,
+          height: double.infinity,
 
-                //используем Form для общей валидации
-                child: Form(
-                  key: _key,
-                  child: SingleChildScrollView(
-                    //при прокручивании полей убираем клавиатуру
-                    keyboardDismissBehavior:
-                        ScrollViewKeyboardDismissBehavior.onDrag,
-                    child: Column(
-                      //вызываем поочередно поля ввода данных для заметки
-                      children: [
-                        //выбор изображения для вина
-                        WineImagePick(
-                          imagePath: _note.imageUrl,
-                          function: changeImagePath,
-                        ),
-
-                        //название вина
-                        TextFieldInput(
-                          initialValue: _note.name,
-                          lableText: 'Название вина',
-                          hintText: 'Введите название вина',
-                          changeNote: (value) {
-                            _note = _note.copyWith(name: value);
-                          },
-                          fieldAction: TextInputAction.next,
-                        ),
-
-                        //Производитель вина
-                        SearchManufacturer(
-                          manufName: _note.manufacturer,
-                          changeName: changeManufactor,
-                        ),
-
-                        // указываем цвета вина
-                        DropDownColor(
-                          wineColor: _note.wineColors,
-                          saveColor: (value) {
-                            _note = _note.copyWith(wineColors: value);
-                          },
-                        ),
-
-                        // указываем год вина
-                        WineYear(
-                          currentWineYear: _note.year,
-                          changeDateNote: changeWineDate,
-                        ),
-
-                        //Страна вина
-                        SearchCountry(
-                          countryName: _countryName,
-                          func: changeNoteCountry,
-                        ),
-
-                        //Регион вина
-                        SearchRegion(
-                          regionName: _regionName,
-                          countryName: _countryName,
-                          function: changeNoteRegion,
-                        ),
-
-                        //Сорт винограда
-                        SearchGrapeSort(
-                          sortName: _note.grapeVariety,
-                          func: changeGrapeSort,
-                        ),
-
-                        //Аромат вина
-                        TextFieldInput(
-                          initialValue: _note.aroma,
-                          lableText: 'Аромат',
-                          hintText: 'Опишите аромат вина',
-                          changeNote: (value) {
-                            _note = _note.copyWith(aroma: value);
-                          },
-                          fieldAction: TextInputAction.next,
-                        ),
-
-                        //Вкус вина
-                        TextFieldInput(
-                          initialValue: _note.taste,
-                          lableText: 'Вкус',
-                          hintText: 'Опишите вкус вина',
-                          changeNote: (value) {
-                            _note = _note.copyWith(taste: value);
-                          },
-                          fieldAction: TextInputAction.next,
-                        ),
-
-                        //Комментарий по заметке
-                        TextFieldInput(
-                          initialValue: _note.comment,
-                          lableText: 'Комментарий',
-                          hintText: 'Заметки о вине',
-                          changeNote: (value) {
-                            _note = _note.copyWith(comment: value);
-                          },
-                          fieldAction: TextInputAction.done,
-                        ),
-                      ],
-                    ),
+          //используем Form для общей валидации
+          child: Form(
+            key: _key,
+            child: SingleChildScrollView(
+              //при прокручивании полей убираем клавиатуру
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: Column(
+                //вызываем поочередно поля ввода данных для заметки
+                children: [
+                  //выбор изображения для вина
+                  WineImagePick(
+                    imagePath: _note.imageUrl,
+                    function: changeImagePath,
                   ),
-                ),
+
+                  //название вина
+                  TextFieldInput(
+                    initialValue: _note.name,
+                    lableText: 'Название вина',
+                    hintText: 'Введите название вина',
+                    changeNote: (value) {
+                      _note = _note.copyWith(name: value);
+                    },
+                    fieldAction: TextInputAction.next,
+                  ),
+
+                  //Производитель вина
+                  SearchManufacturer(
+                    manufName: _note.manufacturer,
+                    changeName: changeManufactor,
+                  ),
+
+                  // указываем цвета вина
+                  DropDownColor(
+                    wineColor: _note.wineColors,
+                    saveColor: (value) {
+                      _note = _note.copyWith(wineColors: value);
+                    },
+                  ),
+
+                  // указываем год вина
+                  WineYear(
+                    currentWineYear: _note.year,
+                    changeDateNote: changeWineDate,
+                  ),
+
+                  //Страна вина
+                  SearchCountry(
+                    countryName: _countryName,
+                    func: changeNoteCountry,
+                  ),
+
+                  //Регион вина
+                  SearchRegion(
+                    regionName: _regionName,
+                    countryName: _countryName,
+                    function: changeNoteRegion,
+                  ),
+
+                  //Сорт винограда
+                  SearchGrapeSort(
+                    sortName: _note.grapeVariety,
+                    func: changeGrapeSort,
+                  ),
+
+                  //Аромат вина
+                  TextFieldInput(
+                    initialValue: _note.aroma,
+                    lableText: 'Аромат',
+                    hintText: 'Опишите аромат вина',
+                    changeNote: (value) {
+                      _note = _note.copyWith(aroma: value);
+                    },
+                    fieldAction: TextInputAction.next,
+                  ),
+
+                  //Вкус вина
+                  TextFieldInput(
+                    initialValue: _note.taste,
+                    lableText: 'Вкус',
+                    hintText: 'Опишите вкус вина',
+                    changeNote: (value) {
+                      _note = _note.copyWith(taste: value);
+                    },
+                    fieldAction: TextInputAction.next,
+                  ),
+
+                  //Комментарий по заметке
+                  TextFieldInput(
+                    initialValue: _note.comment,
+                    lableText: 'Комментарий',
+                    hintText: 'Заметки о вине',
+                    changeNote: (value) {
+                      _note = _note.copyWith(comment: value);
+                    },
+                    fieldAction: TextInputAction.done,
+                  ),
+                ],
               ),
             ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -282,5 +315,48 @@ class _EditWineScreenState extends State<EditWineScreen> {
   //метод для изменения пути изображения для вина
   void changeImagePath(String path) {
     _note = _note.copyWith(imageUrl: path);
+  }
+}
+
+class EditWineDialog extends StatelessWidget {
+  final Function saveNote;
+  const EditWineDialog({Key? key, required this.saveNote}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Выход'),
+      content: const Text('Сохранить введенные данные?'),
+      actions: [
+        //Не сохранять
+        TextButton(
+          // onPressed: () => Navigator.of(context)
+          //     .popUntil(ModalRoute.withName(TabsScreen.routName)),
+          onPressed: (() {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }),
+          child: const Text(
+            'Нет',
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+
+        //сохранять
+        TextButton(
+          onPressed: () => saveNote(),
+          child: const Text(
+            'Да',
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        )
+      ],
+    );
   }
 }

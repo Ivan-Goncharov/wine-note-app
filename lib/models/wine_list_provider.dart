@@ -42,8 +42,8 @@ class WineListProvider with ChangeNotifier {
     });
   }
 
-  //метод для добавления заметки
-  void deleteNote(String id) {
+  //метод для Удаления заметки
+  Future<void> deleteNote(String id) async {
     DBProvider.instanse.delete(id).then((value) {
       _winesList.removeWhere((note) => note.id == id);
       notifyListeners();
@@ -60,7 +60,11 @@ class WineListProvider with ChangeNotifier {
 
   //метод для поиска заметки по id
   WineItem findById(String id) {
-    return _winesList.firstWhere((note) => note.id == id);
+    try {
+      return _winesList.firstWhere((note) => note.id == id);
+    } catch (er) {
+      rethrow;
+    }
   }
 
   //метод для поиска заметок

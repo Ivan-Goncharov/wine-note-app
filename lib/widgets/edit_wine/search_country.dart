@@ -51,6 +51,7 @@ class _SearchCountryState extends State<SearchCountry> {
     }
 
     final size = MediaQuery.of(context).size;
+    //по тапу переходим на экран с вводом текста
     return GestureDetector(
       onTap: () async {
         final result = await Navigator.pushNamed(
@@ -62,16 +63,26 @@ class _SearchCountryState extends State<SearchCountry> {
             'text': _countryName
           },
         );
+
+        //ожидаем результат ввода
         if (result == null) {
           return;
-        } else if (result is List<String>) {
+        }
+
+        //если была введена страна, которой нет в базе данных,
+        //то она без флага и мы ожидаем, что вернется просто название
+        else if ((result as List)[0] is String) {
           setState(() {
             _countryName = result[0];
             widget.func(_countryName);
             _imagePath = '';
           });
-        } else {
-          final map = (result as List)[0] as Map<String, dynamic>;
+        }
+
+        //если была выбрана страна, которая есть в базе,
+        //то ожидаем получить Map с флагом и названием страны
+        else {
+          final map = (result)[0] as Map<String, dynamic>;
           setState(() {
             _countryName = map['country']!;
             widget.func(_countryName);

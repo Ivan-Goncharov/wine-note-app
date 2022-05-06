@@ -6,7 +6,7 @@ import '../../models/wine_sorted_provider.dart';
 import '../../widgets/overview_widget/notes_sorting.dart';
 import '../../widgets/system_widget/app_bar.dart';
 import '../../widgets/overview_widget/region_botsheet.dart';
-import '../../widgets/wine_note_item.dart';
+import '../../widgets/system_widget/wine_note_item.dart';
 import '../../widgets/overview_widget/colors_botsheet.dart';
 
 //экран для вывода всех заметок, связанных с одной страной/ производителем / сортом
@@ -109,7 +109,10 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
         child: ListView.builder(
           //выводим список всех заметок по стране
           itemBuilder: (context, index) {
-            return WineNoteItem(_provider.filterList[index]);
+            return WineNoteItem(
+              _provider.filterList[index],
+              ItemFilterNotes.routName,
+            );
           },
           itemCount: _provider.filterList.length,
         ),
