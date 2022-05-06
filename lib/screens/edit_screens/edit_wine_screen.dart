@@ -10,7 +10,7 @@ import '../../screens/edit_screens/drop_down_colors.dart';
 import '../../string_resourses.dart';
 import '../../widgets/edit_wine/wine_year.dart';
 import '../../widgets/edit_wine/search_country.dart';
-import '../../widgets/edit_wine/searh_region.dart';
+import '../../widgets/edit_wine/search_region.dart';
 import '../../widgets/edit_wine/image_pick.dart';
 import '../../widgets/edit_wine/search_manufactor.dart';
 import '../../widgets/edit_wine/search_sort.dart';
@@ -288,9 +288,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
     if (_note.country.isEmpty) {
       _countryName = Country.countryName(region);
       if (_countryName.isNotEmpty) {
-        setState(() {
-          _note = _note.copyWith(country: _countryName);
-        });
+        _note = _note.copyWith(country: _countryName);
       }
     }
   }

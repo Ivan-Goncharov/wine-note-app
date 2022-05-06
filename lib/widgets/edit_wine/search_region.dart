@@ -51,9 +51,9 @@ class _SearchRegionState extends State<SearchRegion> {
         //обрабатываем выбор пользователя и вызываем функцию для сохранения выбора
         if (result == null) {
           return;
-        } else if (result is List<String>) {
+        } else {
           setState(() {
-            _regionName = result[0];
+            _regionName = (result as List<dynamic>)[0];
             widget.function(_regionName);
           });
         }
