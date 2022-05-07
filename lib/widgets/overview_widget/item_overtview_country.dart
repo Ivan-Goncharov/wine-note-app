@@ -58,7 +58,7 @@ class ItemOverviewCountry extends StatelessWidget {
             //название страны
             Expanded(
               child: Text(
-                country['country'],
+                getCountryName(),
                 style: TextStyle(
                   color: colorScheme.onSurfaceVariant,
                   fontSize: 18,
@@ -95,5 +95,11 @@ class ItemOverviewCountry extends StatelessWidget {
       title = '$count вин';
     }
     return title;
+  }
+
+  String getCountryName() {
+    return (country['country'] as String).isEmpty
+        ? 'Страна не указана'
+        : country['country'];
   }
 }

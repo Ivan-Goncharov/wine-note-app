@@ -5,7 +5,7 @@ import '../../icons/my_custom_icons.dart';
 import '../overview_screens/countries_overview.dart';
 import '../../models/wine_item.dart';
 import '../../screens/search_wine_note.dart';
-import '../../screens/overview_screens/manufacturer_screen.dart';
+import 'manuf_grape_screen.dart';
 import '../../widgets/system_widget/app_bar.dart';
 
 //Экран со всеми записями о вине
@@ -57,7 +57,7 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
             GestureDetector(
               onTap: () => Navigator.pushNamed(
                 context,
-                ManufactOverviewScreen.routName,
+                ManufGrapeOverviewScreen.routName,
                 arguments: WineNoteFields.manufacturer,
               ),
               child: const ItemColumn(
@@ -70,7 +70,7 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
             GestureDetector(
               onTap: () => Navigator.pushNamed(
                 context,
-                ManufactOverviewScreen.routName,
+                ManufGrapeOverviewScreen.routName,
                 arguments: WineNoteFields.grapeVariety,
               ),
               child: const ItemColumn(

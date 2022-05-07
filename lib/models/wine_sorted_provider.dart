@@ -20,7 +20,8 @@ class WineSortProvider with ChangeNotifier {
   //метод для чтения заметок конкретного типа, принимает тип поля фильтрации
   //и данные для фильтрации
   Future<void> fetchCustomNotes(String filterName, String data) async {
-    _filterList = [];
+    _filterList.clear();
+    _regions.clear();
     try {
       await DBProvider.instanse.customReadNotes(filterName, data).then((value) {
         _allNotes = value;
@@ -39,7 +40,7 @@ class WineSortProvider with ChangeNotifier {
     for (var note in _filterList) {
       //проходимся по листу заметок и добавляем регионы, которые представлены в заметках данной страны
       //избегаем повторов
-      if (!_regions.contains(note.region)) {
+      if (!_regions.contains(note.region) && note.region.isNotEmpty) {
         _regions.add(note.region);
       }
     }

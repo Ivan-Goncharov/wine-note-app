@@ -38,115 +38,121 @@ class _RegionBottomSheetState extends State<RegionBottomSheet> {
         borderRadius: BorderRadius.circular(8.0),
         color: colorScheme.surfaceVariant,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(child: Container()),
-              //заголовок
-              Expanded(
-                child: Text(
-                  'Регионы',
-                  style: TextStyle(
-                    color: colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                  ),
-                ),
-              ),
-
-              //кнопка для сброса выбора фильтра
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    regionSelect = '';
-                    widget.saveRegion(WineNoteFields.region, regionSelect);
-                  });
-                },
-                child: Text(
-                  'Очистить',
-                  textAlign: TextAlign.end,
-                  style: TextStyle(color: colorScheme.tertiary, fontSize: 16),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: size.height * 0.29,
-            width: size.width * 0.5,
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                final itemReg = widget.regions[index];
-                return GestureDetector(
-                  onTap: () {
-                    //при нажатии на контейнер с названием региона - проверяем выбран ли уже регион
-                    //если уже выбран, то снимаем выбор
-                    if (regionSelect == itemReg) {
-                      setState(() {
-                        regionSelect = '';
-                        widget.saveRegion(WineNoteFields.region, regionSelect);
-                      });
-                    }
-
-                    // если еще не выбран, то выбираем
-                    else {
-                      setState(() {
-                        regionSelect = itemReg;
-                        widget.saveRegion(WineNoteFields.region, regionSelect);
-                        Navigator.pop(context);
-                      });
-                    }
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(8.0),
-                    height: size.height * 0.065,
-                    margin: const EdgeInsets.all(4.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-
-                      //применяем цвет рамки, взависимости от того, выбран ли фильтр или нет
-                      border: Border.all(
-                        color: itemReg == regionSelect
-                            ? colorScheme.primary
-                            : colorScheme.onSurfaceVariant,
+      child: widget.regions.isEmpty
+          ? const Text('Сортировка по регионам не доступна')
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(child: Container()),
+                    //заголовок
+                    Expanded(
+                      child: Text(
+                        'Регионы',
+                        style: TextStyle(
+                          color: colorScheme.onSurfaceVariant,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                        ),
                       ),
                     ),
-                    child: Row(
-                      children: [
-                        //название региона
-                        Expanded(
-                          child: Text(
-                            itemReg,
-                            style: TextStyle(
-                              //цвет зависит от того - выбран ли регион или нет
+
+                    //кнопка для сброса выбора фильтра
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          regionSelect = '';
+                          widget.saveRegion(
+                              WineNoteFields.region, regionSelect);
+                        });
+                      },
+                      child: Text(
+                        'Очистить',
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                            color: colorScheme.tertiary, fontSize: 16),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: size.height * 0.29,
+                  width: size.width * 0.5,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      final itemReg = widget.regions[index];
+                      return GestureDetector(
+                        onTap: () {
+                          //при нажатии на контейнер с названием региона - проверяем выбран ли уже регион
+                          //если уже выбран, то снимаем выбор
+                          if (regionSelect == itemReg) {
+                            setState(() {
+                              regionSelect = '';
+                              widget.saveRegion(
+                                  WineNoteFields.region, regionSelect);
+                            });
+                          }
+
+                          // если еще не выбран, то выбираем
+                          else {
+                            setState(() {
+                              regionSelect = itemReg;
+                              widget.saveRegion(
+                                  WineNoteFields.region, regionSelect);
+                              Navigator.pop(context);
+                            });
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8.0),
+                          height: size.height * 0.065,
+                          margin: const EdgeInsets.all(4.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+
+                            //применяем цвет рамки, взависимости от того, выбран ли фильтр или нет
+                            border: Border.all(
                               color: itemReg == regionSelect
                                   ? colorScheme.primary
                                   : colorScheme.onSurfaceVariant,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
                             ),
                           ),
-                        ),
+                          child: Row(
+                            children: [
+                              //название региона
+                              Expanded(
+                                child: Text(
+                                  itemReg,
+                                  style: TextStyle(
+                                    //цвет зависит от того - выбран ли регион или нет
+                                    color: itemReg == regionSelect
+                                        ? colorScheme.primary
+                                        : colorScheme.onSurfaceVariant,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                              ),
 
-                        //иконка галочки выводится в том случае, если фильтр выбран
-                        itemReg == regionSelect
-                            ? Icon(
-                                Icons.done,
-                                color: colorScheme.primary,
-                              )
-                            : const SizedBox(),
-                      ],
-                    ),
+                              //иконка галочки выводится в том случае, если фильтр выбран
+                              itemReg == regionSelect
+                                  ? Icon(
+                                      Icons.done,
+                                      color: colorScheme.primary,
+                                    )
+                                  : const SizedBox(),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    itemCount: widget.regions.length,
                   ),
-                );
-              },
-              itemCount: widget.regions.length,
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

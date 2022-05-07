@@ -7,15 +7,16 @@ import '../../models/wine_overview_provider.dart';
 import '../../widgets/system_widget/custom_text_field.dart';
 
 //экран для вывода всех производителей вина, которые использовались в заметках
-class ManufactOverviewScreen extends StatefulWidget {
+class ManufGrapeOverviewScreen extends StatefulWidget {
   static const routName = './manufactScreen';
-  const ManufactOverviewScreen({Key? key}) : super(key: key);
+  const ManufGrapeOverviewScreen({Key? key}) : super(key: key);
 
   @override
-  State<ManufactOverviewScreen> createState() => _ManufactOverviewScreenState();
+  State<ManufGrapeOverviewScreen> createState() =>
+      _ManufGrapeOverviewScreenState();
 }
 
-class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
+class _ManufGrapeOverviewScreenState extends State<ManufGrapeOverviewScreen> {
   //переменная для инициализации
   bool _isInit = false;
   //переменная для вывода виджета поиска
@@ -120,19 +121,22 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
                 itemCount: _provider.manufactSearch.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                      onTap: () => Navigator.pushNamed(
-                            context,
-                            ItemFilterNotes.routName,
-                            arguments: {
-                              'dataTitle': _provider.manufactSearch[index]
-                                  ['title'],
-                              'filterName': _fieldType,
-                            },
-                          ),
-                      child: ItemManufacturer(
-                        title: _provider.manufactSearch[index]['title'],
-                        count: _provider.manufactSearch[index]['count'],
-                      ));
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      ItemFilterNotes.routName,
+                      arguments: {
+                        'dataTitle': _provider.manufactSearch[index]['title'] ==
+                                WineOverviewProvider.notFoundGrape
+                            ? ''
+                            : _provider.manufactSearch[index]['title'],
+                        'filterName': _fieldType,
+                      },
+                    ),
+                    child: ItemManufacturer(
+                      title: createNameField(index),
+                      count: _provider.manufactSearch[index]['count'],
+                    ),
+                  );
                 },
               ),
             )
@@ -151,6 +155,20 @@ class _ManufactOverviewScreenState extends State<ManufactOverviewScreen> {
       _isSearch = false;
       _controller.clear();
     });
+  }
+
+  //метод для создания названия поля (производителя или сорта винограда)
+  String createNameField(int index) {
+    //получаем название поле
+    final String title = _provider.manufactSearch[index]['title'];
+
+    //проверяем с каким типом полей мы работаем
+    // и выясняем заполнил ли пользователь название производителя или сорта
+    if (_fieldType == WineNoteFields.manufacturer) {
+      return title.isEmpty ? 'Производитель не указан' : title;
+    } else {
+      return title.isEmpty ? 'Сорт не указан' : title;
+    }
   }
 }
 

@@ -8,9 +8,14 @@ class WineOverviewProvider with ChangeNotifier {
   //список всех сортов или производителей и количество вин
   final List<Map<String, dynamic>> _allData = [];
 
+  //список уже добавленных производителей
+  final List<String> _selectItem = [];
+
   //список сортов и производителей, в которых содержался введенный текст
   //данный список нужен для поиска и для подсказки ввода
   final List<Map<String, dynamic>> _searchList = [];
+
+  static const String notFoundGrape = 'Сорт не найден';
 
   //список для подсказки ввода названия производителя
   List<String> hintList = [];
@@ -45,21 +50,20 @@ class WineOverviewProvider with ChangeNotifier {
   //метод для создания списка всех производиелей в заметках
   Future<void> createAllDataList(String fieldType) async {
     _allData.clear();
+    _selectItem.clear();
+
     //получаем список всех заметок
     await DBProvider.instanse.readAllNotes().then(
       (wineList) {
-        //список уже добавленных производителей
-        final List<String> selectItem = [];
-
         //если тип поля, с которым работаем - производитель
         if (fieldType == WineNoteFields.manufacturer) {
           //заполняем список производителями вина
-          _createManufacturerList(wineList, selectItem);
+          _createManufacturerList(wineList);
         }
         // если переданный тип поля - "сорт винограда "
         // создаем список сортов винограда
         else if (fieldType == WineNoteFields.grapeVariety) {
-          _createGrapeList(wineList, selectItem);
+          _createGrapeList(wineList);
         }
       },
     );
@@ -81,54 +85,50 @@ class WineOverviewProvider with ChangeNotifier {
   }
 
   //метод, который создает список производителей
-  void _createManufacturerList(
-      List<WineItem> wineList, List<String> selectItem) {
+  void _createManufacturerList(List<WineItem> wineList) {
     //проходимся по списку заметок
     for (var note in wineList) {
       //если уже добавляли такого производителя - увеличиваем количество вин у него
-      if (selectItem.contains(note.manufacturer.toLowerCase())) {
-        //получаем индекс производителя в списке
-        final index = _allData
-            .indexWhere((element) => element['title'] == note.manufacturer);
+      if (_selectItem.contains(note.manufacturer.toLowerCase())) {
+        _increaseCount(note.manufacturer);
+      }
 
-        //увеличиваем у него количество вин
-        _allData[index]['count'] += 1;
-      } else {
-        //если нет такого производителя, то добавляем его в список
-        selectItem.add(note.manufacturer.toLowerCase());
-        //и создаем карту с производителем, указываем, что на данный момент у него 1 вино в заметках
-        _allData.add(
-          {
-            'title': note.manufacturer,
-            'count': 1,
-          },
-        );
+      //иначе создаем запись с такими данными
+      else {
+        _addOneData(note.manufacturer);
       }
     }
   }
 
   //метод, который создает список производителей
-  void _createGrapeList(List<WineItem> wineList, List<String> selectItem) {
-    //проходимся по списку заметок
+  void _createGrapeList(List<WineItem> wineList) {
+    //проходимся по списку заметок;
     for (var note in wineList) {
-      //если уже добавляли такой сорт - увеличиваем количество вин у него
-      if (selectItem.contains(note.grapeVariety)) {
-        //получаем индекс сорта винограда в списке
-        final index = _allData
-            .indexWhere((element) => element['title'] == note.manufacturer);
+      //если у заметки не указан сорт винограда, то следующая логика
+      if (note.grapeVariety.isEmpty) {
+        //если уже была запись у которой не указан пользователь
+        //то увеличиваем количество заметок
+        if (_selectItem.contains(notFoundGrape.toLowerCase())) {
+          _increaseCount(notFoundGrape);
+        }
 
-        //увеличиваем у него количество вин
-        _allData[index]['count'] += 1;
-      } else {
+        //если записи не было, то создаем запись на карте с константой "Сорт не указан"
+        else {
+          _addOneData(notFoundGrape);
+        }
+      }
+
+      //если у заметки указан сорт винограда
+      else {
+        //если уже добавляли такой сорт - увеличиваем количество вин у него
+        if (_selectItem.contains(note.grapeVariety.toLowerCase())) {
+          _increaseCount(note.grapeVariety);
+        }
+
         //если нет такого сорта, то добавляем его в список
-        selectItem.add(note.grapeVariety);
-        //и создаем карту с сортом, указываем, что на данный момент у него 1 вино в заметках
-        _allData.add(
-          {
-            'title': note.grapeVariety,
-            'count': 1,
-          },
-        );
+        else {
+          _addOneData(note.grapeVariety);
+        }
       }
     }
   }
@@ -165,5 +165,22 @@ class WineOverviewProvider with ChangeNotifier {
       list.add(manuf['title']);
     }
     return list;
+  }
+
+  //метод для увеличения количества вин у одного сорта винограда
+  void _increaseCount(String title) {
+    final index = _allData.indexWhere((element) => element['title'] == title);
+    _allData[index]['count'] += 1;
+  }
+
+  //метод для добавления сорта винограда в список данных
+  void _addOneData(String title) {
+    _selectItem.add(title.toLowerCase());
+    _allData.add(
+      {
+        'title': title,
+        'count': 1,
+      },
+    );
   }
 }
