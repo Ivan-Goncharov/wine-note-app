@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/screens/tabs_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/wine_list_provider.dart';
+import '../../screens/tabs_screen.dart';
 import '../widgets/system_widget/app_bar.dart';
 import '../widgets/system_widget/wine_note_item.dart';
+import '../widgets/system_widget/null_notes_message.dart';
 
 //Экран для вывода последних 10 записей
 class LastWineNote extends StatefulWidget {
@@ -48,9 +49,7 @@ class _LastWineNoteState extends State<LastWineNote> {
 
           //выводим заметки на экран, если список пуст, то выводим сообщение
           child: _listProvider!.wineList.isEmpty
-              ? const Center(
-                  child: Text('Вы не добавили ни одной заметки'),
-                )
+              ? const NullNotesMessage()
               : ListView.builder(
                   // возвращаем одну карту с кратким описанием заметки
                   itemBuilder: (context, index) {

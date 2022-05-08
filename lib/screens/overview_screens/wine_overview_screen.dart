@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/widgets/system_widget/toast_message.dart';
+import 'package:provider/provider.dart';
 
-import '../../icons/my_custom_icons.dart';
-import '../overview_screens/countries_overview.dart';
-import '../../models/wine_item.dart';
-import '../../screens/search_wine_note.dart';
 import 'manuf_grape_screen.dart';
+import '../overview_screens/countries_overview.dart';
+import '../../icons/my_custom_icons.dart';
+import '../../models/wine_item.dart';
+import '../../models/wine_list_provider.dart';
+import '../../screens/search_wine_note.dart';
 import '../../widgets/system_widget/app_bar.dart';
+import '../../widgets/system_widget/null_notes_message.dart';
 
 //Экран со всеми записями о вине
 class WineOverViewScreen extends StatefulWidget {
@@ -40,46 +42,48 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Container(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            // кнопка со страной, по тапу - переходим на экран со всеми странами,
-            // которые представлены в заметках
-            GestureDetector(
-              onTap: () =>
-                  Navigator.pushNamed(context, CountriesOverview.routName),
-              child: const ItemColumn(
-                icon: MyCustomIcons.flag,
-                title: 'Страны',
-              ),
-            ),
+        child: Provider.of<WineListProvider>(context).wineList.isEmpty
+            ? const NullNotesMessage()
+            : Column(
+                children: [
+                  // кнопка со страной, по тапу - переходим на экран со всеми странами,
+                  // которые представлены в заметках
+                  GestureDetector(
+                    onTap: () => Navigator.pushNamed(
+                        context, CountriesOverview.routName),
+                    child: const ItemColumn(
+                      icon: MyCustomIcons.flag,
+                      title: 'Страны',
+                    ),
+                  ),
 
-            //кнопка для перехода на экран с производителями
-            GestureDetector(
-              onTap: () => Navigator.pushNamed(
-                context,
-                ManufGrapeOverviewScreen.routName,
-                arguments: WineNoteFields.manufacturer,
-              ),
-              child: const ItemColumn(
-                icon: MyCustomIcons.manufacturer,
-                title: 'Производители',
-              ),
-            ),
+                  //кнопка для перехода на экран с производителями
+                  GestureDetector(
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      ManufGrapeOverviewScreen.routName,
+                      arguments: WineNoteFields.manufacturer,
+                    ),
+                    child: const ItemColumn(
+                      icon: MyCustomIcons.manufacturer,
+                      title: 'Производители',
+                    ),
+                  ),
 
-            //кнопка для перехода на экран с производителями
-            GestureDetector(
-              onTap: () => Navigator.pushNamed(
-                context,
-                ManufGrapeOverviewScreen.routName,
-                arguments: WineNoteFields.grapeVariety,
+                  //кнопка для перехода на экран с производителями
+                  GestureDetector(
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      ManufGrapeOverviewScreen.routName,
+                      arguments: WineNoteFields.grapeVariety,
+                    ),
+                    child: const ItemColumn(
+                      icon: MyCustomIcons.grape,
+                      title: 'Сорта винограда',
+                    ),
+                  ),
+                ],
               ),
-              child: const ItemColumn(
-                icon: MyCustomIcons.grape,
-                title: 'Сорта винограда',
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

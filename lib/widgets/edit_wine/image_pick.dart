@@ -21,10 +21,16 @@ class _WineImagePickState extends State<WineImagePick> {
 //переменная для хранения выбранного изображения
   File? image;
 
+  //путь, который сохранен в заметке на данный момент
+  //нам нужна эта переменная для отслеживания,
+  //не поставлено ли системное изображение по умолчанию
+  late String _imagePath;
+
   @override
   void initState() {
+    _imagePath = widget.imagePath;
     //проверяем - было ли выбрано уже изображение и не стоит ли изображение по умолчанию
-    if (widget.imagePath.isNotEmpty && !widget.imagePath.contains('assets')) {
+    if (_imagePath.isNotEmpty && !_imagePath.contains('assets')) {
       image = File(widget.imagePath);
     }
     super.initState();
@@ -47,7 +53,10 @@ class _WineImagePickState extends State<WineImagePick> {
       final imageTemp = File(imageGalerry.path);
 
       //присваиваем новое значение переменной, которая хранит изображение
-      setState(() => image = imageTemp);
+      setState(() {
+        image = imageTemp;
+        _imagePath = imageGalerry.path;
+      });
     } on PlatformException catch (e) {
       // ignore: avoid_print
       print('Ошибка в выборе изображения $e');
@@ -73,20 +82,42 @@ class _WineImagePickState extends State<WineImagePick> {
 
         //если изображение выбрано,
         //то выводим его, если нет, то иконку
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            image == null
-                ? const Icon(Icons.image, size: 120)
-                : ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.file(
-                      image!,
-                      height: size.height * 0.32,
-                      width: size.width * 0.75,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+            Center(
+              child:
+                  //если путь пустой, то выводим на экран иконку выбора изображения
+                  _imagePath.isEmpty
+                      ? const Icon(Icons.image, size: 120)
+                      : _imagePath.contains('assets')
+                          ? Image(
+                              image: AssetImage(
+                                _imagePath,
+                              ),
+                              width: MediaQuery.of(context).size.height * 0.2,
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.file(
+                                image!,
+                                height: size.height * 0.32,
+                                width: size.width * 0.75,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+            ),
+            Positioned(
+              top: 215,
+              left: 260,
+              child: CircleAvatar(
+                radius: 20,
+                child: Icon(
+                  Icons.create,
+                  color: colorScheme.inverseSurface,
+                ),
+                backgroundColor: colorScheme.onInverseSurface,
+              ),
+            ),
           ],
         ),
       ),

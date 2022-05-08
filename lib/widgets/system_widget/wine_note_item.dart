@@ -25,9 +25,9 @@ class WineNoteItem extends StatelessWidget {
 
     //тэг для анимированного перехода на экран с описанием заметки
     final heroTag = '${wineNote.id} ${DateTime.now().toIso8601String()}';
-    if (wineNote.imageUrl.isEmpty) {
-      wineNote.imageUrl = wineNote.changeImage();
-    }
+    // if (wineNote.imageUrl.isEmpty) {
+    //   wineNote.imageUrl = wineNote.changeImage();
+    // }
 
     //карточка со слайдом влево для удаления заметки
     return Dismissible(

@@ -119,19 +119,19 @@ class WineItem with ChangeNotifier {
   String changeImage() {
     switch (wineColors) {
       case 'Белое':
-        return 'assets/images/white_wine.jpg';
+        return 'assets/images/white_wine.png';
 
       case 'Красное':
-        return 'assets/images/red_wine.jpg';
+        return 'assets/images/red_wine.png';
 
       case 'Оранжевое':
-        return 'assets/images/orange_wine.jpg';
+        return 'assets/images/orange_wine.png';
 
       case 'Розовое':
-        return 'assets/images/rose_wine.jpg';
+        return 'assets/images/rose_wine.png';
 
       default:
-        return '';
+        return 'assets/images/not_fount_color.png';
     }
   }
 }

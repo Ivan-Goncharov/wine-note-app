@@ -37,7 +37,7 @@ class WineNoteItemDetail extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
               child: Hero(
                 tag: heroTag,
-                child: wineNote.imageUrl.contains('asset')
+                child: wineNote.imageUrl.contains('assets')
                     ? Image.asset(
                         wineNote.imageUrl,
                       )
@@ -131,17 +131,20 @@ class WineNoteItemDetail extends StatelessWidget {
           ),
 
           //цвет вина в виде круга с соотвествующим цветом
-          Container(
-            width: size.width * 0.09,
-            decoration: BoxDecoration(
-              color: getColor(wineNote.wineColors),
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: colors.onSecondaryContainer,
-                width: 0.7,
-              ),
-            ),
-          ),
+          //проверяем - указал ли пользователь цвет
+          wineNote.wineColors.isEmpty
+              ? const SizedBox()
+              : Container(
+                  width: size.width * 0.09,
+                  decoration: BoxDecoration(
+                    color: getColor(wineNote.wineColors),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: colors.onSecondaryContainer,
+                      width: 0.7,
+                    ),
+                  ),
+                ),
         ],
       ),
     );

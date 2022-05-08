@@ -100,6 +100,10 @@ class _EditWineScreenState extends State<EditWineScreen> {
 
       _note.creationDate = date;
       if (_note.id != null) {
+        //если не присвоили изображение, то присваиваем дефолтное
+        if (_note.imageUrl.isEmpty) {
+          _note = _note.copyWith(imageUrl: 'assets/images/not_fount_color.png');
+        }
         //обновляем заметку и выводим соотвествующий тоаст
         _listProvider!.updateNote(_note);
         _fToast.showToast(
@@ -178,7 +182,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
                   //выбор изображения для вина
                   WineImagePick(
                     imagePath: _note.imageUrl,
-                    function: changeImagePath,
+                    function: _changeImagePath,
                   ),
 
                   //название вина
@@ -195,40 +199,38 @@ class _EditWineScreenState extends State<EditWineScreen> {
                   //Производитель вина
                   SearchManufacturer(
                     manufName: _note.manufacturer,
-                    changeName: changeManufactor,
+                    changeName: _changeManufactor,
                   ),
 
                   // указываем цвета вина
                   DropDownColor(
                     wineColor: _note.wineColors,
-                    saveColor: (value) {
-                      _note = _note.copyWith(wineColors: value);
-                    },
+                    saveColor: _changeWineColor,
                   ),
 
                   // указываем год вина
                   WineYear(
                     currentWineYear: _note.year,
-                    changeDateNote: changeWineDate,
+                    changeDateNote: _changeWineDate,
                   ),
 
                   //Страна вина
                   SearchCountry(
                     countryName: _countryName,
-                    func: changeNoteCountry,
+                    func: _changeNoteCountry,
                   ),
 
                   //Регион вина
                   SearchRegion(
                     regionName: _regionName,
                     countryName: _countryName,
-                    function: changeNoteRegion,
+                    function: _changeNoteRegion,
                   ),
 
                   //Сорт винограда
                   SearchGrapeSort(
                     sortName: _note.grapeVariety,
-                    func: changeGrapeSort,
+                    func: _changeGrapeSort,
                   ),
 
                   //Аромат вина
@@ -273,7 +275,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
   }
 
   //метод для изменеия страны в заметке
-  void changeNoteCountry(String name) {
+  void _changeNoteCountry(String name) {
     setState(() {
       _note = _note.copyWith(country: name, region: '');
       _countryName = name;
@@ -282,7 +284,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
   }
 
   //метод для изменения региона в заметке
-  void changeNoteRegion(String region) {
+  void _changeNoteRegion(String region) {
     _note = _note.copyWith(region: region);
     setState(() => _regionName = region);
     if (_note.country.isEmpty) {
@@ -294,25 +296,34 @@ class _EditWineScreenState extends State<EditWineScreen> {
   }
 
   //метод для изменения названия производителя
-  void changeManufactor(String newData) {
+  void _changeManufactor(String newData) {
     setState(() {
       _note = _note.copyWith(manufacturer: newData);
     });
   }
 
   //метод для изменения даты в заметке
-  void changeWineDate(DateTime newDate) {
+  void _changeWineDate(DateTime newDate) {
     _note = _note.copyWith(year: newDate);
   }
 
   //метод для изменения списка сортов винограда
-  void changeGrapeSort(String grapeName) {
+  void _changeGrapeSort(String grapeName) {
     _note = _note.copyWith(grapeVariety: grapeName);
   }
 
   //метод для изменения пути изображения для вина
-  void changeImagePath(String path) {
+  void _changeImagePath(String path) {
     _note = _note.copyWith(imageUrl: path);
+  }
+
+  //метод для изменения цвета винограда
+  //метод также меняет изображение, если оно не выбрано
+  void _changeWineColor(String color) {
+    _note = _note.copyWith(wineColors: color);
+    if (_note.imageUrl.isEmpty || _note.imageUrl.contains('assets')) {
+      _changeImagePath(_note.changeImage());
+    }
   }
 }
 
