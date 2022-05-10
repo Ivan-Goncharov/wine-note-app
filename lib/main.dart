@@ -10,8 +10,6 @@ import './screens/edit_screens/edit_wine_screen.dart';
 import './screens/edit_screens/wine_sort.dart';
 import './screens/overview_screens/countries_overview.dart';
 import './screens/overview_screens/item_filter.dart';
-import './screens/search_wine_note.dart';
-import './screens/overview_screens/wine_overview_screen.dart';
 import './screens/edit_screens/manuf_name_search.dart';
 import './screens/tabs_screen.dart';
 import 'screens/overview_screens/manuf_grape_screen.dart';
@@ -50,12 +48,6 @@ class _MyAppState extends State<MyApp> {
                 settings: settings,
               );
 
-            case WineOverViewScreen.routNamed:
-              return MaterialPageRoute(
-                builder: (context) => const WineOverViewScreen(),
-                settings: settings,
-              );
-
             case EditWineScreen.routName:
               return MaterialPageRoute(
                 builder: (context) => const EditWineScreen(),
@@ -71,12 +63,6 @@ class _MyAppState extends State<MyApp> {
             case WineSortScreen.routName:
               return CustomPageRoute(
                 child: const WineSortScreen(),
-                settings: settings,
-              );
-
-            case SearchWineNote.routName:
-              return CustomPageRoute(
-                child: const SearchWineNote(),
                 settings: settings,
               );
 

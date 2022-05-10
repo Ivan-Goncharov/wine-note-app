@@ -5,10 +5,16 @@ import '../models/wine_list_provider.dart';
 import '../widgets/system_widget/custom_text_field.dart';
 import '../widgets/system_widget/wine_note_item.dart';
 
-//экран для поиска винных заметок
+//виджет для поиска винных заметок
 class SearchWineNote extends StatefulWidget {
   static const routName = './searchWineNote';
-  const SearchWineNote({Key? key}) : super(key: key);
+
+  //принимаем функцию, которая будет вызываться при нажатии кнопки 'отмена'
+  final Function function;
+  const SearchWineNote({
+    Key? key,
+    required this.function,
+  }) : super(key: key);
 
   @override
   State<SearchWineNote> createState() => _SearchWineNoteState();
@@ -17,6 +23,7 @@ class SearchWineNote extends StatefulWidget {
 class _SearchWineNoteState extends State<SearchWineNote> {
   //контроллер
   late TextEditingController _controller;
+
   bool _isInit = false;
   late WineListProvider _provider;
 
@@ -53,41 +60,41 @@ class _SearchWineNoteState extends State<SearchWineNote> {
 
   @override
   void dispose() {
+    //очищаем список заметок (вызывая метод без notifyListener)
+    _provider.clearDisposeList();
     _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              //поле для ввода текста для поиска
-              CustomTextField(
-                textHint: 'Поиск',
-                prefixIcon: const Icon(Icons.search),
-                controller: _controller,
-                isBack: true,
-              ),
-
-              //выводим список найденных записей
-              Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return WineNoteItem(
-                      _provider.searchList[index],
-                      SearchWineNote.routName,
-                    );
-                  },
-                  itemCount: _provider.searchList.length,
-                ),
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          //поле для ввода текста для поиска
+          CustomTextField(
+            textHint: 'Поиск',
+            prefixIcon: const Icon(Icons.search),
+            controller: _controller,
+            // isBack: true,
+            isBack: false,
+            function: widget.function,
           ),
-        ),
+
+          //выводим список найденных записей
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return WineNoteItem(
+                  _provider.searchList[index],
+                  isCanDelete: false,
+                );
+              },
+              itemCount: _provider.searchList.length,
+            ),
+          ),
+        ],
       ),
     );
   }

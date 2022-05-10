@@ -17,10 +17,23 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   //список экранов для навигации по вкладкам
-  final _pages = <Widget>[
-    const LastWineNote(),
-    const WineOverViewScreen(),
-  ];
+  late final List<Widget> _pages;
+  bool _isHide = false;
+
+  void _changeHide(bool flag) {
+    setState(() {
+      _isHide = flag;
+    });
+  }
+
+  @override
+  void initState() {
+    _pages = <Widget>[
+      const LastWineNote(),
+      WineOverViewScreen(hideBottomBar: _changeHide),
+    ];
+    super.initState();
+  }
 
   //переменная для отслеживания текущего индекса экрана в списке
   int _currentSelectIndex = 0;
@@ -34,13 +47,15 @@ class _TabsScreenState extends State<TabsScreen> {
       backgroundColor: Theme.of(context).colorScheme.background,
 
       //навигационный бар, передаем текущий индекс и функцию для изменения индекса
-      bottomNavigationBar: CustomBottomNavigation(
-        index: _currentSelectIndex,
-        onChangedTab: onChangeTab,
-      ),
+      bottomNavigationBar: _isHide
+          ? const SizedBox()
+          : CustomBottomNavigation(
+              index: _currentSelectIndex,
+              onChangedTab: onChangeTab,
+            ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: const FloatButton(),
+      floatingActionButton: _isHide ? const SizedBox() : const FloatButton(),
     );
   }
 

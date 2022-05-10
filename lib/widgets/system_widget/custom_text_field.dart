@@ -61,6 +61,7 @@ class CustomTextField extends StatelessWidget {
         TextButton(
           onPressed: () {
             if (isBack) {
+              FocusManager.instance.primaryFocus?.unfocus();
               Navigator.pop(context);
             } else {
               function!();

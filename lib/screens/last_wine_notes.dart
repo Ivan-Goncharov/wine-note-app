@@ -55,7 +55,6 @@ class _LastWineNoteState extends State<LastWineNote> {
                   itemBuilder: (context, index) {
                     return WineNoteItem(
                       _listProvider!.wineList[index],
-                      TabsScreen.routName,
                     );
                   },
 

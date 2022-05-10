@@ -26,9 +26,9 @@ class WineSortProvider with ChangeNotifier {
       await DBProvider.instanse.customReadNotes(filterName, data).then((value) {
         _allNotes = value;
         _filterList.addAll(_allNotes);
-        notifyListeners();
         createRegionList();
       });
+      // notifyListeners();/
     } catch (e) {
       // ignore: avoid_print
       print(e);
@@ -97,6 +97,10 @@ class WineSortProvider with ChangeNotifier {
       default:
         _filterList.shuffle();
     }
+    notifyListeners();
+  }
+
+  void checkDelete() {
     notifyListeners();
   }
 }

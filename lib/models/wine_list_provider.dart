@@ -10,11 +10,18 @@ class WineListProvider with ChangeNotifier {
   List<WineItem> get wineList => _winesList;
 
   //список, который будет заполняться при поиске заметок
-  List<WineItem> _searchList = [];
+  final List<WineItem> _searchList = [];
+
   //метод для очистки листа с найденными заметками
   void clearList() {
-    _searchList = [];
+    _searchList.clear();
     notifyListeners();
+  }
+
+  //метод для очистки листа с найденными заметками
+  // без уведомления о том, что необходимо перестариваться
+  void clearDisposeList() {
+    _searchList.clear();
   }
 
   List<WineItem> get searchList => _searchList;
@@ -44,10 +51,13 @@ class WineListProvider with ChangeNotifier {
 
   //метод для Удаления заметки
   Future<void> deleteNote(String id) async {
+    debugPrint('deb: мы тут');
     DBProvider.instanse.delete(id).then((value) {
       _winesList.removeWhere((note) => note.id == id);
       notifyListeners();
     });
+
+    debugPrint('deb: ${_winesList.length}');
   }
 
   void updateNote(WineItem note) {

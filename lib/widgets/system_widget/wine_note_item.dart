@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/models/wine_sorted_provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
@@ -12,11 +13,10 @@ import '../../widgets/system_widget/toast_message.dart';
 class WineNoteItem extends StatelessWidget {
   //принимаем через конструктор нашу заметку о вине
   final WineItem wineNote;
-  // путь для возврата, после удаления заметки
-  final String routName;
 
-  const WineNoteItem(this.wineNote, this.routName, {Key? key})
-      : super(key: key);
+  bool? isCanDelete;
+
+  WineNoteItem(this.wineNote, {Key? key, this.isCanDelete}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,22 +25,25 @@ class WineNoteItem extends StatelessWidget {
 
     //тэг для анимированного перехода на экран с описанием заметки
     final heroTag = '${wineNote.id} ${DateTime.now().toIso8601String()}';
-    // if (wineNote.imageUrl.isEmpty) {
-    //   wineNote.imageUrl = wineNote.changeImage();
-    // }
 
     //карточка со слайдом влево для удаления заметки
     return Dismissible(
       key: UniqueKey(),
-      direction: DismissDirection.endToStart,
+      direction: isCanDelete == null
+          ? DismissDirection.endToStart
+          : DismissDirection.none,
       background: const ErrorContainer(),
 
       //если пользователь выбирает в диалоге удаление элемента,
       //то удаляем заметку и показываем соотвествующее сообщение
       onDismissed: (_) {
-        Provider.of<WineListProvider>(context, listen: false).deleteNote(
-          wineNote.id!,
-        );
+        Provider.of<WineListProvider>(context, listen: false)
+            .deleteNote(
+              wineNote.id!,
+            )
+            .then((_) => Provider.of<WineSortProvider>(context, listen: false)
+                .checkDelete());
+
         fToast.showToast(
           child: const ToastMessage(
               message: 'Заметка удалена', iconData: Icons.delete),
@@ -79,7 +82,6 @@ class WineNoteItem extends StatelessWidget {
           PageRouteBuilder(
             pageBuilder: ((context, animation, secondaryAnimation) {
               return WineFullDescripScreen(
-                deleteRoutName: routName,
                 heroTag: heroTag,
                 wineNoteId: wineNote.id!,
               );

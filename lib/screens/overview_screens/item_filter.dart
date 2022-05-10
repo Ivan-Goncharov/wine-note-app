@@ -24,6 +24,14 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
   // переменная для отслеживания - инициализированны данные или нет
   bool _isInit = false;
 
+  // переменная для загрузочного экрана
+  bool _isLoading = false;
+
+  //переменная для отслеживания, по какой причине пустой экран заметок
+  //если true - значит неудачный фильтр вин
+  //если false - значит удалили последнюю заметку в списке
+  bool _isFilter = false;
+
   //название
   String _dataTitle = '';
   //поле для фильтрации записей
@@ -46,10 +54,18 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
       _filterName = arguments['filterName']!;
 
       //запускаем метод с поиском всех заметок связынных с этим полем фильтрации
-      _provider.fetchCustomNotes(_filterName, _dataTitle);
+      // _provider.fetchCustomNotes(_filterName, _dataTitle);
       //отмечаем, что инициализация проведена
       _isInit = true;
     }
+
+    if (!_isFilter) {
+      setState(() => _isLoading = true);
+      _provider
+          .fetchCustomNotes(_filterName, _dataTitle)
+          .then((_) => setState(() => _isLoading = false));
+    }
+
     super.didChangeDependencies();
   }
 
@@ -85,27 +101,45 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
 
-        //проверяем, не пустой ли список после фильтрации
-        child: _provider.filterList.isEmpty
+              //проверяем, не пустой ли список после фильтрации
+              child: _provider.filterList.isEmpty
+                  //проверяем по какой причине - пустой список
+                  ? _isFilter
 
-            //если пустой, то выводим соощение с ошибкой фильтрации
-            ? UnsuccessfulFilter(clearFilter: _changeData)
+                      //если список пустой по причине - отсутсвия вина из-за неправильного фильтра
+                      ? UnsuccessfulFilter(
+                          tapFunction: _changeData,
+                          buttonName: 'Сбросить',
+                          title: 'Нет заметок с данным цветом вина',
+                        )
 
-            //если заметки есть, то выводим их
-            : ListView.builder(
-                //выводим список всех заметок по стране
-                itemBuilder: (context, index) {
-                  return WineNoteItem(
-                    _provider.filterList[index],
-                    ItemFilterNotes.routName,
-                  );
-                },
-                itemCount: _provider.filterList.length,
-              ),
-      ),
+                      //если список пустой из-за удаления последней заметки
+                      : UnsuccessfulFilter(
+                          tapFunction: (String a, String b) {
+                            Navigator.pop(context);
+                          },
+                          buttonName: 'Назад',
+                          title: 'Список заметок пуст',
+                        )
+
+                  //если заметки есть, то выводим их
+                  : ListView.builder(
+                      //выводим список всех заметок по стране
+                      itemBuilder: (context, index) {
+                        return WineNoteItem(
+                          _provider.filterList[index],
+                        );
+                      },
+                      itemCount: _provider.filterList.length,
+                    ),
+            ),
 
       // кнопка для сортировки
     );
@@ -119,11 +153,13 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
     //если фильтр не выбрае, то выводим все заметки по стране
     if (_selectData.isEmpty) {
       _provider.clearFilter();
+      _isFilter = false;
     }
 
     //если выбран, то применяем фильтр к заметкам
     else {
       _provider.selectFilter(filterName: filterName, data: _selectData);
+      _isFilter = true;
     }
   }
 
@@ -137,8 +173,18 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
 
 //сообщение об ошибке фильтрации
 class UnsuccessfulFilter extends StatelessWidget {
-  final Function clearFilter;
-  const UnsuccessfulFilter({Key? key, required this.clearFilter})
+  //функция, которая вызывается при нажатии на кнопку
+  final Function tapFunction;
+  //название кнопки
+  final String buttonName;
+  //заголовок
+  final String title;
+
+  const UnsuccessfulFilter(
+      {Key? key,
+      required this.tapFunction,
+      required this.buttonName,
+      required this.title})
       : super(key: key);
 
   @override
@@ -162,7 +208,7 @@ class UnsuccessfulFilter extends StatelessWidget {
 
             //сообщение
             Text(
-              'Нет заметок с данным цветом вина',
+              title,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: _colors.onBackground,
@@ -181,7 +227,7 @@ class UnsuccessfulFilter extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: TextButton(
                 child: Text(
-                  'Сбросить',
+                  buttonName,
                   style: TextStyle(
                     color: _colors.onPrimaryContainer,
                     fontSize: 18,
@@ -189,7 +235,7 @@ class UnsuccessfulFilter extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  clearFilter(WineNoteFields.wineColors, '');
+                  tapFunction(WineNoteFields.wineColors, '');
                 },
               ),
             ),

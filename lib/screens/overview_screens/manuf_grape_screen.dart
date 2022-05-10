@@ -71,7 +71,6 @@ class _ManufGrapeOverviewScreenState extends State<ManufGrapeOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       //если была нажата кнопка "Поиск", то скрываем AppBar
       appBar: _isSearch

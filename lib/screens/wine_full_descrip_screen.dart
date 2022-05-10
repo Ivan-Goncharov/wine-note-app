@@ -16,14 +16,11 @@ class WineFullDescripScreen extends StatefulWidget {
   final String wineNoteId;
   //тэг для hero анимации
   final String heroTag;
-  // путь для обратной навигации при удалении заметки
-  final String deleteRoutName;
 
   const WineFullDescripScreen({
     Key? key,
     required this.wineNoteId,
     required this.heroTag,
-    required this.deleteRoutName,
   }) : super(key: key);
 
   @override
@@ -56,40 +53,42 @@ class _WineFullDescripScreenState extends State<WineFullDescripScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          //выводим изображение вина
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Hero(
-                child: _wineNote.imageUrl.contains('assets')
-                    ? Image(
-                        image: AssetImage(
-                          _wineNote.imageUrl,
-                        ),
-                        width: MediaQuery.of(context).size.height * 0.35,
-                      )
-                    : Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                        height: MediaQuery.of(context).size.height * 0.45,
-                        child: LimitedBox(
-                          maxWidth: MediaQuery.of(context).size.width * 0.8,
-                          child: Image.file(
-                            File(_wineNote.imageUrl),
-                            fit: BoxFit.contain,
+      body: SizedBox(
+        child: Column(
+          children: [
+            //выводим изображение вина
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Hero(
+                  child: _wineNote.imageUrl.contains('assets')
+                      ? Image(
+                          image: AssetImage(
+                            _wineNote.imageUrl,
+                          ),
+                          width: MediaQuery.of(context).size.height * 0.35,
+                        )
+                      : Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                          height: MediaQuery.of(context).size.height * 0.45,
+                          child: LimitedBox(
+                            maxWidth: MediaQuery.of(context).size.width * 0.8,
+                            child: Image.file(
+                              File(_wineNote.imageUrl),
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
-                      ),
-                tag: widget.heroTag,
+                  tag: widget.heroTag,
+                ),
               ),
             ),
-          ),
 
-          //выводим поочередно факты о вине
-          DetailedExpanded(_wineNote),
-        ],
+            //выводим поочередно факты о вине
+            DetailedExpanded(_wineNote),
+          ],
+        ),
       ),
     );
   }

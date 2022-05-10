@@ -99,11 +99,11 @@ class _EditWineScreenState extends State<EditWineScreen> {
       final date = DateTime.now();
 
       _note.creationDate = date;
+      //если не присвоили изображение, то присваиваем дефолтное
+      if (_note.imageUrl.isEmpty) {
+        _note = _note.copyWith(imageUrl: 'assets/images/not_found_color.png');
+      }
       if (_note.id != null) {
-        //если не присвоили изображение, то присваиваем дефолтное
-        if (_note.imageUrl.isEmpty) {
-          _note = _note.copyWith(imageUrl: 'assets/images/not_fount_color.png');
-        }
         //обновляем заметку и выводим соотвествующий тоаст
         _listProvider!.updateNote(_note);
         _fToast.showToast(
