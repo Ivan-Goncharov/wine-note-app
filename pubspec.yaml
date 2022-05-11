@@ -43,6 +43,8 @@ dependencies:
   multi_select_flutter: ^4.1.2
   image_picker: ^0.8.4+11
   fluttertoast: ^8.0.9
+  shared_preferences: ^2.0.14
+  flutter_switch: ^0.3.2
 
 
 dev_dependencies:

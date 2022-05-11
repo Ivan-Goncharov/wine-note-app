@@ -53,12 +53,11 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
       _dataTitle = arguments['dataTitle']!;
       _filterName = arguments['filterName']!;
 
-      //запускаем метод с поиском всех заметок связынных с этим полем фильтрации
-      // _provider.fetchCustomNotes(_filterName, _dataTitle);
       //отмечаем, что инициализация проведена
       _isInit = true;
     }
 
+    //
     if (!_isFilter) {
       setState(() => _isLoading = true);
       _provider

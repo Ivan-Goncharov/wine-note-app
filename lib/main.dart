@@ -30,68 +30,73 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(value: WineListProvider()),
-        ChangeNotifierProvider.value(value: WineSortProvider()),
-        ChangeNotifierProvider.value(value: WineOverviewProvider()),
-      ],
-      builder: (context, child) => MaterialApp(
-        themeMode: ThemeMode.system,
-        theme: MyTheme.lightTheme,
-        darkTheme: MyTheme.darkTheme,
-        initialRoute: TabsScreen.routName,
-        onGenerateRoute: (settings) {
-          switch (settings.name) {
-            case TabsScreen.routName:
-              return MaterialPageRoute(
-                builder: (context) => const TabsScreen(),
-                settings: settings,
-              );
+        providers: [
+          ChangeNotifierProvider.value(value: WineListProvider()),
+          ChangeNotifierProvider.value(value: WineSortProvider()),
+          ChangeNotifierProvider.value(value: WineOverviewProvider()),
+          ChangeNotifierProvider.value(value: ChangeThemeProvider()),
+        ],
+        builder: (context, child) {
+          final themeProvider = Provider.of<ChangeThemeProvider>(context);
+          return MaterialApp(
+            // themeMode: themeProvider.themeMode,
+            // theme: MyTheme.lightTheme,
+            // darkTheme: MyTheme.darkTheme,
+            theme:
+                themeProvider.isDark ? MyTheme.darkTheme : MyTheme.lightTheme,
+            initialRoute: TabsScreen.routName,
+            onGenerateRoute: (settings) {
+              switch (settings.name) {
+                case TabsScreen.routName:
+                  return MaterialPageRoute(
+                    builder: (context) => const TabsScreen(),
+                    settings: settings,
+                  );
 
-            case EditWineScreen.routName:
-              return MaterialPageRoute(
-                builder: (context) => const EditWineScreen(),
-                settings: settings,
-              );
+                case EditWineScreen.routName:
+                  return MaterialPageRoute(
+                    builder: (context) => const EditWineScreen(),
+                    settings: settings,
+                  );
 
-            case SearchScreen.routName:
-              return CustomPageRoute(
-                child: const SearchScreen(),
-                settings: settings,
-              );
+                case SearchScreen.routName:
+                  return CustomPageRoute(
+                    child: const SearchScreen(),
+                    settings: settings,
+                  );
 
-            case WineSortScreen.routName:
-              return CustomPageRoute(
-                child: const WineSortScreen(),
-                settings: settings,
-              );
+                case WineSortScreen.routName:
+                  return CustomPageRoute(
+                    child: const WineSortScreen(),
+                    settings: settings,
+                  );
 
-            case CountriesOverview.routName:
-              return MaterialPageRoute(
-                builder: (context) => const CountriesOverview(),
-                settings: settings,
-              );
+                case CountriesOverview.routName:
+                  return MaterialPageRoute(
+                    builder: (context) => const CountriesOverview(),
+                    settings: settings,
+                  );
 
-            case ManufGrapeOverviewScreen.routName:
-              return MaterialPageRoute(
-                builder: (context) => const ManufGrapeOverviewScreen(),
-                settings: settings,
-              );
+                case ManufGrapeOverviewScreen.routName:
+                  return MaterialPageRoute(
+                    builder: (context) => const ManufGrapeOverviewScreen(),
+                    settings: settings,
+                  );
 
-            case ItemFilterNotes.routName:
-              return CustomPageRoute(
-                child: const ItemFilterNotes(),
-                settings: settings,
-              );
+                case ItemFilterNotes.routName:
+                  return CustomPageRoute(
+                    child: const ItemFilterNotes(),
+                    settings: settings,
+                  );
 
-            case ManufSearchName.routName:
-              return CustomPageRoute(
-                child: const ManufSearchName(),
-                settings: settings,
-              );
-          }
-        },
-      ),
-    );
+                case ManufSearchName.routName:
+                  return CustomPageRoute(
+                    child: const ManufSearchName(),
+                    settings: settings,
+                  );
+              }
+            },
+          );
+        });
   }
 }

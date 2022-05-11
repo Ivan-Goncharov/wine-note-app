@@ -1,4 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+//провайдер для изменения цветовой темы
+class ChangeThemeProvider with ChangeNotifier {
+  //переменная, которая отслеживает, какая тема выбрана
+  late bool _isDark;
+  //объект класса для работы с sharedPreference
+  late ThemePreference _themePreference;
+
+  //в конструкторе инициализируем данные
+  ChangeThemeProvider() {
+    //по умолчанию тема светлая
+    _isDark = false;
+    _themePreference = ThemePreference();
+    //получаем данные о том, какая тема выбрана
+    getPreference();
+  }
+
+  //геттер
+  bool get isDark => _isDark;
+
+  //сеттер
+  //присваиваем новое значение переменной
+  //сохраняем данные с помощью sharedPreferences
+  set isDark(bool value) {
+    _isDark = value;
+    _themePreference.setTheme(value);
+    notifyListeners();
+  }
+
+  //метод для получения текущего выбора пользователя
+  //true - темная
+  // false - светлая
+  void getPreference() {
+    _themePreference.getTheme().then((value) {
+      _isDark = value;
+      notifyListeners();
+    });
+  }
+}
+
+//класс для работы c SharedPref.
+class ThemePreference {
+  static const preferKey = 'pref_key';
+
+  //метод для сохранения текущего выбора пользователя
+  Future<void> setTheme(bool value) async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    sharedPreferences.setBool(preferKey, value);
+  }
+
+  //метод для получения текущего выбора пользователя
+  Future<bool> getTheme() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    return sharedPreferences.getBool(preferKey) ?? false;
+  }
+}
 
 //класс для хранения двух тем приложения
 class MyTheme {

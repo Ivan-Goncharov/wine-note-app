@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/widgets/system_widget/switch_theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/wine_list_provider.dart';
@@ -18,14 +19,12 @@ class LastWineNote extends StatefulWidget {
 class _LastWineNoteState extends State<LastWineNote> {
   //провайдер для получения списка заметок
   WineListProvider? _listProvider;
-  late ColorScheme _colorScheme;
   //переменная для инициализации
   bool _isInit = false;
 
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      _colorScheme = Theme.of(context).colorScheme;
       createNoteList(context);
       _isInit = true;
     }
@@ -42,8 +41,16 @@ class _LastWineNoteState extends State<LastWineNote> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: CustomAppBar(title: 'Последние заметки'),
-        backgroundColor: _colorScheme.background,
+        appBar: CustomAppBar(
+          title: 'Последние заметки',
+          listOfAction: const [
+            Padding(
+              padding: EdgeInsets.only(right: 8.0),
+              child: SwitchThemeMode(),
+            ),
+          ],
+        ),
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
 
