@@ -30,8 +30,13 @@ class _TabsScreenState extends State<TabsScreen> {
   final keyFloatButton = GlobalKey();
   //список экранов для навигации по вкладкам
   late final List<Widget> _pages;
+
+  //переменная для скрытия bottomBar
+  //true - необходимо скрыть
+  //false - показать
   bool _isHide = false;
 
+  //метод для изменения переменной _isHide
   void _changeHide(bool flag) {
     setState(() {
       _isHide = flag;
@@ -40,24 +45,29 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   void initState() {
+    //инициализируем страницы навигации
     _pages = <Widget>[
       const LastWineNote(),
       WineOverViewScreen(hideBottomBar: _changeHide),
     ];
+
+    //showCase инструкция пользования приложением
     WidgetsBinding.instance?.addPostFrameCallback(
       (_) {
+        //проверяем - запущено ли приложение впервые
         _isFirstLaunch().then(
           (result) {
-            // if (result) {
-            ShowCaseWidget.of(context)?.startShowCase(
-              [
-                keyFloatButton,
-                TabsScreen.keyLastWineIcon,
-                TabsScreen.keyWineNavigation,
-                TabsScreen.keySwitchTheme,
-              ],
-            );
-            // }
+            //если впервые, то запускаем инструкцию пользователя
+            if (result) {
+              ShowCaseWidget.of(context)?.startShowCase(
+                [
+                  keyFloatButton,
+                  TabsScreen.keyLastWineIcon,
+                  TabsScreen.keyWineNavigation,
+                  TabsScreen.keySwitchTheme,
+                ],
+              );
+            }
           },
         );
       },
@@ -85,6 +95,8 @@ class _TabsScreenState extends State<TabsScreen> {
             ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
+      //плавающаяя кнопка
       floatingActionButton: _isHide
           ? const SizedBox()
           : CustomShowCaseWidget(
@@ -102,14 +114,17 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
+  //метод для запроса sharedPreferences
+  //проверяем впервые ли запущено приложение
   Future<bool> _isFirstLaunch() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
 
+    //получаем результат
     bool isFirstLaunch =
         sharedPreferences.getBool(TabsScreen.preferncesKey) ?? true;
-    print(isFirstLaunch);
 
+    //если запустили впервые, то изменяем переменную на false
     if (isFirstLaunch) {
       sharedPreferences.setBool(TabsScreen.preferncesKey, false);
     }
