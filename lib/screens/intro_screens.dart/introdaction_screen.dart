@@ -1,11 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'pages_intro.dart';
 
+//интро экран для первого запуска приложения
 class IntroductionScreen extends StatefulWidget {
   static const routName = './introScreen';
   const IntroductionScreen({Key? key}) : super(key: key);
@@ -15,14 +15,19 @@ class IntroductionScreen extends StatefulWidget {
 }
 
 class _IntroductionScreenState extends State<IntroductionScreen> {
+  //контроллер для переключения между pageview
   final PageController _controller = PageController(
     initialPage: 0,
   );
+
   int _currentPage = 0;
+
+  //таймер для автоматического переключения страниц
   Timer? _timer;
   @override
   void initState() {
-    _timer = Timer.periodic(const Duration(seconds: 20), (timer) {
+    //устанавливаем таймер
+    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       if (_currentPage < 2) {
         _currentPage++;
       }
@@ -33,6 +38,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     super.initState();
   }
 
+  //закрываем таймер
   @override
   void dispose() {
     _timer?.cancel();

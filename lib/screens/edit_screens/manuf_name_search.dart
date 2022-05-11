@@ -80,6 +80,11 @@ class _ManufSearchNameState extends State<ManufSearchName> {
                 textHint: 'Производитель',
                 controller: _controller,
                 isBack: true,
+                //передаем функцию, которая вызывается,
+                //если пользователь нажал кнопку 'done' на клавиатуре
+                saveInput: (value) {
+                  Navigator.pop(context, [value]);
+                },
               ),
 
               const SizedBox(height: 10),

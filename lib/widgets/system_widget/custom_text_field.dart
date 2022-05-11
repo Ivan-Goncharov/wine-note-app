@@ -13,12 +13,14 @@ class CustomTextField extends StatelessWidget {
   //чтобы вернуться не на предыдущую страницу, а изменить поведение текущей
   final Function? function;
   final bool isBack;
+  final Function? saveInput;
   const CustomTextField(
       {Key? key,
       required this.textHint,
       this.prefixIcon,
       this.focusNode,
       this.function,
+      this.saveInput,
       required this.isBack,
       required this.controller})
       : super(key: key);
@@ -50,6 +52,13 @@ class CustomTextField extends StatelessWidget {
                   },
                 ),
               ),
+              onSubmitted: saveInput == null
+                  ? (_) {
+                      TextInputAction.done;
+                    }
+                  : (value) {
+                      saveInput!(value);
+                    },
               controller: controller,
               autofocus: true,
               focusNode: focusNode,

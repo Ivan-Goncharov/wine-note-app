@@ -122,6 +122,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     : 'Введите регион производителя',
                 controller: _textController,
                 isBack: true,
+                saveInput: (value) {
+                  Navigator.pop(context, [value]);
+                },
               ),
 
               const SizedBox(height: 10),

@@ -54,6 +54,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
   // ввода страны и региона
   late String _countryName;
   late String _regionName;
+  late String _imageUrl;
 
   // тоаст
   late FToast _fToast;
@@ -79,6 +80,8 @@ class _EditWineScreenState extends State<EditWineScreen> {
       //инициализируем переменные страны и региона, для вывода в поиске
       _countryName = _note.country;
       _regionName = _note.region;
+      _imageUrl = _note.imageUrl;
+
       _fToast = FToast();
       _fToast.init(context);
       _isInit = false;
@@ -181,7 +184,8 @@ class _EditWineScreenState extends State<EditWineScreen> {
                 children: [
                   //выбор изображения для вина
                   WineImagePick(
-                    imagePath: _note.imageUrl,
+                    // imagePath: _note.imageUrl,
+                    imagePath: _imageUrl,
                     function: _changeImagePath,
                   ),
 
@@ -314,6 +318,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
 
   //метод для изменения пути изображения для вина
   void _changeImagePath(String path) {
+    setState(() => _imageUrl = path);
     _note = _note.copyWith(imageUrl: path);
   }
 
@@ -339,8 +344,6 @@ class EditWineDialog extends StatelessWidget {
       actions: [
         //Не сохранять
         TextButton(
-          // onPressed: () => Navigator.of(context)
-          //     .popUntil(ModalRoute.withName(TabsScreen.routName)),
           onPressed: (() {
             Navigator.pop(context);
             Navigator.pop(context);

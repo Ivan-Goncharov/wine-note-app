@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/screens/tabs_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../screens/tabs_screen.dart';
+
+//виджет для одного интро экрана
 class PagesIntro extends StatelessWidget {
   static const sharedKey = '_isFirstLaunch';
 
+  //анимационный виджет
   final Widget lottieAnimation;
+  //заголовок
   final String title;
+  //описание
   final String subtitle;
   const PagesIntro({
     required this.lottieAnimation,
@@ -25,7 +30,10 @@ class PagesIntro extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          //выводим анимацию
           lottieAnimation,
+
+          //заголовок
           Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Text(
@@ -38,6 +46,8 @@ class PagesIntro extends StatelessWidget {
               ),
             ),
           ),
+
+          //описание
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
@@ -49,8 +59,12 @@ class PagesIntro extends StatelessWidget {
               ),
             ),
           ),
+
+          //кнопка переход на главный экран приложения
           GestureDetector(
             onTap: () async {
+              //при переходе сохраяем переменную с false
+              //больше экран никогда не появится
               final pref = await SharedPreferences.getInstance();
               pref.setBool(sharedKey, false);
 

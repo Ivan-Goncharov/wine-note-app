@@ -24,7 +24,7 @@ class _WineImagePickState extends State<WineImagePick> {
   //путь, который сохранен в заметке на данный момент
   //нам нужна эта переменная для отслеживания,
   //не поставлено ли системное изображение по умолчанию
-  late String _imagePath;
+  late String _imagePath = '';
 
   @override
   void initState() {
@@ -67,6 +67,12 @@ class _WineImagePickState extends State<WineImagePick> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final colorScheme = Theme.of(context).colorScheme;
+
+    if (image == null && _imagePath != widget.imagePath) {
+      setState(
+        () => _imagePath = widget.imagePath,
+      );
+    }
 
     //контейнер с изображением, нажатие на который,
     //открывает окно с выбором изображения
