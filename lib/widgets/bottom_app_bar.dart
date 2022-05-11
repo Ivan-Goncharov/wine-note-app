@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../screens/tabs_screen.dart';
+import '../../widgets/system_widget/custom_showcase.dart';
+
 //навигационный бар
 class CustomBottomNavigation extends StatefulWidget {
   //принимает индекс выбранной вкладки и функцию для изменения вкладки
@@ -38,20 +41,27 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             //вкладка со последними винам
-            TabItem(
-                selectIndex: widget.index,
-                iconData: Icons.access_time_rounded,
-                tabIndex: 0,
-                changeTab: widget.onChangedTab),
+            CustomShowCaseWidget(
+              showCaseKey: TabsScreen.keyLastWineIcon,
+              widgetDescription: 'Недавно созданные заметки',
+              widget: TabItem(
+                  selectIndex: widget.index,
+                  iconData: Icons.access_time_rounded,
+                  tabIndex: 0,
+                  changeTab: widget.onChangedTab),
+            ),
             opacityTab(),
 
             //вкладка со всеми винами
-
-            TabItem(
-                selectIndex: widget.index,
-                iconData: Icons.home_outlined,
-                tabIndex: 1,
-                changeTab: widget.onChangedTab),
+            CustomShowCaseWidget(
+              showCaseKey: TabsScreen.keyWineNavigation,
+              widgetDescription: 'Навигация по заметкам',
+              widget: TabItem(
+                  selectIndex: widget.index,
+                  iconData: Icons.home_outlined,
+                  tabIndex: 1,
+                  changeTab: widget.onChangedTab),
+            ),
           ],
         ),
       ),

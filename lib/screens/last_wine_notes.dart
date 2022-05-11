@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/widgets/system_widget/switch_theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/wine_list_provider.dart';
 import '../../screens/tabs_screen.dart';
 import '../widgets/system_widget/app_bar.dart';
+import '../widgets/system_widget/custom_showcase.dart';
 import '../widgets/system_widget/wine_note_item.dart';
 import '../widgets/system_widget/null_notes_message.dart';
+import '../widgets/system_widget/switch_theme.dart';
 
 //Экран для вывода последних 10 записей
 class LastWineNote extends StatefulWidget {
@@ -43,10 +44,14 @@ class _LastWineNoteState extends State<LastWineNote> {
       child: Scaffold(
         appBar: CustomAppBar(
           title: 'Последние заметки',
-          listOfAction: const [
+          listOfAction: [
             Padding(
-              padding: EdgeInsets.only(right: 8.0),
-              child: SwitchThemeMode(),
+              padding: const EdgeInsets.only(right: 8.0),
+              child: CustomShowCaseWidget(
+                showCaseKey: TabsScreen.keySwitchTheme,
+                widgetDescription: 'Смена темы приложения',
+                widget: const SwitchThemeMode(),
+              ),
             ),
           ],
         ),

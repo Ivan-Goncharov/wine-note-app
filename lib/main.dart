@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/models/my_themes.dart';
 import 'package:provider/provider.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import './models/wine_list_provider.dart';
 import './models/wine_sorted_provider.dart';
@@ -39,9 +40,6 @@ class _MyAppState extends State<MyApp> {
         builder: (context, child) {
           final themeProvider = Provider.of<ChangeThemeProvider>(context);
           return MaterialApp(
-            // themeMode: themeProvider.themeMode,
-            // theme: MyTheme.lightTheme,
-            // darkTheme: MyTheme.darkTheme,
             theme:
                 themeProvider.isDark ? MyTheme.darkTheme : MyTheme.lightTheme,
             initialRoute: TabsScreen.routName,
@@ -49,7 +47,15 @@ class _MyAppState extends State<MyApp> {
               switch (settings.name) {
                 case TabsScreen.routName:
                   return MaterialPageRoute(
-                    builder: (context) => const TabsScreen(),
+                    builder: (context) {
+                      return ShowCaseWidget(
+                        builder: Builder(
+                          builder: (context) => const TabsScreen(),
+                        ),
+                        autoPlay: true,
+                        autoPlayDelay: const Duration(seconds: 3),
+                      );
+                    },
                     settings: settings,
                   );
 

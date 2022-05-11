@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import 'edit_screens/edit_wine_screen.dart';
 import 'overview_screens/wine_overview_screen.dart';
 import '../../screens/last_wine_notes.dart';
 import '../../widgets/bottom_app_bar.dart';
+import '../../widgets/system_widget/custom_showcase.dart';
 
 //экран для навигации между вкладками
-
 class TabsScreen extends StatefulWidget {
   static const routName = './tabScreen';
+
+  //ключи к показу инструкции для приложения
+  static final keyLastWineIcon = GlobalKey();
+  static final keyWineNavigation = GlobalKey();
+  static final keySwitchTheme = GlobalKey();
+
+  //ключ для sharedPrefernces
+  static const preferncesKey = 'isFirstLaunch';
+
   const TabsScreen({Key? key}) : super(key: key);
 
   @override
@@ -16,6 +27,7 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
+  final keyFloatButton = GlobalKey();
   //список экранов для навигации по вкладкам
   late final List<Widget> _pages;
   bool _isHide = false;
@@ -32,6 +44,24 @@ class _TabsScreenState extends State<TabsScreen> {
       const LastWineNote(),
       WineOverViewScreen(hideBottomBar: _changeHide),
     ];
+    WidgetsBinding.instance?.addPostFrameCallback(
+      (_) {
+        _isFirstLaunch().then(
+          (result) {
+            // if (result) {
+            ShowCaseWidget.of(context)?.startShowCase(
+              [
+                keyFloatButton,
+                TabsScreen.keyLastWineIcon,
+                TabsScreen.keyWineNavigation,
+                TabsScreen.keySwitchTheme,
+              ],
+            );
+            // }
+          },
+        );
+      },
+    );
     super.initState();
   }
 
@@ -55,7 +85,13 @@ class _TabsScreenState extends State<TabsScreen> {
             ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _isHide ? const SizedBox() : const FloatButton(),
+      floatingActionButton: _isHide
+          ? const SizedBox()
+          : CustomShowCaseWidget(
+              widget: const FloatButton(),
+              showCaseKey: keyFloatButton,
+              widgetDescription: 'Кнопка для добавления вина',
+            ),
     );
   }
 
@@ -64,6 +100,20 @@ class _TabsScreenState extends State<TabsScreen> {
     setState(() {
       _currentSelectIndex = index;
     });
+  }
+
+  Future<bool> _isFirstLaunch() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+
+    bool isFirstLaunch =
+        sharedPreferences.getBool(TabsScreen.preferncesKey) ?? true;
+    print(isFirstLaunch);
+
+    if (isFirstLaunch) {
+      sharedPreferences.setBool(TabsScreen.preferncesKey, false);
+    }
+    return isFirstLaunch;
   }
 }
 
