@@ -16,12 +16,12 @@ class WineSortProvider with ChangeNotifier {
   //список регионов, которые используются в заметках
   final List<String> _regions = [];
   List<String> get regions => _regions;
+  void clearRegions() => _regions.clear();
 
   //метод для чтения заметок конкретного типа, принимает тип поля фильтрации
   //и данные для фильтрации
   Future<void> fetchCustomNotes(String filterName, String data) async {
     _filterList.clear();
-    _regions.clear();
     try {
       await DBProvider.instanse.customReadNotes(filterName, data).then((value) {
         _allNotes = value;
@@ -76,6 +76,7 @@ class WineSortProvider with ChangeNotifier {
   void clearFilter() {
     _filterList.clear();
     _filterList.addAll(_allNotes);
+
     notifyListeners();
   }
 

@@ -19,20 +19,24 @@ class ToastMessage extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.9,
       padding: const EdgeInsets.all(8.0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             iconData,
             color: colors.onSecondary,
           ),
-          const SizedBox(width: 12.0),
-          Flexible(
-            child: Text(
-              message,
-              softWrap: false,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: colors.onSecondary,
+          const SizedBox(width: 20.0),
+          Expanded(
+            child: Flexible(
+              child: Text(
+                message,
+                softWrap: false,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: colors.onSecondary,
+                ),
               ),
             ),
           ),

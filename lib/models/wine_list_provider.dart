@@ -33,7 +33,7 @@ class WineListProvider with ChangeNotifier {
       (value) {
         _winesList = value;
         _winesList.sort(
-          (a, b) => a.creationDate!.compareTo(b.creationDate!),
+          (a, b) => b.creationDate!.compareTo(a.creationDate!),
         );
 
         notifyListeners();
@@ -44,7 +44,7 @@ class WineListProvider with ChangeNotifier {
   //метод для добавления одной заметки в список
   Future<void> addNote(WineItem note) async {
     await DBProvider.instanse.create(note).then((value) {
-      _winesList.add(value);
+      _winesList.insert(0, value);
       notifyListeners();
     });
   }

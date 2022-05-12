@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_item.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/wine_sorted_provider.dart';
+import '../../models/wine_item.dart';
 import '../../widgets/overview_widget/filter_button.dart';
 import '../../widgets/overview_widget/notes_sorting.dart';
 import '../../widgets/system_widget/app_bar.dart';
@@ -46,6 +46,8 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
     if (!_isInit) {
       //подключаем провайдер
       _provider = Provider.of<WineSortProvider>(context);
+      //очищаем предыдущий список регионов
+      _provider.clearRegions();
 
       //принимаем аргументы
       final arguments =
@@ -57,7 +59,6 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
       _isInit = true;
     }
 
-    //
     if (!_isFilter) {
       setState(() => _isLoading = true);
       _provider

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/widgets/system_widget/toast_message.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../models/wine_item.dart';
 
@@ -20,11 +22,13 @@ class _ColorsBotoomsheetState extends State<ColorsBotoomsheet> {
   late String _selectColor = '';
   late Size _size;
   late ColorScheme _colorScheme;
+  late FToast _fToast;
   bool _isInit = false;
 
   @override
   void initState() {
     _selectColor = widget.selectColor;
+    _fToast = FToast();
     super.initState();
   }
 
@@ -33,6 +37,7 @@ class _ColorsBotoomsheetState extends State<ColorsBotoomsheet> {
     if (!_isInit) {
       _colorScheme = Theme.of(context).colorScheme;
       _size = MediaQuery.of(context).size;
+      _fToast.init(context);
       _isInit = true;
     }
     super.didChangeDependencies();
@@ -91,6 +96,7 @@ class _ColorsBotoomsheetState extends State<ColorsBotoomsheet> {
               ],
             ),
           ),
+
           //выводим все цвета вина
           Expanded(
             child: Wrap(
@@ -116,18 +122,23 @@ class _ColorsBotoomsheetState extends State<ColorsBotoomsheet> {
       onTap: () {
         //если цвет уже выбран, то снимаем выбор
         if (_selectColor == title) {
-          setState(() {
-            _selectColor = '';
-            widget.saveColor(WineNoteFields.wineColors, _selectColor);
-          });
+          setState(() => _selectColor = '');
+          widget.saveColor(WineNoteFields.wineColors, _selectColor);
         }
         //если цвет еще не выбран, то выбираем
         else {
-          setState(() {
-            _selectColor = title;
-            widget.saveColor(WineNoteFields.wineColors, _selectColor);
-          });
+          setState(() => _selectColor = title);
+          //вызываем функцию для изменения замток на экране
+          widget.saveColor(WineNoteFields.wineColors, _selectColor);
           Navigator.pop(context);
+
+          //показываем сообщение о том, что фильтрация успешна
+          _fToast.showToast(
+            child: ToastMessage(
+                message:
+                    'На экране заметки с \n ${_createToastMessage(_selectColor)} вином',
+                iconData: Icons.tune),
+          );
         }
       },
       child: Container(
@@ -155,5 +166,20 @@ class _ColorsBotoomsheetState extends State<ColorsBotoomsheet> {
         ),
       ),
     );
+  }
+
+  //метод для создания сообщения тоста
+  //принимает цвет винограда
+  String _createToastMessage(String wineColor) {
+    switch (wineColor) {
+      case 'Белое':
+        return 'белым';
+      case 'Розовое':
+        return 'розовым';
+      case 'Оранжевое':
+        return 'оранжевым';
+      default:
+        return 'красным';
+    }
   }
 }

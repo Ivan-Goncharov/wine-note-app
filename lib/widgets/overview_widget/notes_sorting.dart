@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/widgets/system_widget/toast_message.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 //виджет для нижнего экрана сортировки вина
 class NoteSorting extends StatefulWidget {
@@ -111,6 +113,8 @@ class ItemSortTypeWidget extends StatefulWidget {
 }
 
 class _ItemSortTypeWidgetState extends State<ItemSortTypeWidget> {
+  //переменная для вызова тоста
+  late final FToast _fToast = FToast();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -118,19 +122,23 @@ class _ItemSortTypeWidgetState extends State<ItemSortTypeWidget> {
       onTap: () {
         // если данный фильтр уже выбран, то снимаем фильтр и возвращаемся на экран
         if (widget.currentType == widget.type) {
-          setState(() {
-            widget.currentType = TypeOfSotring.none;
-            widget.sortedNotes(widget.currentType);
-          });
+          setState(() => widget.currentType = TypeOfSotring.none);
+          widget.sortedNotes(widget.currentType);
         }
 
         //если фильтр еще не выбран, то применяем фильтр и возвращаемся на экран
         else {
-          setState(() {
-            widget.currentType = widget.type;
-            widget.sortedNotes(widget.currentType);
-          });
+          setState(() => widget.currentType = widget.type);
+          widget.sortedNotes(widget.currentType);
           Navigator.pop(context);
+
+          //вызываем тоаст об успешной сортировке
+          _fToast.init(context);
+          _fToast.showToast(
+            child: ToastMessage(
+                message: _createToastMessage(widget.currentType),
+                iconData: Icons.sort),
+          );
         }
       },
 
@@ -150,5 +158,24 @@ class _ItemSortTypeWidgetState extends State<ItemSortTypeWidget> {
         ),
       ),
     );
+  }
+
+  //метод для создания сообщения тоста
+  String _createToastMessage(TypeOfSotring type) {
+    String message = 'Произведена сортировка по \n';
+    switch (type) {
+      case TypeOfSotring.alphabet:
+        message += 'алфавиту';
+        break;
+      case TypeOfSotring.creationDate:
+        message += 'дате создания';
+        break;
+      case TypeOfSotring.grapeYear:
+        message += 'году урожая';
+        break;
+      case TypeOfSotring.none:
+        break;
+    }
+    return message;
   }
 }

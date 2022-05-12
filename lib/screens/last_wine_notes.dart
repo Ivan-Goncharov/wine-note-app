@@ -57,7 +57,7 @@ class _LastWineNoteState extends State<LastWineNote> {
         ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+          padding: const EdgeInsets.only(right: 8.0, left: 8.0, top: 8.0),
 
           //выводим заметки на экран, если список пуст, то выводим сообщение
           child: _listProvider!.wineList.isEmpty
