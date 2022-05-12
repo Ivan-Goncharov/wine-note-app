@@ -100,36 +100,73 @@ class WineOverviewProvider with ChangeNotifier {
     }
   }
 
-  //метод, который создает список производителей
+  //метод, который создает список сортов винограда
   void _createGrapeList(List<WineItem> wineList) {
     //проходимся по списку заметок;
     for (var note in wineList) {
-      //если у заметки не указан сорт винограда, то следующая логика
-      if (note.grapeVariety.isEmpty) {
-        //если уже была запись у которой не указан пользователь
-        //то увеличиваем количество заметок
-        if (_selectItem.contains(notFoundGrape.toLowerCase())) {
-          _increaseCount(notFoundGrape);
+      final List<String> list = [];
+      if (note.grapeVariety.contains(',')) {
+        list.addAll(note.grapeVariety.split(','));
+      } else {
+        list.add(note.grapeVariety);
+      }
+
+      for (var name in list) {
+        final grapeName = name.trim();
+        //если у заметки не указан сорт винограда, то следующая логика
+        if (grapeName.isEmpty) {
+          //если уже была запись у которой не указан сорт винограда
+          //то увеличиваем количество заметок
+          if (_selectItem.contains(notFoundGrape.toLowerCase())) {
+            _increaseCount(notFoundGrape);
+          }
+
+          //если записи не было, то создаем запись на карте с константой "Сорт не указан"
+          else {
+            _addOneData(notFoundGrape);
+          }
         }
 
-        //если записи не было, то создаем запись на карте с константой "Сорт не указан"
+        //если у заметки указан сорт винограда
         else {
-          _addOneData(notFoundGrape);
+          //если уже добавляли такой сорт - увеличиваем количество вин у него
+          if (_selectItem.contains(grapeName.toLowerCase())) {
+            _increaseCount(grapeName);
+          }
+
+          //если нет такого сорта, то добавляем его в список
+          else {
+            _addOneData(grapeName);
+          }
         }
       }
 
-      //если у заметки указан сорт винограда
-      else {
-        //если уже добавляли такой сорт - увеличиваем количество вин у него
-        if (_selectItem.contains(note.grapeVariety.toLowerCase())) {
-          _increaseCount(note.grapeVariety);
-        }
+      // //если у заметки не указан сорт винограда, то следующая логика
+      // if (note.grapeVariety.isEmpty) {
+      //   //если уже была запись у которой не указан сорт винограда
+      //   //то увеличиваем количество заметок
+      //   if (_selectItem.contains(notFoundGrape.toLowerCase())) {
+      //     _increaseCount(notFoundGrape);
+      //   }
 
-        //если нет такого сорта, то добавляем его в список
-        else {
-          _addOneData(note.grapeVariety);
-        }
-      }
+      //   //если записи не было, то создаем запись на карте с константой "Сорт не указан"
+      //   else {
+      //     _addOneData(notFoundGrape);
+      //   }
+      // }
+
+      // //если у заметки указан сорт винограда
+      // else {
+      //   //если уже добавляли такой сорт - увеличиваем количество вин у него
+      //   if (_selectItem.contains(note.grapeVariety.toLowerCase())) {
+      //     _increaseCount(note.grapeVariety);
+      //   }
+
+      //   //если нет такого сорта, то добавляем его в список
+      //   else {
+      //     _addOneData(note.grapeVariety);
+      //   }
+      // }
     }
   }
 

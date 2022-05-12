@@ -28,7 +28,7 @@ class WineSortProvider with ChangeNotifier {
         _filterList.addAll(_allNotes);
         createRegionList();
       });
-      // notifyListeners();/
+      // notifyListeners();
     } catch (e) {
       // ignore: avoid_print
       print(e);

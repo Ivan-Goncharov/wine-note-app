@@ -118,8 +118,8 @@ CREATE TABLE $_tableName (
     final maps = await db.query(
       _tableName,
       columns: WineNoteFields.values,
-      where: '$filterName = ?',
-      whereArgs: [data],
+      where: data.isEmpty ? '$filterName = ?' : '$filterName LIKE ?',
+      whereArgs: data.isEmpty ? [data] : ['%$data%'],
     );
 
     //возвращаем список заметок

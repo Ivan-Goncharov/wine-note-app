@@ -45,7 +45,7 @@ class ItemOverviewCountry extends StatelessWidget {
               child:
                   // проверяем, есть ли у страны флаг (добавлен ли он в приложении)
                   (country['svg'] as String).isEmpty
-                      ? const SizedBox()
+                      ? const NoneFlag()
                       //выводим на экран флаг
                       : SvgPicture.asset(
                           country['svg'],
@@ -101,5 +101,23 @@ class ItemOverviewCountry extends StatelessWidget {
     return (country['country'] as String).isEmpty
         ? 'Страна не указана'
         : country['country'];
+  }
+}
+
+class NoneFlag extends StatelessWidget {
+  const NoneFlag({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Theme.of(context).colorScheme.primary,
+      width: MediaQuery.of(context).size.width * 0.14,
+      height: MediaQuery.of(context).size.height * 0.05,
+      child: Icon(
+        Icons.flag,
+        size: 30,
+        color: Theme.of(context).colorScheme.onPrimary,
+      ),
+    );
   }
 }
