@@ -11,7 +11,9 @@ class WineItem with ChangeNotifier {
   double price;
   String vendor;
   double alcoPercent;
-  double rating;
+  double ratingAroma;
+  double ratingTaste;
+  double ratingAppearance;
   DateTime? year;
   DateTime? creationDate;
   String grapeVariety;
@@ -30,7 +32,9 @@ class WineItem with ChangeNotifier {
     required this.price,
     required this.vendor,
     required this.alcoPercent,
-    required this.rating,
+    required this.ratingAroma,
+    required this.ratingTaste,
+    required this.ratingAppearance,
     required this.year,
     required this.creationDate,
     required this.aroma,
@@ -51,7 +55,9 @@ class WineItem with ChangeNotifier {
         WineNoteFields.price: price,
         WineNoteFields.vendor: vendor,
         WineNoteFields.alcoPercent: alcoPercent,
-        WineNoteFields.rating: rating,
+        WineNoteFields.ratingAroma: ratingAroma,
+        WineNoteFields.ratingTaste: ratingTaste,
+        WineNoteFields.ratingAppearance: ratingAppearance,
         WineNoteFields.year: year?.toIso8601String() ?? '',
         WineNoteFields.creationDate: creationDate?.toIso8601String() ?? '',
         WineNoteFields.grapeVariety: grapeVariety,
@@ -73,7 +79,9 @@ class WineItem with ChangeNotifier {
       price: map[WineNoteFields.price] as double,
       vendor: map[WineNoteFields.vendor] as String,
       alcoPercent: map[WineNoteFields.alcoPercent] as double,
-      rating: map[WineNoteFields.rating] as double,
+      ratingAroma: map[WineNoteFields.ratingAroma] as double,
+      ratingTaste: map[WineNoteFields.ratingTaste] as double,
+      ratingAppearance: map[WineNoteFields.ratingAppearance] as double,
       year: DateTime.parse(map[WineNoteFields.year]),
       creationDate: DateTime.parse(map[WineNoteFields.creationDate]),
       grapeVariety: map[WineNoteFields.grapeVariety] as String,
@@ -95,7 +103,9 @@ class WineItem with ChangeNotifier {
     double? price,
     String? vendor,
     double? alcoPercent,
-    double? rating,
+    double? ratingAroma,
+    double? ratingTaste,
+    double? ratingAppearance,
     DateTime? year,
     DateTime? creationDate,
     String? aroma,
@@ -123,7 +133,9 @@ class WineItem with ChangeNotifier {
       vendor: vendor ?? this.vendor,
       alcoPercent: alcoPercent ?? this.alcoPercent,
       price: price ?? this.price,
-      rating: rating ?? this.rating,
+      ratingAppearance: ratingAppearance ?? this.ratingAppearance,
+      ratingAroma: ratingAroma ?? this.ratingAroma,
+      ratingTaste: ratingTaste ?? this.ratingTaste,
     );
   }
 
@@ -171,7 +183,9 @@ class WineNoteFields {
     price,
     vendor,
     alcoPercent,
-    rating,
+    ratingAroma,
+    ratingTaste,
+    ratingAppearance,
     year,
     creationDate,
     grapeVariety,
@@ -190,7 +204,9 @@ class WineNoteFields {
   static const String price = 'price';
   static const String vendor = 'vendor';
   static const String alcoPercent = 'alcoPercent';
-  static const String rating = 'rating';
+  static const String ratingAroma = 'ratingAroma';
+  static const String ratingTaste = 'ratingTaste';
+  static const String ratingAppearance = 'ratingAppearance';
   static const String year = 'year';
   static const String creationDate = 'creationDate';
   static const String grapeVariety = 'grapeVariety';

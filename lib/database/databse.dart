@@ -7,7 +7,7 @@ import '../models/wine_item.dart';
 //База данных Sqllite - для сохранения заметок пользователей о вине
 class DBProvider {
   //имя таблицы
-  final String _tableName = 'wineUsNotes';
+  final String _tableName = 'wineNotes';
 
   //синглтон для создания единственного экземпляра базы данных
   DBProvider._init();
@@ -21,7 +21,7 @@ class DBProvider {
     if (_database != null) return _database!;
 
     //если нет, то создаем ее
-    _database = await _initDB('wines__user_notes.db');
+    _database = await _initDB('wine__user_notes.db');
     return _database!;
   }
 
@@ -34,7 +34,7 @@ class DBProvider {
     final path = dir.path + filePath;
 
     //открываем базу
-    return await openDatabase(path, version: 1, onCreate: _createDB);
+    return await openDatabase(path, version: 2, onCreate: _createDB);
   }
 
   //метод для созданя базы данных
@@ -54,7 +54,9 @@ CREATE TABLE $_tableName (
   ${WineNoteFields.price} $doubleType,
   ${WineNoteFields.vendor} $textType,
   ${WineNoteFields.alcoPercent} $doubleType,
-  ${WineNoteFields.rating} $doubleType,
+  ${WineNoteFields.ratingAroma} $doubleType,
+   ${WineNoteFields.ratingTaste} $doubleType,
+    ${WineNoteFields.ratingAppearance} $doubleType,
   ${WineNoteFields.year} $textType,
   ${WineNoteFields.creationDate} $textType,
   ${WineNoteFields.grapeVariety} $textType,

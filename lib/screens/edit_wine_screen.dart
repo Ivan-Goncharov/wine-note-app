@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/models/wine_rating.dart';
 import 'package:flutter_my_wine_app/widgets/edit_wine/text_field_hint.dart';
+import 'package:flutter_my_wine_app/widgets/edit_wine/text_field_rating.dart';
 import 'package:flutter_my_wine_app/widgets/system_widget/toast_message.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +15,6 @@ import '../../string_resourses.dart';
 import '../../widgets/edit_wine/wine_year.dart';
 import '../../widgets/edit_wine/text_fied_country.dart';
 import '../../widgets/edit_wine/image_pick.dart';
-import '../../widgets/edit_wine/search_sort.dart';
 import '../tabs_screen.dart';
 
 //экран для добавления и редактирования записей о вине
@@ -38,7 +39,9 @@ class _EditWineScreenState extends State<EditWineScreen> {
     price: 0.0,
     vendor: '',
     alcoPercent: 0.0,
-    rating: 0.0,
+    ratingAroma: 0.0,
+    ratingTaste: 0.0,
+    ratingAppearance: 0.0,
     year: DateTime.now(),
     creationDate: DateTime.now(),
     aroma: '',
@@ -214,20 +217,9 @@ class _EditWineScreenState extends State<EditWineScreen> {
 
                           //сохраняем данные
                           changeNote: (value) {
-                            //преобразуем ввод в String
-                            String winePrice = value.toString();
-
-                            //если пользователь ввел вместо точки - запятую,
-                            //меняем запятую на точку
-                            if (winePrice.isEmpty) {
-                              winePrice = '0.0';
-                            } else if (winePrice.contains(',')) {
-                              winePrice = winePrice.replaceAll(',', '.');
-                            }
-
                             //парсимм значение в double и сохраняем в заметку
-                            _note =
-                                _note.copyWith(price: double.parse(winePrice));
+                            _note = _note.copyWith(
+                                price: double.parse(parseDoubleInfo(value)));
                           },
                           fieldAction: TextInputAction.done,
                           hintText: 'Укажите стоимость вина',
@@ -268,11 +260,6 @@ class _EditWineScreenState extends State<EditWineScreen> {
                         ),
 
                         //Сорт винограда
-                        // SearchGrapeSort(
-                        //   sortName: _note.grapeVariety,
-                        //   func: _changeGrapeSort,
-                        // ),
-
                         TextInputWithHint(
                           fieldType: WineNoteFields.grapeVariety,
                           changeData: _changeGrapeSort,
@@ -282,6 +269,24 @@ class _EditWineScreenState extends State<EditWineScreen> {
                         ),
 
                         //алкоголь
+                        TextFieldInput(
+                          //если процент алкоголя не указан, то передаем пустую строку
+                          initialValue: _note.alcoPercent == 0.0
+                              ? ''
+                              : _note.alcoPercent.toString(),
+
+                          //сохраняем данные
+                          changeNote: (value) {
+                            //парсимм значение в double и сохраняем в заметку
+                            _note = _note.copyWith(
+                                alcoPercent:
+                                    double.parse(parseDoubleInfo(value)));
+                          },
+                          fieldAction: TextInputAction.done,
+                          hintText: 'Укажите процент алкоголя',
+                          lableText: 'Алкоголь',
+                          keyboardType: TextInputType.number,
+                        ),
                       ],
                     ),
                   ),
@@ -331,7 +336,23 @@ class _EditWineScreenState extends State<EditWineScreen> {
                           fieldAction: TextInputAction.done,
                         ),
 
-                        //рейтинг вина
+                        // рейтинг вина
+                        TextFieldRating(
+                          rating: WineRating(
+                            ratingAppearance: _note.ratingAppearance,
+                            ratingAroma: _note.ratingAroma,
+                            ratingTaste: _note.ratingTaste,
+                          ),
+                          saveRating: (newRating) {
+                            if (newRating is WineRating) {
+                              _note = _note.copyWith(
+                                ratingAroma: newRating.ratingAroma,
+                                ratingTaste: newRating.ratingTaste,
+                                ratingAppearance: newRating.ratingAppearance,
+                              );
+                            }
+                          },
+                        )
                       ],
                     ),
                   ),
@@ -343,6 +364,19 @@ class _EditWineScreenState extends State<EditWineScreen> {
         ),
       ),
     );
+  }
+
+  String parseDoubleInfo(value) {
+    String winePrice = value.toString();
+
+    //если пользователь ввел вместо точки - запятую,
+    //меняем запятую на точку
+    if (winePrice.isEmpty) {
+      winePrice = '0.0';
+    } else if (winePrice.contains(',')) {
+      winePrice = winePrice.replaceAll(',', '.');
+    }
+    return winePrice;
   }
 
   //сохраняет заметку о вине
