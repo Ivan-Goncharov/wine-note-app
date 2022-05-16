@@ -21,8 +21,8 @@ class DropDownColor extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.1,
       padding: const EdgeInsets.only(
         top: 15,
-        left: 25,
-        right: 25,
+        left: 16,
+        right: 16,
       ),
       child: DropdownButtonFormField(
         decoration: InputDecoration(

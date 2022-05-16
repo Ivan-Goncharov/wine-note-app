@@ -23,8 +23,9 @@ class WineOverviewProvider with ChangeNotifier {
   void hintCreate() {
     hintList.clear();
     //создаем список из названий производителей
-    hintList = _createTitleList(_searchList);
+    hintList = _createTitleList();
     hintList.sort(((a, b) => a.compareTo(b)));
+    notifyListeners();
   }
 
   //метод для очистки списка производителей
@@ -51,19 +52,21 @@ class WineOverviewProvider with ChangeNotifier {
   Future<void> createAllDataList(String fieldType) async {
     _allData.clear();
     _selectItem.clear();
+    hintList.clear();
 
     //получаем список всех заметок
     await DBProvider.instanse.readAllNotes().then(
       (wineList) {
-        //если тип поля, с которым работаем - производитель
-        if (fieldType == WineNoteFields.manufacturer) {
-          //заполняем список производителями вина
-          _createManufacturerList(wineList);
-        }
         // если переданный тип поля - "сорт винограда "
         // создаем список сортов винограда
-        else if (fieldType == WineNoteFields.grapeVariety) {
+        if (fieldType == WineNoteFields.grapeVariety) {
           _createGrapeList(wineList);
+        }
+
+        //если тип поля, с которым работаем - производитель
+        else if (fieldType == WineNoteFields.manufacturer) {
+          //заполняем список производителями вина
+          _createManufacturerList(wineList);
         }
       },
     );
@@ -140,33 +143,6 @@ class WineOverviewProvider with ChangeNotifier {
           }
         }
       }
-
-      // //если у заметки не указан сорт винограда, то следующая логика
-      // if (note.grapeVariety.isEmpty) {
-      //   //если уже была запись у которой не указан сорт винограда
-      //   //то увеличиваем количество заметок
-      //   if (_selectItem.contains(notFoundGrape.toLowerCase())) {
-      //     _increaseCount(notFoundGrape);
-      //   }
-
-      //   //если записи не было, то создаем запись на карте с константой "Сорт не указан"
-      //   else {
-      //     _addOneData(notFoundGrape);
-      //   }
-      // }
-
-      // //если у заметки указан сорт винограда
-      // else {
-      //   //если уже добавляли такой сорт - увеличиваем количество вин у него
-      //   if (_selectItem.contains(note.grapeVariety.toLowerCase())) {
-      //     _increaseCount(note.grapeVariety);
-      //   }
-
-      //   //если нет такого сорта, то добавляем его в список
-      //   else {
-      //     _addOneData(note.grapeVariety);
-      //   }
-      // }
     }
   }
 
@@ -196,9 +172,9 @@ class WineOverviewProvider with ChangeNotifier {
   }
 
   //метод для создания списка названий
-  List<String> _createTitleList(List<Map<String, dynamic>> listOfMap) {
+  List<String> _createTitleList() {
     final list = <String>[];
-    for (var manuf in listOfMap) {
+    for (var manuf in _searchList) {
       list.add(manuf['title']);
     }
     return list;

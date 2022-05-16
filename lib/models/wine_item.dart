@@ -8,6 +8,10 @@ class WineItem with ChangeNotifier {
   String manufacturer;
   String country;
   String region;
+  double price;
+  String vendor;
+  double alcoPercent;
+  double rating;
   DateTime? year;
   DateTime? creationDate;
   String grapeVariety;
@@ -23,6 +27,10 @@ class WineItem with ChangeNotifier {
     required this.manufacturer,
     required this.country,
     required this.region,
+    required this.price,
+    required this.vendor,
+    required this.alcoPercent,
+    required this.rating,
     required this.year,
     required this.creationDate,
     required this.aroma,
@@ -40,6 +48,10 @@ class WineItem with ChangeNotifier {
         WineNoteFields.manufacturer: manufacturer,
         WineNoteFields.country: country,
         WineNoteFields.region: region,
+        WineNoteFields.price: price,
+        WineNoteFields.vendor: vendor,
+        WineNoteFields.alcoPercent: alcoPercent,
+        WineNoteFields.rating: rating,
         WineNoteFields.year: year?.toIso8601String() ?? '',
         WineNoteFields.creationDate: creationDate?.toIso8601String() ?? '',
         WineNoteFields.grapeVariety: grapeVariety,
@@ -58,6 +70,10 @@ class WineItem with ChangeNotifier {
       manufacturer: map[WineNoteFields.manufacturer] as String,
       country: map[WineNoteFields.country] as String,
       region: map[WineNoteFields.region] as String,
+      price: map[WineNoteFields.price] as double,
+      vendor: map[WineNoteFields.vendor] as String,
+      alcoPercent: map[WineNoteFields.alcoPercent] as double,
+      rating: map[WineNoteFields.rating] as double,
       year: DateTime.parse(map[WineNoteFields.year]),
       creationDate: DateTime.parse(map[WineNoteFields.creationDate]),
       grapeVariety: map[WineNoteFields.grapeVariety] as String,
@@ -76,6 +92,10 @@ class WineItem with ChangeNotifier {
     String? manufacturer,
     String? country,
     String? region,
+    double? price,
+    String? vendor,
+    double? alcoPercent,
+    double? rating,
     DateTime? year,
     DateTime? creationDate,
     String? aroma,
@@ -100,6 +120,10 @@ class WineItem with ChangeNotifier {
       wineColors: wineColors ?? this.wineColors,
       imageUrl: imageUrl ?? this.imageUrl,
       comment: comment ?? this.comment,
+      vendor: vendor ?? this.vendor,
+      alcoPercent: alcoPercent ?? this.alcoPercent,
+      price: price ?? this.price,
+      rating: rating ?? this.rating,
     );
   }
 
@@ -144,6 +168,10 @@ class WineNoteFields {
     manufacturer,
     country,
     region,
+    price,
+    vendor,
+    alcoPercent,
+    rating,
     year,
     creationDate,
     grapeVariety,
@@ -159,6 +187,10 @@ class WineNoteFields {
   static const String manufacturer = 'manufactor';
   static const String country = 'country';
   static const String region = 'region';
+  static const String price = 'price';
+  static const String vendor = 'vendor';
+  static const String alcoPercent = 'alcoPercent';
+  static const String rating = 'rating';
   static const String year = 'year';
   static const String creationDate = 'creationDate';
   static const String grapeVariety = 'grapeVariety';

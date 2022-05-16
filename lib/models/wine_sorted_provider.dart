@@ -28,10 +28,8 @@ class WineSortProvider with ChangeNotifier {
         _filterList.addAll(_allNotes);
         createRegionList();
       });
-      // notifyListeners();
     } catch (e) {
-      // ignore: avoid_print
-      print(e);
+      _allNotes = [];
     }
   }
 

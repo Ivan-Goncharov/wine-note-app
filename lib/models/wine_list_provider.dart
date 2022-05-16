@@ -32,10 +32,10 @@ class WineListProvider with ChangeNotifier {
     await DBProvider.instanse.readAllNotes().then(
       (value) {
         _winesList = value;
+
         _winesList.sort(
           (a, b) => b.creationDate!.compareTo(a.creationDate!),
         );
-
         notifyListeners();
       },
     );
@@ -51,13 +51,10 @@ class WineListProvider with ChangeNotifier {
 
   //метод для Удаления заметки
   Future<void> deleteNote(String id) async {
-    debugPrint('deb: мы тут');
     DBProvider.instanse.delete(id).then((value) {
       _winesList.removeWhere((note) => note.id == id);
       notifyListeners();
     });
-
-    debugPrint('deb: ${_winesList.length}');
   }
 
   void updateNote(WineItem note) {
@@ -90,5 +87,28 @@ class WineListProvider with ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  List<String> createHintList(String dataType) {
+    final List<String> hintList = [];
+    if (_winesList.isEmpty) {
+      fetchAllNotes();
+    }
+
+    if (dataType == WineNoteFields.manufacturer) {
+      for (var item in _winesList) {
+        if (!hintList.contains(item.manufacturer)) {
+          hintList.add(item.manufacturer);
+        }
+      }
+    } else if (dataType == WineNoteFields.vendor) {
+      for (var item in _winesList) {
+        if (!hintList.contains(item.vendor)) {
+          hintList.add(item.vendor);
+        }
+      }
+    }
+
+    return hintList;
   }
 }

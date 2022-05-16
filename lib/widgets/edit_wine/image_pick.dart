@@ -57,9 +57,8 @@ class _WineImagePickState extends State<WineImagePick> {
         image = imageTemp;
         _imagePath = imageGalerry.path;
       });
-    } on PlatformException catch (e) {
-      // ignore: avoid_print
-      print('Ошибка в выборе изображения $e');
+    } on PlatformException {
+      image = null;
     }
   }
 
@@ -82,7 +81,7 @@ class _WineImagePickState extends State<WineImagePick> {
           borderRadius: BorderRadius.circular(8.0),
           color: colorScheme.surfaceVariant,
         ),
-        width: size.width * 0.85,
+        width: size.width * 0.9,
         height: size.height * 0.35,
         margin: const EdgeInsets.only(top: 15),
 
@@ -114,7 +113,7 @@ class _WineImagePickState extends State<WineImagePick> {
             ),
             Positioned(
               top: 215,
-              left: 260,
+              left: 278,
               child: CircleAvatar(
                 radius: 20,
                 child: Icon(

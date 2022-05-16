@@ -80,7 +80,7 @@ class _WineOverViewScreenState extends State<WineOverViewScreen> {
                 )
 
               //виджет панелей навигации
-              : const WineNavigatSections()),
+              : WineNavigatSections()),
     );
   }
 }

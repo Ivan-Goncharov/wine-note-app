@@ -7,7 +7,7 @@ import '../models/wine_item.dart';
 //База данных Sqllite - для сохранения заметок пользователей о вине
 class DBProvider {
   //имя таблицы
-  final String _tableName = 'wineNotes';
+  final String _tableName = 'wineUsNotes';
 
   //синглтон для создания единственного экземпляра базы данных
   DBProvider._init();
@@ -21,7 +21,7 @@ class DBProvider {
     if (_database != null) return _database!;
 
     //если нет, то создаем ее
-    _database = await _initDB('wines_notes.db');
+    _database = await _initDB('wines__user_notes.db');
     return _database!;
   }
 
@@ -34,13 +34,14 @@ class DBProvider {
     final path = dir.path + filePath;
 
     //открываем базу
-    return await openDatabase(path, version: 3, onCreate: _createDB);
+    return await openDatabase(path, version: 1, onCreate: _createDB);
   }
 
   //метод для созданя базы данных
   Future _createDB(Database db, int version) async {
     const idTypes = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
+    const doubleType = 'REAL NOT NULL';
 
     //создаем базу со всеми полями нашей заметки
     await db.execute('''
@@ -50,6 +51,10 @@ CREATE TABLE $_tableName (
   ${WineNoteFields.manufacturer} $textType,
   ${WineNoteFields.country} $textType,
   ${WineNoteFields.region} $textType,
+  ${WineNoteFields.price} $doubleType,
+  ${WineNoteFields.vendor} $textType,
+  ${WineNoteFields.alcoPercent} $doubleType,
+  ${WineNoteFields.rating} $doubleType,
   ${WineNoteFields.year} $textType,
   ${WineNoteFields.creationDate} $textType,
   ${WineNoteFields.grapeVariety} $textType,

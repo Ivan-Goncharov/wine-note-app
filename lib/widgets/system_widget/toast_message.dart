@@ -26,17 +26,15 @@ class ToastMessage extends StatelessWidget {
             color: colors.onSecondary,
           ),
           const SizedBox(width: 20.0),
-          Expanded(
-            child: Flexible(
-              child: Text(
-                message,
-                softWrap: false,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: colors.onSecondary,
-                ),
+          Flexible(
+            child: Text(
+              message,
+              softWrap: false,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: colors.onSecondary,
               ),
             ),
           ),

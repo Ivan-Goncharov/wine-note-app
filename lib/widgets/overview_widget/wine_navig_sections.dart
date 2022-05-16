@@ -11,7 +11,7 @@ import '../system_widget/null_notes_message.dart';
 //виджет для вывода навигационных панелей по вину
 //навигация по стране, производителю, сорту винограда
 class WineNavigatSections extends StatelessWidget {
-  const WineNavigatSections({Key? key}) : super(key: key);
+  WineNavigatSections({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +72,29 @@ class WineNavigatSections extends StatelessWidget {
               ],
             ),
     );
+  }
+
+  final items = [
+    'Страна',
+    'Bath',
+    'Room',
+    'God',
+    'Dog',
+    'Cat',
+    'Animals',
+    'People',
+    'Jack',
+    'Tom',
+    'Donkey',
+    'Horses',
+  ];
+
+  List<DropdownMenuItem<dynamic>> createList() {
+    List<DropdownMenuItem<dynamic>> list = [];
+    for (var it in items) {
+      list.add(DropdownMenuItem(child: Text(it), value: it));
+    }
+    return list;
   }
 }
 

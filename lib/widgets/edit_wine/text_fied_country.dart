@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-import '../../screens/edit_screens/search_screen.dart';
-import '../../string_resourses.dart';
 import 'button_container.dart';
+import '../../string_resourses.dart';
+import '../../widgets/edit_wine/bottom_sheet_input.dart';
 
 //виджет для вывода элемента в экране изменения данных о вине
 //выводит страну
-class SearchCountry extends StatefulWidget {
+class TextFieldCountry extends StatefulWidget {
   //принимаем название страны и функцию для изменения данных в заметке
   final String countryName;
   final Function func;
-  const SearchCountry({
+  const TextFieldCountry({
     Key? key,
     required this.countryName,
     required this.func,
   }) : super(key: key);
 
   @override
-  State<SearchCountry> createState() => _SearchCountryState();
+  State<TextFieldCountry> createState() => _TextFieldCountryState();
 }
 
-class _SearchCountryState extends State<SearchCountry> {
+class _TextFieldCountryState extends State<TextFieldCountry> {
   //переменная для хранения флага и названия страны
   late String _imagePath;
   late String _countryName;
@@ -29,11 +30,12 @@ class _SearchCountryState extends State<SearchCountry> {
   @override
   void initState() {
     _countryName = widget.countryName;
+
     super.initState();
   }
 
   @override
-  void didUpdateWidget(covariant SearchCountry oldWidget) {
+  void didUpdateWidget(covariant TextFieldCountry oldWidget) {
     if (widget.countryName.isNotEmpty) {
       _countryName = widget.countryName;
     }
@@ -52,43 +54,45 @@ class _SearchCountryState extends State<SearchCountry> {
 
     final size = MediaQuery.of(context).size;
     //по тапу переходим на экран с вводом текста
-    return GestureDetector(
-      onTap: () async {
-        final result = await Navigator.pushNamed(
-          context,
-          SearchScreen.routName,
-          arguments: {
-            'list': Country.countryList,
-            'type': SearchType.countryType,
-            'text': _countryName
+    return InkWell(
+      onTap: () {
+        //вызываем нижний экран
+        showMaterialModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return BottomSheetInputGeneral(
+                list: Country.countryList,
+                data: _countryName,
+                hintText: 'Введите название страны',
+                isCountry: true,
+              );
+            }).then(
+          //ожидаем результат действия пользователя
+          (value) {
+            //если пользователь нажал 'назад'
+            if (value == null) {
+              return;
+            }
+
+            //если пользователь ввел собственную страну без флага
+            else if (value is String) {
+              setState(() {
+                _countryName = value;
+                _imagePath = '';
+              });
+              widget.func(_countryName);
+            }
+
+            //если пользователь выбрал страну, которая есть уже в приложении
+            else {
+              setState(() {
+                _countryName = value['country'];
+                _imagePath = value['svg'];
+              });
+              widget.func(_countryName);
+            }
           },
         );
-
-        //ожидаем результат ввода
-        if (result == null) {
-          return;
-        }
-
-        //если была введена страна, которой нет в базе данных,
-        //то она без флага и мы ожидаем, что вернется просто название
-        else if ((result as List)[0] is String) {
-          setState(() {
-            _countryName = result[0];
-            widget.func(_countryName);
-            _imagePath = '';
-          });
-        }
-
-        //если была выбрана страна, которая есть в базе,
-        //то ожидаем получить Map с флагом и названием страны
-        else {
-          final map = (result)[0] as Map<String, dynamic>;
-          setState(() {
-            _countryName = map['country']!;
-            widget.func(_countryName);
-            _imagePath = map['svg']!;
-          });
-        }
       },
       child: ButtonContainer(
         child: Row(

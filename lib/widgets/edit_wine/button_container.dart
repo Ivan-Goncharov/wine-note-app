@@ -10,7 +10,7 @@ class ButtonContainer extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.08,
-      margin: const EdgeInsets.only(top: 15, left: 25, right: 25),
+      margin: const EdgeInsets.only(top: 15, left: 16, right: 16),
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.only(left: 10, right: 20),
       decoration: BoxDecoration(

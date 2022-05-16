@@ -99,11 +99,6 @@ class Country {
       'count': 1
     },
     {
-      'country': 'Перу',
-      'svg': 'assets/images/country_flags/pe.svg',
-      'count': 1
-    },
-    {
       'country': 'Португалия',
       'svg': 'assets/images/country_flags/pt.svg',
       'count': 1
@@ -610,16 +605,18 @@ class Country {
     for (var element in regionList) {
       if (element['country'] == countryName) {
         map = element;
+        list.clear();
+        break;
+      } else {
+        list.addAll(element['region']);
       }
     }
 
     if (map.isNotEmpty) {
       list = map['region'];
-    } else {
-      for (var element in regionList) {
-        list.addAll(element['region']);
-      }
     }
+
+    list.sort((a, b) => a.compareTo(b));
 
     return list;
   }

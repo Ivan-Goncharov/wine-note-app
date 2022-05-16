@@ -8,6 +8,8 @@ class TextFieldInput extends StatelessWidget {
   final Function changeNote;
   //тип функциональной кнопки на клавиатуре
   final TextInputAction fieldAction;
+  //тип клавиатуры
+  final TextInputType? keyboardType;
   //заголовок текстового поля
   final String lableText;
   //подсказка ввода
@@ -20,6 +22,7 @@ class TextFieldInput extends StatelessWidget {
     required this.fieldAction,
     required this.hintText,
     required this.lableText,
+    this.keyboardType,
   }) : super(key: key);
 
   @override
@@ -33,8 +36,8 @@ class TextFieldInput extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.1,
       padding: const EdgeInsets.only(
         top: 15,
-        left: 25,
-        right: 25,
+        left: 16,
+        right: 16,
       ),
 
       //текстовое поле
@@ -52,6 +55,7 @@ class TextFieldInput extends StatelessWidget {
             ),
           ),
           initialValue: initialValue,
+          keyboardType: keyboardType ?? TextInputType.text,
           textInputAction: fieldAction,
           style: theme.textTheme.bodyLarge,
 

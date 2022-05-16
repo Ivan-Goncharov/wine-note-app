@@ -4,15 +4,24 @@ import 'package:flutter/material.dart';
 class ButtonsInSearch extends StatelessWidget {
   //информация, которую надо передать на предыдущий экран
   final dynamic saveInfo;
+  final String? leftButtonTitle;
+  final String? rightButtonTitle;
+  final Function? leftButtonFunc;
+  final Function? rightButtonFunc;
   const ButtonsInSearch({
     Key? key,
     required this.saveInfo,
+    this.leftButtonTitle,
+    this.rightButtonTitle,
+    this.leftButtonFunc,
+    this.rightButtonFunc,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final size = MediaQuery.of(context).size;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -21,15 +30,18 @@ class ButtonsInSearch extends StatelessWidget {
           colorScheme: colorScheme,
           size: size,
           button: TextButton(
-            child: Text(
-              'Назад',
-              style: TextStyle(
-                color: colorScheme.onPrimary,
-                fontSize: 18,
+              child: Text(
+                leftButtonTitle ?? 'Назад',
+                style: TextStyle(
+                  color: colorScheme.onPrimary,
+                  fontSize: 18,
+                ),
               ),
-            ),
-            onPressed: () => Navigator.pop(context),
-          ),
+              onPressed: () {
+                leftButtonFunc != null
+                    ? leftButtonFunc!()
+                    : Navigator.pop(context);
+              }),
         ),
 
         //кнопка "Сохранить"
@@ -37,17 +49,20 @@ class ButtonsInSearch extends StatelessWidget {
           colorScheme: colorScheme,
           size: size,
           button: TextButton(
-            child: Text(
-              'Сохранить',
-              style: TextStyle(
-                color: colorScheme.onPrimary,
-                fontSize: 18,
+              child: Text(
+                rightButtonTitle ?? 'Сохранить',
+                style: TextStyle(
+                  color: colorScheme.onPrimary,
+                  fontSize: 18,
+                ),
               ),
-            ),
 
-            //по нажатию передаем введенный текст в поле ввода
-            onPressed: () => Navigator.pop(context, [saveInfo]),
-          ),
+              //по нажатию передаем введенный текст в поле ввода
+              onPressed: () {
+                rightButtonFunc != null
+                    ? rightButtonFunc!()
+                    : Navigator.pop(context, saveInfo);
+              }),
         )
       ],
     );
