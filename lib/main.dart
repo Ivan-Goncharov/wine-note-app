@@ -7,7 +7,7 @@ import './models/wine_list_provider.dart';
 import './models/wine_sorted_provider.dart';
 import './models/wine_overview_provider.dart';
 import './models/my_themes.dart';
-import './screens/edit_screens/edit_wine_screen.dart';
+import 'screens/edit_wine_screen.dart';
 import 'widgets/edit_wine/bottom_sheet_grape.dart';
 import './screens/overview_screens/countries_overview.dart';
 import './screens/overview_screens/item_filter.dart';
@@ -87,12 +87,6 @@ class _MyAppState extends State<MyApp> {
                   builder: (context) => const EditWineScreen(),
                   settings: settings,
                 );
-
-              // case WineSortScreen.routName:
-              //   return CustomPageRoute(
-              //     child: const WineSortScreen(),
-              //     settings: settings,
-              //   );
 
               case CountriesOverview.routName:
                 return MaterialPageRoute(

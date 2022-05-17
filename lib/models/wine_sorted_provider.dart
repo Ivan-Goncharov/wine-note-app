@@ -26,6 +26,7 @@ class WineSortProvider with ChangeNotifier {
       await DBProvider.instanse.customReadNotes(filterName, data).then((value) {
         _allNotes = value;
         _filterList.addAll(_allNotes);
+
         createRegionList();
       });
     } catch (e) {
@@ -46,7 +47,11 @@ class WineSortProvider with ChangeNotifier {
 
   //метод для дополнительной фильтрации
   //принимает поле для фильтрации и данные, которые должны содержаться в этом поле
-  void selectFilter({required String filterName, required String data}) {
+  void selectFilter({
+    required String filterName,
+    required String data,
+    required TypeOfSotring typeOfSotring,
+  }) {
     _filterList = [];
     //если тип фильтрации по регионам
     if (filterName == WineNoteFields.region) {
@@ -66,16 +71,15 @@ class WineSortProvider with ChangeNotifier {
       }
     }
 
-    notifyListeners();
+    sortNotes(typeOfSotring);
   }
 
   //метод для очистки фильтра
   //список вновь равен всем заметкам
-  void clearFilter() {
+  void clearFilter(TypeOfSotring typeOfSotring) {
     _filterList.clear();
     _filterList.addAll(_allNotes);
-
-    notifyListeners();
+    sortNotes(typeOfSotring);
   }
 
   //метод для сорптировки списка заметок
@@ -96,10 +100,18 @@ class WineSortProvider with ChangeNotifier {
       default:
         _filterList.shuffle();
     }
+
     notifyListeners();
   }
 
-  void checkDelete() {
+  void checkDelete(String id) {
+    if (_allNotes.isNotEmpty) {
+      _allNotes.removeWhere((note) => note.id == id);
+    }
+
+    if (_filterList.isNotEmpty) {
+      _filterList.removeWhere((note) => note.id == id);
+    }
     notifyListeners();
   }
 }

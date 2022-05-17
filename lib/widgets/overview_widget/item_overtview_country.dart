@@ -26,9 +26,10 @@ class ItemOverviewCountry extends StatelessWidget {
       onTap: () => Navigator.pushNamed(
         context,
         ItemFilterNotes.routName,
-        arguments: <String, String>{
+        arguments: <String, dynamic>{
           'dataTitle': country['country'],
           'filterName': WineNoteFields.country,
+          'isFilter': true,
         },
       ),
       child: Container(

@@ -30,14 +30,19 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
   //переменная для отслеживания, по какой причине пустой экран заметок
   //если true - значит неудачный фильтр вин
   //если false - значит удалили последнюю заметку в списке
-  bool _isFilter = false;
+  bool _isFilterApply = false;
 
   //название
-  String _dataTitle = '';
+  late final String _dataTitle;
   //поле для фильтрации записей
-  String _filterName = '';
+  late final String _filterName;
+  //необходим ли фильтр
+  //принимаем значение в аргументах
+  late final bool _isFilter;
+
   //переменная для сохранения выбранного фильтра
   String _selectData = '';
+
   //тип выбранной сортировки - по умолчанию никакого типа
   TypeOfSotring _typeOfSotring = TypeOfSotring.none;
 
@@ -54,17 +59,23 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
           ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       _dataTitle = arguments['dataTitle']!;
       _filterName = arguments['filterName']!;
+      _isFilter = arguments['isFilter']!;
+
+      setState(() => _isLoading = true);
+      _provider
+          .fetchCustomNotes(_filterName, _dataTitle)
+          .then((_) => setState(() => _isLoading = false));
 
       //отмечаем, что инициализация проведена
       _isInit = true;
     }
 
-    if (!_isFilter) {
-      setState(() => _isLoading = true);
-      _provider
-          .fetchCustomNotes(_filterName, _dataTitle)
-          .then((_) => setState(() => _isLoading = false));
-    }
+    // if (!_isFilterApply) {
+    //   setState(() => _isLoading = true);
+    //   _provider
+    //       .fetchCustomNotes(_filterName, _dataTitle)
+    //       .then((_) => setState(() => _isLoading = false));
+    // }
 
     super.didChangeDependencies();
   }
@@ -92,13 +103,16 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
               size: 32,
             ),
           ),
+
           //кнопка для вывода меню с фильтром по регионам
-          FilterButton(
-            filterName: _filterName,
-            regions: _provider.regions,
-            selectData: _selectData,
-            changeData: _changeData,
-          ),
+          _isFilter
+              ? FilterButton(
+                  filterName: _filterName,
+                  regions: _provider.regions,
+                  selectData: _selectData,
+                  changeData: _changeData,
+                )
+              : const SizedBox(),
         ],
       ),
       body: _isLoading
@@ -111,7 +125,7 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
               //проверяем, не пустой ли список после фильтрации
               child: _provider.filterList.isEmpty
                   //проверяем по какой причине - пустой список
-                  ? _isFilter
+                  ? _isFilterApply
 
                       //если список пустой по причине - отсутсвия вина из-за неправильного фильтра
                       ? UnsuccessfulFilter(
@@ -152,14 +166,18 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
     //проверяем, выбран ли регион или нет
     //если фильтр не выбрае, то выводим все заметки по стране
     if (_selectData.isEmpty) {
-      _provider.clearFilter();
-      _isFilter = false;
+      _provider.clearFilter(_typeOfSotring);
+      _isFilterApply = false;
     }
 
     //если выбран, то применяем фильтр к заметкам
     else {
-      _provider.selectFilter(filterName: filterName, data: _selectData);
-      _isFilter = true;
+      _provider.selectFilter(
+        filterName: filterName,
+        data: _selectData,
+        typeOfSotring: _typeOfSotring,
+      );
+      _isFilterApply = true;
     }
   }
 
@@ -167,6 +185,7 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
   //принимает тип сортировки
   void _sortNotes(TypeOfSotring type) {
     _typeOfSotring = type;
+    _isFilterApply = true;
     _provider.sortNotes(type);
   }
 }

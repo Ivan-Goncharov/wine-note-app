@@ -6,16 +6,16 @@ import 'package:flutter_my_wine_app/widgets/system_widget/toast_message.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/wine_list_provider.dart';
-import '../../models/wine_item.dart';
-import '../../widgets/edit_wine/item_chapter_edit.dart';
-import '../../widgets/edit_wine/text_field_container.dart';
-import '../../screens/edit_screens/drop_down_colors.dart';
-import '../../string_resourses.dart';
-import '../../widgets/edit_wine/wine_year.dart';
-import '../../widgets/edit_wine/text_fied_country.dart';
-import '../../widgets/edit_wine/image_pick.dart';
-import '../tabs_screen.dart';
+import '../models/wine_list_provider.dart';
+import '../models/wine_item.dart';
+import '../widgets/edit_wine/item_chapter_edit.dart';
+import '../widgets/edit_wine/text_field_container.dart';
+import '../widgets/edit_wine/drop_down_colors.dart';
+import '../string_resourses.dart';
+import '../widgets/edit_wine/wine_year.dart';
+import '../widgets/edit_wine/text_fied_country.dart';
+import '../widgets/edit_wine/image_pick.dart';
+import 'tabs_screen.dart';
 
 //экран для добавления и редактирования записей о вине
 class EditWineScreen extends StatefulWidget {

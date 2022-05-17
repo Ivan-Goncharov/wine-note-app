@@ -129,6 +129,7 @@ class _ManufGrapeOverviewScreenState extends State<ManufGrapeOverviewScreen> {
                             ? ''
                             : _provider.manufactSearch[index]['title'],
                         'filterName': _fieldType,
+                        'isFilter': true,
                       },
                     ),
                     child: ItemManufacturer(

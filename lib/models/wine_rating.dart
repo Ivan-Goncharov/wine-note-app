@@ -14,4 +14,10 @@ class WineRating {
     double result = (ratingAroma + ratingTaste + ratingAppearance) / 3;
     return result;
   }
+
+  static double staticAverageMethod(
+      double oneRat, double twoRat, double threeRat) {
+    double result = (oneRat + twoRat + threeRat) / 3;
+    return result;
+  }
 }

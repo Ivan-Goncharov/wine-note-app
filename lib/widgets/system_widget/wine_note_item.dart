@@ -42,7 +42,7 @@ class WineNoteItem extends StatelessWidget {
               wineNote.id!,
             )
             .then((_) => Provider.of<WineSortProvider>(context, listen: false)
-                .checkDelete());
+                .checkDelete(wineNote.id!));
 
         fToast.showToast(
           child: const ToastMessage(

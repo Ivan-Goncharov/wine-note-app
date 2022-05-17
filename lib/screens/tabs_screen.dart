@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 
-import 'edit_screens/edit_wine_screen.dart';
+import 'edit_wine_screen.dart';
 import 'overview_screens/wine_overview_screen.dart';
 import '../../screens/last_wine_notes.dart';
 import '../../widgets/bottom_app_bar.dart';
