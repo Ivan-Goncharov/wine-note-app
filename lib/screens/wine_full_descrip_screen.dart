@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_item.dart';
-import 'package:flutter_my_wine_app/models/wine_rating.dart';
+import 'package:flutter_my_wine_app/widgets/details_widgets/full_screen_image.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
-import '../models/wine_list_provider.dart';
 import 'edit_wine_screen.dart';
+import '../models/wine_item.dart';
+import '../models/wine_rating.dart';
+import '../models/wine_list_provider.dart';
 import '../widgets/details_widgets/detailed_expanded_notes.dart';
 import '../widgets/system_widget/app_bar.dart';
 
@@ -106,14 +108,34 @@ class _WineFullDescripScreenState extends State<WineFullDescripScreen> {
                           ),
                           width: MediaQuery.of(context).size.height * 0.25,
                         )
-                      : Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          child: LimitedBox(
-                            maxWidth: MediaQuery.of(context).size.width * 0.5,
-                            child: Image.file(
-                              File(_wineNote.imageUrl),
-                              fit: BoxFit.contain,
+                      : GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              PageTransition(
+                                opaque: false,
+                                child: FullImageScreen(
+                                  imageUrl: _wineNote.imageUrl,
+                                ),
+                                type: PageTransitionType.size,
+                                alignment: Alignment.center,
+                                reverseDuration:
+                                    const Duration(milliseconds: 500),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            margin:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            child: LimitedBox(
+                              maxWidth: MediaQuery.of(context).size.width * 0.5,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Image.file(
+                                  File(_wineNote.imageUrl),
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
                             ),
                           ),
                         ),

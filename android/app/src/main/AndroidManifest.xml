@@ -2,7 +2,7 @@
     package="com.example.flutter_my_wine_app">
    <application
         android:label="flutter_my_wine_app"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/wine_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

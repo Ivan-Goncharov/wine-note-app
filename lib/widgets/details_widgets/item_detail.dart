@@ -32,12 +32,28 @@ class ItemDetailInfo extends StatelessWidget {
           // в окно с подробным описанием свойства
           ? InkWell(
               onTap: () {
-                showDialog(
+                //
+                showGeneralDialog(
                   context: context,
-                  builder: (context) => Dialog(
-                    backgroundColor: Colors.transparent,
-                    child: DetailDescription(info: info, title: title),
-                  ),
+                  pageBuilder: (context, animOne, animTwo) {
+                    return const SizedBox();
+                  },
+                  transitionBuilder: (context, animOne, animTwo, widget) {
+                    return Transform.scale(
+                      scale: animOne.value,
+                      child: Opacity(
+                        opacity: animOne.value,
+                        child: Dialog(
+                          backgroundColor: Colors.transparent,
+                          child: DetailDescription(info: info, title: title),
+                        ),
+                      ),
+                    );
+                  },
+                  transitionDuration: const Duration(milliseconds: 150),
+                  barrierDismissible: true,
+                  barrierLabel: '',
+                  barrierColor: Colors.transparent,
                 );
               },
               child: InfoContainer(info: info, title: title, icon: icon),

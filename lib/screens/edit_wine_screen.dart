@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../models/wine_list_provider.dart';
 import '../models/wine_item.dart';
+import '../widgets/edit_wine/edit_save_dialog.dart';
 import '../widgets/edit_wine/item_chapter_edit.dart';
 import '../widgets/edit_wine/text_field_container.dart';
 import '../widgets/edit_wine/drop_down_colors.dart';
@@ -139,8 +140,6 @@ class _EditWineScreenState extends State<EditWineScreen> {
           padding: const EdgeInsets.only(bottom: 16.0),
           width: double.infinity,
           height: double.infinity,
-
-          //используем Form для общей валидации
           child: Form(
             key: _key,
             child: SingleChildScrollView(
@@ -175,7 +174,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
                           changeNote: (value) {
                             _note = _note.copyWith(name: value);
                           },
-                          fieldAction: TextInputAction.next,
+                          fieldAction: TextInputAction.done,
                         ),
 
                         //Производитель вина
@@ -476,46 +475,5 @@ class _EditWineScreenState extends State<EditWineScreen> {
     if (_note.imageUrl.isEmpty || _note.imageUrl.contains('assets')) {
       _changeImagePath(_note.changeImage());
     }
-  }
-}
-
-class EditWineDialog extends StatelessWidget {
-  final Function saveNote;
-  const EditWineDialog({Key? key, required this.saveNote}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Выход'),
-      content: const Text('Сохранить введенные данные?'),
-      actions: [
-        //Не сохранять
-        TextButton(
-          onPressed: (() {
-            Navigator.pop(context);
-            Navigator.pop(context);
-          }),
-          child: const Text(
-            'Нет',
-            style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-
-        //сохранять
-        TextButton(
-          onPressed: () => saveNote(),
-          child: const Text(
-            'Да',
-            style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        )
-      ],
-    );
   }
 }
