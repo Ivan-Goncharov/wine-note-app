@@ -1,6 +1,7 @@
 //виджет для вывода одного свойства заметки
 import 'package:flutter/material.dart';
 
+//один элемент в детальном описании вина
 class ItemDetailInfo extends StatelessWidget {
   //информация, заполненная пользователем
   final String info;
@@ -32,7 +33,6 @@ class ItemDetailInfo extends StatelessWidget {
           // в окно с подробным описанием свойства
           ? InkWell(
               onTap: () {
-                //
                 showGeneralDialog(
                   context: context,
                   pageBuilder: (context, animOne, animTwo) {
@@ -203,19 +203,17 @@ class DetailDescription extends StatelessWidget {
               //прокручиваемый бокс с подробной информацией
               LimitedBox(
                 maxHeight: MediaQuery.of(context).size.height * 0.3,
-                child: Expanded(
-                  child: SingleChildScrollView(
-                    child: Text(
-                      info,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
-                      ),
+                child: SingleChildScrollView(
+                  child: Text(
+                    info,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18,
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

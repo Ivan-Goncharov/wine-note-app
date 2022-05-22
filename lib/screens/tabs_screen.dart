@@ -48,7 +48,7 @@ class _TabsScreenState extends State<TabsScreen> {
     //инициализируем страницы навигации
     _pages = <Widget>[
       const LastWineNote(),
-      WineOverViewScreen(hideBottomBar: _changeHide),
+      WineOverviewScreen(hideBottomBar: _changeHide),
     ];
 
     //showCase инструкция пользования приложением

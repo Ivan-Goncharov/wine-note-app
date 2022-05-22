@@ -31,7 +31,7 @@ class PagesIntro extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           //выводим анимацию
-          lottieAnimation,
+          Expanded(child: lottieAnimation),
 
           //заголовок
           Padding(

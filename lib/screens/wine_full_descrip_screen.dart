@@ -1,15 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/widgets/details_widgets/full_screen_image.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 import 'edit_wine_screen.dart';
 import '../models/wine_item.dart';
 import '../models/wine_rating.dart';
-import '../models/wine_list_provider.dart';
+import '../models/wine_database_provider.dart';
 import '../widgets/details_widgets/detailed_expanded_notes.dart';
+import '../widgets/details_widgets/full_screen_image.dart';
 import '../widgets/system_widget/app_bar.dart';
 
 //Экран для полного описания вина
@@ -33,9 +33,11 @@ class WineFullDescripScreen extends StatefulWidget {
 class _WineFullDescripScreenState extends State<WineFullDescripScreen> {
   @override
   Widget build(BuildContext context) {
+    //получаем заметку через id
     final WineItem _wineNote =
-        Provider.of<WineListProvider>(context, listen: true)
+        Provider.of<WineDatabaseProvider>(context, listen: true)
             .findById(widget.wineNoteId);
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBar(
@@ -102,14 +104,20 @@ class _WineFullDescripScreenState extends State<WineFullDescripScreen> {
                 borderRadius: BorderRadius.circular(20),
                 child: Hero(
                   child: _wineNote.imageUrl.contains('assets')
+
+                      //если изображение системное, то выводим через Assets
                       ? Image(
                           image: AssetImage(
                             _wineNote.imageUrl,
                           ),
                           width: MediaQuery.of(context).size.height * 0.25,
                         )
+
+                      //если пользовательское, оборачиваем в tap
+                      //для перехода на экран с полным изображенеим вина
                       : GestureDetector(
                           onTap: () {
+                            //переход на экран
                             Navigator.of(context).push(
                               PageTransition(
                                 opaque: false,
@@ -123,6 +131,8 @@ class _WineFullDescripScreenState extends State<WineFullDescripScreen> {
                               ),
                             );
                           },
+
+                          //изображение
                           child: Container(
                             margin:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
@@ -153,11 +163,14 @@ class _WineFullDescripScreenState extends State<WineFullDescripScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  //крепкость
                   _wineNote.alcoPercent != 0.0
                       ? Text(
                           _wineNote.alcoPercent.toStringAsFixed(1) + '% vol.',
                           style: _textStyle())
                       : const SizedBox(),
+
+                  //стоимость
                   _wineNote.price != 0.0
                       ? Text(_wineNote.price.toStringAsFixed(0) + ' р.',
                           style: _textStyle())

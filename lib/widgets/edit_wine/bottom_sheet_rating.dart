@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_rating.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+import '../../models/wine_rating.dart';
 
 // виджет, который вызывается, когда пользователь нажимает кнопку ввода рейтинга
 class BottomSheetRating extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/wine_list_provider.dart';
+import '../models/wine_database_provider.dart';
 import '../widgets/system_widget/custom_text_field.dart';
 import '../widgets/system_widget/wine_note_item.dart';
 
@@ -25,7 +25,7 @@ class _SearchWineNoteState extends State<SearchWineNote> {
   late TextEditingController _controller;
 
   bool _isInit = false;
-  late WineListProvider _provider;
+  late WineDatabaseProvider _provider;
 
   @override
   void initState() {
@@ -38,7 +38,7 @@ class _SearchWineNoteState extends State<SearchWineNote> {
   void didChangeDependencies() {
     //если приложение запущено впервые, то инициализируем данные
     if (!_isInit) {
-      _provider = Provider.of<WineListProvider>(context);
+      _provider = Provider.of<WineDatabaseProvider>(context);
       _isInit = true;
     }
     super.didChangeDependencies();

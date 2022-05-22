@@ -8,13 +8,9 @@ import '../../screens/overview_screens/item_filter.dart';
 class ItemOverviewCountry extends StatelessWidget {
   //принимаем информацию о стране в Map, размеры и цветовую схему
   final Map<String, dynamic> country;
-  final Size size;
-  final ColorScheme colorScheme;
   const ItemOverviewCountry({
     Key? key,
     required this.country,
-    required this.size,
-    required this.colorScheme,
   }) : super(key: key);
 
   @override
@@ -37,7 +33,7 @@ class ItemOverviewCountry extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
-          color: colorScheme.surfaceVariant,
+          color: Theme.of(context).colorScheme.surfaceVariant,
         ),
         child: Row(
           children: [
@@ -50,8 +46,8 @@ class ItemOverviewCountry extends StatelessWidget {
                       //выводим на экран флаг
                       : SvgPicture.asset(
                           country['svg'],
-                          width: size.width * 0.05,
-                          height: size.height * 0.05,
+                          width: MediaQuery.of(context).size.width * 0.05,
+                          height: MediaQuery.of(context).size.height * 0.05,
                         ),
             ),
             const SizedBox(width: 10),
@@ -61,7 +57,7 @@ class ItemOverviewCountry extends StatelessWidget {
               child: Text(
                 getCountryName(),
                 style: TextStyle(
-                  color: colorScheme.onSurfaceVariant,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -73,7 +69,7 @@ class ItemOverviewCountry extends StatelessWidget {
             Text(
               createCount(country['count'] as int),
               style: TextStyle(
-                color: colorScheme.onSurfaceVariant,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(width: 5),
@@ -105,6 +101,7 @@ class ItemOverviewCountry extends StatelessWidget {
   }
 }
 
+//если нет флага, то выводим иконку страны
 class NoneFlag extends StatelessWidget {
   const NoneFlag({Key? key}) : super(key: key);
 

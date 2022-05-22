@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//диалог для сохранения заметки
 class EditWineDialog extends StatelessWidget {
   final Function saveNote;
   const EditWineDialog({Key? key, required this.saveNote}) : super(key: key);

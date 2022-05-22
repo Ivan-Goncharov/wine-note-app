@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_my_wine_app/models/wine_item.dart';
 
+import '../../models/wine_item.dart';
 import '../database/databse.dart';
 
 //провайдер для работы с производителями вин и сортами

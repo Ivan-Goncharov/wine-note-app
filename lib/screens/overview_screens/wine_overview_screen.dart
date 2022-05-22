@@ -4,8 +4,8 @@ import '../../screens/search_wine_note.dart';
 import '../../widgets/overview_widget/wine_navig_sections.dart';
 
 //Экран со всеми записями о вине
-class WineOverViewScreen extends StatefulWidget {
-  const WineOverViewScreen({Key? key, required this.hideBottomBar})
+class WineOverviewScreen extends StatefulWidget {
+  const WineOverviewScreen({Key? key, required this.hideBottomBar})
       : super(key: key);
 
   //принимает функцию, которая вызывается при нажатии кнопки поиска
@@ -14,10 +14,10 @@ class WineOverViewScreen extends StatefulWidget {
   static const routNamed = 'wineOver_view';
 
   @override
-  State<WineOverViewScreen> createState() => _WineOverViewScreenState();
+  State<WineOverviewScreen> createState() => _WineOverviewScreenState();
 }
 
-class _WineOverViewScreenState extends State<WineOverViewScreen> {
+class _WineOverviewScreenState extends State<WineOverviewScreen> {
   //переменная для отслеживания - какой виджет на экране
   // true - виджет поиска заметок
   // false - виджет навигации по заметкам

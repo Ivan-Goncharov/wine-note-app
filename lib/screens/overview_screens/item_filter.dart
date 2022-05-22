@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/wine_sorted_provider.dart';
+import '../../models/wine_filter_provider.dart';
 import '../../models/wine_item.dart';
 import '../../widgets/overview_widget/filter_button.dart';
 import '../../widgets/overview_widget/notes_sorting.dart';
@@ -19,7 +19,7 @@ class ItemFilterNotes extends StatefulWidget {
 
 class _ItemFilterNotesState extends State<ItemFilterNotes> {
   //провайдер
-  late WineSortProvider _provider;
+  late WineFilterProvider _provider;
 
   // переменная для отслеживания - инициализированны данные или нет
   bool _isInit = false;
@@ -50,7 +50,7 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
   void didChangeDependencies() {
     if (!_isInit) {
       //подключаем провайдер
-      _provider = Provider.of<WineSortProvider>(context);
+      _provider = Provider.of<WineFilterProvider>(context);
       //очищаем предыдущий список регионов
       _provider.clearRegions();
 
@@ -70,13 +70,6 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
       _isInit = true;
     }
 
-    // if (!_isFilterApply) {
-    //   setState(() => _isLoading = true);
-    //   _provider
-    //       .fetchCustomNotes(_filterName, _dataTitle)
-    //       .then((_) => setState(() => _isLoading = false));
-    // }
-
     super.didChangeDependencies();
   }
 
@@ -86,6 +79,7 @@ class _ItemFilterNotesState extends State<ItemFilterNotes> {
       appBar: CustomAppBar(
         title: _dataTitle,
         listOfAction: [
+          //кнопка для вызова типа сортировок
           IconButton(
             onPressed: () {
               showModalBottomSheet(

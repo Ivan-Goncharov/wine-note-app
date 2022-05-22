@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/widgets/overview_widget/notes_sorting.dart';
 
 import '../database/databse.dart';
 import '../models/wine_item.dart';
+import '../../widgets/overview_widget/notes_sorting.dart';
 
 //провадйер для получения заметки конкретного типа из базы данных
-class WineSortProvider with ChangeNotifier {
+class WineFilterProvider with ChangeNotifier {
   //список заметок для дополнительного фильтра(например, по регионам)
   List<WineItem> _filterList = [];
   List<WineItem> get filterList => _filterList;
@@ -104,6 +104,8 @@ class WineSortProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  //метод вызывается при удалении заметки (через другой провайдер)
+  //обновляем список заметок
   void checkDelete(String id) {
     if (_allNotes.isNotEmpty) {
       _allNotes.removeWhere((note) => note.id == id);

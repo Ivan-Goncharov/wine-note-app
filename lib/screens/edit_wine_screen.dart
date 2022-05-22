@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_rating.dart';
-import 'package:flutter_my_wine_app/widgets/edit_wine/text_field_hint.dart';
-import 'package:flutter_my_wine_app/widgets/edit_wine/text_field_rating.dart';
-import 'package:flutter_my_wine_app/widgets/system_widget/toast_message.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
-import '../models/wine_list_provider.dart';
-import '../models/wine_item.dart';
-import '../widgets/edit_wine/edit_save_dialog.dart';
-import '../widgets/edit_wine/item_chapter_edit.dart';
-import '../widgets/edit_wine/text_field_container.dart';
-import '../widgets/edit_wine/drop_down_colors.dart';
 import '../string_resourses.dart';
+import '../models/wine_rating.dart';
+import '../models/wine_database_provider.dart';
+import '../models/wine_item.dart';
+import '../widgets/system_widget/edit_save_dialog.dart';
+import '../widgets/edit_wine/item_chapter_edit.dart';
+import '../widgets/system_widget/text_field_container.dart';
+import '../widgets/edit_wine/drop_down_colors.dart';
 import '../widgets/edit_wine/wine_year.dart';
 import '../widgets/edit_wine/text_fied_country.dart';
 import '../widgets/edit_wine/image_pick.dart';
+import '../widgets/edit_wine/text_field_hint.dart';
+import '../widgets/edit_wine/text_field_rating.dart';
+import '../widgets/system_widget/toast_message.dart';
 import 'tabs_screen.dart';
 
 //экран для добавления и редактирования записей о вине
@@ -58,6 +58,10 @@ class _EditWineScreenState extends State<EditWineScreen> {
 
   //переменная для инициализации
   var _isInit = true;
+  //переменная для отслеживания - как вызвали экран
+  //false - если создаем новую заметку
+  //true - если изменяем уже созданную
+  var _isChange = false;
 
   // ввода страны и региона
   late String _countryName;
@@ -73,7 +77,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
   late FToast _fToast;
 
   //провайдер для сохранения заметки
-  WineListProvider? _listProvider;
+  WineDatabaseProvider? _listProvider;
 
   //передаем значение размера переменной для размера контейнера
   //инициализируем провайдер
@@ -83,11 +87,13 @@ class _EditWineScreenState extends State<EditWineScreen> {
     //то принимаем id заметки, если id передан - нам необходимо изменить существующую заметк
     // если id = null, то создаем новую заметку
     if (_isInit) {
-      _listProvider = Provider.of<WineListProvider>(context, listen: false);
-      final String? noteId =
-          ModalRoute.of(context)!.settings.arguments as String?;
+      _listProvider = Provider.of<WineDatabaseProvider>(context, listen: false);
+      final arg = ModalRoute.of(context)!.settings.arguments as String?;
+      final String? noteId = arg;
+
       if (noteId != null) {
         _note = _listProvider!.findById(noteId);
+        _isChange = true;
       }
 
       //инициализируем переменные страны и региона, для вывода в поиске
@@ -114,9 +120,9 @@ class _EditWineScreenState extends State<EditWineScreen> {
             ),
           ),
         ),
-        title: const Text(
-          'Добавить заметку',
-          style: TextStyle(
+        title: Text(
+          _isChange ? 'Изменить заметку' : 'Добавить заметку',
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 22,
           ),
@@ -276,10 +282,22 @@ class _EditWineScreenState extends State<EditWineScreen> {
 
                           //сохраняем данные
                           changeNote: (value) {
+                            double wineAlco = 0.0;
+
+                            //если пользователь ввел вместо точки - запятую,
+                            //меняем запятую на точку
+                            if (value.isEmpty) {
+                              wineAlco = 0.0;
+                            } else if (value.contains(',')) {
+                              wineAlco =
+                                  double.parse(value.replaceAll(',', '.'));
+                            } else {
+                              wineAlco = double.parse(value);
+                            }
+
+                            if (wineAlco > 100) wineAlco = 100;
                             //парсимм значение в double и сохраняем в заметку
-                            _note = _note.copyWith(
-                                alcoPercent:
-                                    double.parse(parseDoubleInfo(value)));
+                            _note = _note.copyWith(alcoPercent: wineAlco);
                           },
                           fieldAction: TextInputAction.done,
                           hintText: 'Укажите процент алкоголя',

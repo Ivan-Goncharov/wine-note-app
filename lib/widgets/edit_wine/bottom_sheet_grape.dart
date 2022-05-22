@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../string_resourses.dart';
-import 'button_search.dart';
 import '../system_widget/custom_text_field.dart';
+import 'button_search.dart';
 
 //виджет для выбора сорта винограда
 class BottomSheetGrape extends StatefulWidget {
+  //выбранные сорта
   final List<String> selectedItems;
   static const routName = './rout_name';
   const BottomSheetGrape({Key? key, required this.selectedItems})

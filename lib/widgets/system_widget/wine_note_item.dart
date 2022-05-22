@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/models/wine_sorted_provider.dart';
+import 'package:flutter_my_wine_app/models/wine_filter_provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../screens/wine_full_descrip_screen.dart';
-import '../../models/wine_list_provider.dart';
+import '../../models/wine_database_provider.dart';
 import '../../models/wine_item.dart';
 import '../../widgets/system_widget/note_item_detail_container.dart';
 import '../../widgets/system_widget/toast_message.dart';
 
 //виджет для отображения одного элемента в списке вин
+// ignore: must_be_immutable
 class WineNoteItem extends StatelessWidget {
   //принимаем через конструктор нашу заметку о вине
   final WineItem wineNote;
 
-  bool? isCanDelete;
+  final bool? isCanDelete;
 
-  WineNoteItem(this.wineNote, {Key? key, this.isCanDelete}) : super(key: key);
+  const WineNoteItem(this.wineNote, {Key? key, this.isCanDelete})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +39,11 @@ class WineNoteItem extends StatelessWidget {
       //если пользователь выбирает в диалоге удаление элемента,
       //то удаляем заметку и показываем соотвествующее сообщение
       onDismissed: (_) {
-        Provider.of<WineListProvider>(context, listen: false)
+        Provider.of<WineDatabaseProvider>(context, listen: false)
             .deleteNote(
               wineNote.id!,
             )
-            .then((_) => Provider.of<WineSortProvider>(context, listen: false)
+            .then((_) => Provider.of<WineFilterProvider>(context, listen: false)
                 .checkDelete(wineNote.id!));
 
         fToast.showToast(

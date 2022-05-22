@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 
-import './models/wine_list_provider.dart';
-import './models/wine_sorted_provider.dart';
+import 'models/wine_database_provider.dart';
+import 'models/wine_filter_provider.dart';
 import './models/wine_overview_provider.dart';
 import './models/my_themes.dart';
-import 'screens/edit_wine_screen.dart';
-import 'widgets/edit_wine/bottom_sheet_grape.dart';
+import './screens/edit_wine_screen.dart';
 import './screens/overview_screens/countries_overview.dart';
 import './screens/overview_screens/item_filter.dart';
 import './screens/tabs_screen.dart';
-import './screens/overview_screens/manuf_grape_screen.dart';
+import 'screens/overview_screens/manuf_grape_overview.dart';
 import './screens/intro_screens.dart/introdaction_screen.dart';
 import './screens/intro_screens.dart/pages_intro.dart';
 import './widgets/custom_page_route.dart';
@@ -42,10 +42,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: WineListProvider()),
-        ChangeNotifierProvider.value(value: WineSortProvider()),
+        ChangeNotifierProvider.value(value: WineDatabaseProvider()),
+        ChangeNotifierProvider.value(value: WineFilterProvider()),
         ChangeNotifierProvider.value(value: WineOverviewProvider()),
         ChangeNotifierProvider.value(value: ChangeThemeProvider()),
       ],

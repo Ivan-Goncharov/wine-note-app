@@ -3,21 +3,21 @@ import 'package:provider/provider.dart';
 
 import '../../icons/my_custom_icons.dart';
 import '../../models/wine_item.dart';
-import '../../models/wine_list_provider.dart';
+import '../../models/wine_database_provider.dart';
 import '../../screens/overview_screens/countries_overview.dart';
-import '../../screens/overview_screens/manuf_grape_screen.dart';
+import '../../screens/overview_screens/manuf_grape_overview.dart';
 import '../system_widget/null_notes_message.dart';
 
 //виджет для вывода навигационных панелей по вину
 //навигация по стране, производителю, сорту винограда
 class WineNavigatSections extends StatelessWidget {
-  WineNavigatSections({Key? key}) : super(key: key);
+  const WineNavigatSections({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8.0),
-      child: Provider.of<WineListProvider>(context).wineList.isEmpty
+      child: Provider.of<WineDatabaseProvider>(context).wineList.isEmpty
           ? const NullNotesMessage()
           : Column(
               children: [
@@ -72,29 +72,6 @@ class WineNavigatSections extends StatelessWidget {
               ],
             ),
     );
-  }
-
-  final items = [
-    'Страна',
-    'Bath',
-    'Room',
-    'God',
-    'Dog',
-    'Cat',
-    'Animals',
-    'People',
-    'Jack',
-    'Tom',
-    'Donkey',
-    'Horses',
-  ];
-
-  List<DropdownMenuItem<dynamic>> createList() {
-    List<DropdownMenuItem<dynamic>> list = [];
-    for (var it in items) {
-      list.add(DropdownMenuItem(child: Text(it), value: it));
-    }
-    return list;
   }
 }
 

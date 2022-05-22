@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import '../../widgets/edit_wine/button_search.dart';
 
 //виджет, который открывается при вызове bottomSheet
@@ -169,9 +170,12 @@ class _BottomSheetInputGeneralState extends State<BottomSheetInputGeneral> {
                 child: _searchList.isEmpty
 
                     //если список поиска пустой, то выводим кнопки для сохранения ввода
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: ButtonsInSearch(saveInfo: _controller.text),
+                    ? LimitedBox(
+                        maxHeight: MediaQuery.of(context).size.height * 0.08,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: ButtonsInSearch(saveInfo: _controller.text),
+                        ),
                       )
 
                     //если в списке есть данные, то выводим на экран

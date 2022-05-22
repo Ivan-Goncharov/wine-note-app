@@ -3,7 +3,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../models/wine_rating.dart';
 import '../../widgets/edit_wine/bottom_sheet_rating.dart';
-import '../../widgets/edit_wine/button_container.dart';
+import '../system_widget/button_container.dart';
 
 //виджет для изменения рейтинга вина
 class TextFieldRating extends StatefulWidget {

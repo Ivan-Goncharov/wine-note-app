@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+//виджет для вывода изображение во весь экран
 class FullImageScreen extends StatelessWidget {
+  //ссылка на изображение
   final String imageUrl;
   const FullImageScreen({Key? key, required this.imageUrl}) : super(key: key);
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/wine_list_provider.dart';
+import '../models/wine_database_provider.dart';
 import '../../screens/tabs_screen.dart';
 import '../widgets/system_widget/app_bar.dart';
 import '../widgets/system_widget/custom_showcase.dart';
@@ -19,7 +19,7 @@ class LastWineNote extends StatefulWidget {
 
 class _LastWineNoteState extends State<LastWineNote> {
   //провайдер для получения списка заметок
-  WineListProvider? _listProvider;
+  WineDatabaseProvider? _listProvider;
   //переменная для инициализации
   bool _isInit = false;
 
@@ -34,7 +34,7 @@ class _LastWineNoteState extends State<LastWineNote> {
 
   //создаем экземпляр провайдера и получаем все заметки из базы данных
   void createNoteList(BuildContext context) async {
-    _listProvider = Provider.of<WineListProvider>(context);
+    _listProvider = Provider.of<WineDatabaseProvider>(context);
     _listProvider!.fetchAllNotes();
   }
 

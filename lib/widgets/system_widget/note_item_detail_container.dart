@@ -31,8 +31,9 @@ class WineNoteItemDetail extends StatelessWidget {
       child: Row(
         children: [
           //изображение заметки
-          Padding(
+          Container(
             padding: const EdgeInsets.only(right: 8.0),
+            width: size.width * 0.2,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Hero(
@@ -58,8 +59,8 @@ class WineNoteItemDetail extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    LimitedBox(
-                      maxWidth: size.width * 0.34,
+                    SizedBox(
+                      width: size.width * 0.34,
                       child: Text(
                         wineNote.name,
                         overflow: TextOverflow.ellipsis,
@@ -93,8 +94,8 @@ class WineNoteItemDetail extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     wineNote.manufacturer.isNotEmpty
-                        ? LimitedBox(
-                            maxWidth: size.width * 0.4,
+                        ? SizedBox(
+                            width: size.width * 0.355,
                             child: Text(
                               '${wineNote.manufacturer}, ',
                               overflow: TextOverflow.ellipsis,

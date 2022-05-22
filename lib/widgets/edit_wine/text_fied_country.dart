@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-import 'button_container.dart';
+import '../system_widget/button_container.dart';
 import '../../string_resourses.dart';
 import '../../widgets/edit_wine/bottom_sheet_input.dart';
 
@@ -59,6 +59,7 @@ class _TextFieldCountryState extends State<TextFieldCountry> {
         //вызываем нижний экран
         showMaterialModalBottomSheet(
             context: context,
+            backgroundColor: Colors.transparent,
             builder: (context) {
               return BottomSheetInputGeneral(
                 list: Country.countryList,

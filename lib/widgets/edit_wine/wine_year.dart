@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'button_container.dart';
+import '../system_widget/button_container.dart';
 
 //виджет для вывода экрана выбора года урожая
 class WineYear extends StatefulWidget {
@@ -37,7 +37,7 @@ class _WineYearState extends State<WineYear> {
                   firstDate: DateTime(DateTime.now().year - 50, 1),
                   lastDate: DateTime(DateTime.now().year, 1),
                   initialDate: DateTime.now(),
-                  selectedDate: DateTime.now(),
+                  selectedDate: widget.currentWineYear ?? DateTime.now(),
                   onChanged: (DateTime dateTime) {
                     setState(() {
                       widget.currentWineYear = dateTime;

@@ -19,22 +19,20 @@ class ButtonsInSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final size = MediaQuery.of(context).size;
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         //кнопка назад
-        buttonContainer(
-          colorScheme: colorScheme,
-          size: size,
+        ButtonContainer(
           button: TextButton(
               child: Text(
                 leftButtonTitle ?? 'Назад',
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
                 style: TextStyle(
-                  color: colorScheme.onPrimary,
-                  fontSize: 18,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontSize: leftButtonTitle == null ? 18 : 16,
                 ),
               ),
               onPressed: () {
@@ -45,14 +43,15 @@ class ButtonsInSearch extends StatelessWidget {
         ),
 
         //кнопка "Сохранить"
-        buttonContainer(
-          colorScheme: colorScheme,
-          size: size,
+        ButtonContainer(
           button: TextButton(
               child: Text(
                 rightButtonTitle ?? 'Сохранить',
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
                 style: TextStyle(
-                  color: colorScheme.onPrimary,
+                  color: Theme.of(context).colorScheme.onPrimary,
                   fontSize: 18,
                 ),
               ),
@@ -67,19 +66,23 @@ class ButtonsInSearch extends StatelessWidget {
       ],
     );
   }
+}
 
-  //контейнер для стилизации кнопок
-  Widget buttonContainer(
-      {required ColorScheme colorScheme,
-      required Size size,
-      required Widget button}) {
+//контейнер для стилизации кнопок
+class ButtonContainer extends StatelessWidget {
+  final Widget button;
+  const ButtonContainer({Key? key, required this.button}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
-        color: colorScheme.primary,
+        color: Theme.of(context).colorScheme.primary,
       ),
-      width: size.width * 0.4,
-      height: size.height * 0.07,
+      width: MediaQuery.of(context).size.width * 0.4,
+      height: MediaQuery.of(context).size.height * 0.08,
+      alignment: Alignment.center,
       child: button,
     );
   }

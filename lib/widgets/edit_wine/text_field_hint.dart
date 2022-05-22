@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/models/wine_item.dart';
-import 'package:flutter_my_wine_app/models/wine_list_provider.dart';
+import 'package:flutter_my_wine_app/models/wine_database_provider.dart';
 import 'package:flutter_my_wine_app/widgets/edit_wine/bottom_sheet_grape.dart';
 
-import 'package:flutter_my_wine_app/widgets/edit_wine/button_container.dart';
+import 'package:flutter_my_wine_app/widgets/system_widget/button_container.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import '../../string_resourses.dart';
@@ -67,7 +67,7 @@ class _TextInputWithHintState extends State<TextInputWithHint> {
 
       //либо производитель, либо поставщик
       else {
-        _provider = Provider.of<WineListProvider>(context, listen: false);
+        _provider = Provider.of<WineDatabaseProvider>(context, listen: false);
         setState(
           () => _listOfItem = _provider.createHintList(widget.fieldType),
         );

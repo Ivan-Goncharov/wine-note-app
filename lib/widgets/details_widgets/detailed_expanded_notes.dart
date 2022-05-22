@@ -22,15 +22,19 @@ class DetailedExpanded extends StatelessWidget {
           children: [
             // производитель и год
             InkWell(
-              onTap: () => showModalBottomSheet(
-                context: context,
-                builder: (context) => TransitionBottomSheet(
-                  // titleOne: 'Все заметки по производителю: ',
-                  dataOne: wineNote.manufacturer,
-                  typeOne: WineNoteFields.manufacturer,
-                ),
-                backgroundColor: Colors.transparent,
-              ),
+              //по тапу вызываем bottomSheet с предложением перейти
+              //на экран со всеми заметками этого производителя
+              //проверяем - не пустое ли поле
+              onTap: wineNote.manufacturer.isEmpty
+                  ? () {}
+                  : () => showModalBottomSheet(
+                        context: context,
+                        builder: (context) => TransitionBottomSheet(
+                          dataOne: wineNote.manufacturer,
+                          typeOne: WineNoteFields.manufacturer,
+                        ),
+                        backgroundColor: Colors.transparent,
+                      ),
               child: ItemDetailInfo(
                 title: 'Производитель и год урожая',
                 info: _createInfo(
@@ -40,18 +44,19 @@ class DetailedExpanded extends StatelessWidget {
               ),
             ),
 
-            // Страна
+            // Страна и регион
             InkWell(
-              onTap: () => showModalBottomSheet(
-                context: context,
-                builder: (context) => TransitionBottomSheet(
-                  dataOne: wineNote.country,
-                  typeOne: WineNoteFields.country,
-                  dataTwo: wineNote.region,
-                  typeTwo: WineNoteFields.region,
-                ),
-                backgroundColor: Colors.transparent,
-              ),
+              onTap: () {
+                //по тапу вызываем метод, который оценивает
+                //- заполнены ли поля и уже вызывает bottomsheet
+                _transition(
+                  wineNote.country,
+                  wineNote.region,
+                  WineNoteFields.country,
+                  WineNoteFields.region,
+                  context,
+                );
+              },
               child: ItemDetailInfo(
                 title: 'Страна и регион',
                 info: _createInfo(wineNote.country, wineNote.region),
@@ -60,18 +65,19 @@ class DetailedExpanded extends StatelessWidget {
               ),
             ),
 
-            // сорт
+            // сорт и цвет
             InkWell(
-              onTap: () => showModalBottomSheet(
-                context: context,
-                builder: (context) => TransitionBottomSheet(
-                  dataOne: wineNote.grapeVariety,
-                  typeOne: WineNoteFields.grapeVariety,
-                  dataTwo: wineNote.wineColors,
-                  typeTwo: WineNoteFields.wineColors,
-                ),
-                backgroundColor: Colors.transparent,
-              ),
+              //по тапу вызываем метод, который оценивает
+              //- заполнены ли поля и уже вызывает bottomsheet
+              onTap: () {
+                _transition(
+                  wineNote.grapeVariety,
+                  wineNote.wineColors,
+                  WineNoteFields.grapeVariety,
+                  WineNoteFields.wineColors,
+                  context,
+                );
+              },
               child: ItemDetailInfo(
                 title: 'Сорт и цвет',
                 info: _createInfo(wineNote.grapeVariety, wineNote.wineColors),
@@ -145,5 +151,58 @@ class DetailedExpanded extends StatelessWidget {
   String _parseDateInString(DateTime date) {
     String month = date.month < 10 ? '0${date.month}' : '${date.month}';
     return '${date.day}.$month.${date.year} г.';
+  }
+
+  //метод для вызова нижней панели для перехода на страницы со списками вин
+  //выясняет, какое поле пустое, какое нет,
+  //и сколько вариантов перехода на страницы надо создавать
+  void _transition(
+    //данные
+    String dataFirst,
+    String dataSecond,
+
+    //типы данных
+    String typeFirst,
+    String typeSecond,
+    BuildContext context,
+  ) {
+    //если первые данные отсутсвуют, создаем боттом с вариантом перехода на вторые данные
+    if (dataFirst.isEmpty) {
+      showModalBottomSheet(
+        context: context,
+        builder: (context) => TransitionBottomSheet(
+          dataOne: dataSecond,
+          typeOne: typeSecond,
+        ),
+        backgroundColor: Colors.transparent,
+      );
+    }
+
+    //если указаны только первые данные
+    //предлагаем перейти на экран со всеми винами по этим данным
+    else if (dataSecond.isEmpty) {
+      showModalBottomSheet(
+        context: context,
+        builder: (context) => TransitionBottomSheet(
+          dataOne: dataFirst,
+          typeOne: typeFirst,
+        ),
+        backgroundColor: Colors.transparent,
+      );
+    }
+
+    //если указано все, то предлагаем оба варианта
+    else {
+      showModalBottomSheet(
+        context: context,
+        builder: (context) => TransitionBottomSheet(
+          dataOne: dataFirst,
+          typeOne: typeFirst,
+          dataTwo: dataSecond,
+          typeTwo: typeSecond,
+        ),
+        backgroundColor: Colors.transparent,
+      );
+    }
   }
 }

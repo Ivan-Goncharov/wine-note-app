@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/wine_list_provider.dart';
+import '../../models/wine_database_provider.dart';
 import '../../string_resourses.dart';
 import '../../widgets/overview_widget/item_overtview_country.dart';
 import '../../widgets/system_widget/app_bar.dart';
@@ -17,7 +17,7 @@ class CountriesOverview extends StatefulWidget {
 
 class _CountriesOverviewState extends State<CountriesOverview> {
   // провайдер для доступа к записям
-  late WineListProvider _provider;
+  late WineDatabaseProvider _provider;
 
   //список стран, которые мы заполним в дальнейшем
   List<Map<String, dynamic>> _counriesList = [];
@@ -30,7 +30,7 @@ class _CountriesOverviewState extends State<CountriesOverview> {
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      _provider = Provider.of<WineListProvider>(context, listen: false);
+      _provider = Provider.of<WineDatabaseProvider>(context, listen: false);
       _counriesList = Country.userCountriesList(_provider.wineList);
       _isInit = true;
     }
@@ -51,8 +51,6 @@ class _CountriesOverviewState extends State<CountriesOverview> {
             //выводим информацию по каждой стране
             return ItemOverviewCountry(
               country: _counriesList[index],
-              size: MediaQuery.of(context).size,
-              colorScheme: colorScheme,
             );
           },
           itemCount: _counriesList.length,
