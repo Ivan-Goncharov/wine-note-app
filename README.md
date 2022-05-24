@@ -31,9 +31,6 @@ __Приложение на данный момент успешно проте�
 
 ## Основные функции в формате GIF с описанием 
 
-=======
-_Если gif файл не прогрузился, справа от заголовка ссылка на открытие файла в отдельном окне_
->>>>>>> 8323d4a14b7295e4f71598f7150459e3bd8e1c8f
 ### Первичный экран после установки приложения
 ###
 <img src="assets/github_media/gifs/first_screen.gif" alt="gif" width="200"/>
@@ -81,7 +78,7 @@ _Если gif файл не прогрузился, справа от загол
 ###
 <img src="assets/github_media/gifs/filter.gif" alt="gif" width="200"/>
 
-### Навигация по заметкам _[ссылка на gif](https://s432vla.storage.yandex.net/rdisk/63e2ea9c240d3ff220fb97b6764e23339278cb1052a48a7d840bf4fb44373bdd/628cbfd0/anvQndequC3tnJGVLhXMUR_7nY1jXMRL_8M1-UZQl56_AaLpzh0x_hDktFCP1lc7RBlqhFX1gHZ4tkWR-tSvvw==?uid=564171569&filename=%D0%9D%D0%B0%D0%B2%D0%B8%D0%B3%D0%B0%D1%86%D0%B8%D1%8F.gif&disposition=inline&hash=&limit=0&content_type=image%2Fgif&owner_uid=564171569&fsize=13902200&hid=be23261e03ea3b8798dacc0935c0d349&media_type=image&tknv=v2&etag=a458f3dffc06a67655e28c2955c921af&rtoken=NYqJcgFn9G90&force_default=yes&ycrid=na-e1300c79878ee55c6b335d9081ac7d44-downloader17f&ts=5dfc029d39400&s=6583229d400580e0b1b96a64a4af8cf607b87e986cde71e0672ce5512cadcd2b&pb=U2FsdGVkX1_MWXdcAe8THRbiV_eQrImXfsE-_f2wmxc6m2V1YhbbRow88D1xBLTRRyPIwZYTh6CzZNGvSqZmRHWtD8mCzSQEC8xuRJAeFzk)_
+### Навигация по заметкам
 Навигация производится по следующим разделам: Страны, Производители, Сорта
 ###
 <img src="assets/github_media/gifs/navigation.gif" alt="gif" width="200"/>
