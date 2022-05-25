@@ -6,7 +6,7 @@
 
 __Приложение на данный момент успешно протестировано и работает только на платформе Android__
 
-__Google Play Store:___ <a href="https://play.google.com/store/apps/details?id=com.ivanGonch.wineDiary" target="_blank">Дневник сомелье</a> 
+__Google Play Store:__ [Дневник сомельe](https://play.google.com/store/apps/details?id=com.ivanGonch.wineDiary)
 
 
 <img src="assets/github_media/images/Создание заметки.png" alt="drawing" width="200"/> <img src="assets/github_media/images/Навигация.png" alt="drawing" width="200"/> <img src="assets/github_media/images/Подсказки.png" alt="drawing" width="200"/> 
