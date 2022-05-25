@@ -6,6 +6,8 @@
 
 __Приложение на данный момент успешно протестировано и работает только на платформе Android__
 
+Google Play Store: [Дневник сомелье](https://play.google.com/store/apps/details?id=com.ivanGonch.wineDiary)
+
 <img src="assets/github_media/images/Создание заметки.png" alt="drawing" width="200"/> <img src="assets/github_media/images/Навигация.png" alt="drawing" width="200"/> <img src="assets/github_media/images/Подсказки.png" alt="drawing" width="200"/> 
 
 <img src="assets/github_media/images/Поиск.png" alt="drawing" width="200"/>  <img src="assets/github_media/images/Рейтинг.png" alt="drawing" width="200"/> <img src="assets/github_media/images/Быстрый доступ.png" alt="drawing" width="200"/> 
