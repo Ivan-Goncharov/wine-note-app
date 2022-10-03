@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/units/tabs_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../models/wine_database_provider.dart';
-import '../../screens/tabs_screen.dart';
 import '../widgets/system_widget/app_bar.dart';
 import '../widgets/system_widget/custom_showcase.dart';
 import '../widgets/system_widget/wine_note_item.dart';

@@ -8,13 +8,13 @@ import 'models/wine_database_provider.dart';
 import 'models/wine_filter_provider.dart';
 import './models/wine_overview_provider.dart';
 import './models/my_themes.dart';
-import './screens/edit_wine_screen.dart';
-import './screens/overview_screens/countries_overview.dart';
-import './screens/overview_screens/item_filter.dart';
-import './screens/tabs_screen.dart';
-import 'screens/overview_screens/manuf_grape_overview.dart';
-import './screens/intro_screens.dart/introdaction_screen.dart';
-import './screens/intro_screens.dart/pages_intro.dart';
+import 'units/edit_wine_screen.dart';
+import 'units/overview_screens/countries_overview.dart';
+import 'units/overview_screens/item_filter.dart';
+import 'units/tabs_screen.dart';
+import 'units/overview_screens/manuf_grape_overview.dart';
+import 'units/introduction/view/introdaction_screen.dart';
+import 'units/introduction/view/pages_intro.dart';
 import './widgets/custom_page_route.dart';
 
 //переменная для хранения информации о первом запуске приложения
@@ -110,6 +110,7 @@ class _MyAppState extends State<MyApp> {
                   settings: settings,
                 );
             }
+            return null;
           },
         );
       },

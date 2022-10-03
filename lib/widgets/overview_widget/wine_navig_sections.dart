@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import '../../icons/my_custom_icons.dart';
 import '../../models/wine_item.dart';
 import '../../models/wine_database_provider.dart';
-import '../../screens/overview_screens/countries_overview.dart';
-import '../../screens/overview_screens/manuf_grape_overview.dart';
+import '../../units/overview_screens/countries_overview.dart';
+import '../../units/overview_screens/manuf_grape_overview.dart';
 import '../system_widget/null_notes_message.dart';
 
 //виджет для вывода навигационных панелей по вину

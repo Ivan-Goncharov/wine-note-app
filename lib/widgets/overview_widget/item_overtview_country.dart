@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../models/wine_item.dart';
-import '../../screens/overview_screens/item_filter.dart';
+import '../../units/overview_screens/item_filter.dart';
 
 //виджет для вывода одного элемента в списке стран
 class ItemOverviewCountry extends StatelessWidget {

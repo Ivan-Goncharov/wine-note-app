@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/units/search_wine_note.dart';
 
-import '../../screens/search_wine_note.dart';
 import '../../widgets/overview_widget/wine_navig_sections.dart';
 
 //Экран со всеми записями о вине
@@ -80,7 +80,7 @@ class _WineOverviewScreenState extends State<WineOverviewScreen> {
                 )
 
               //виджет панелей навигации
-              : WineNavigatSections()),
+              : const WineNavigatSections()),
     );
   }
 }

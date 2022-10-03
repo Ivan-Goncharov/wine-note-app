@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../screens/overview_screens/item_filter.dart';
+import '../../units/overview_screens/item_filter.dart';
 
 //виджет, который вызывается при тапе на страну / производителя / сорт винограда
 //предлагает перейти на экраны со всеми винами категории

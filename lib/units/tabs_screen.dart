@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/units/last_wine_notes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 
 import 'edit_wine_screen.dart';
 import 'overview_screens/wine_overview_screen.dart';
-import '../../screens/last_wine_notes.dart';
 import '../../widgets/bottom_app_bar.dart';
 import '../../widgets/system_widget/custom_showcase.dart';
 
@@ -52,7 +52,7 @@ class _TabsScreenState extends State<TabsScreen> {
     ];
 
     //showCase инструкция пользования приложением
-    WidgetsBinding.instance?.addPostFrameCallback(
+    WidgetsBinding.instance.addPostFrameCallback(
       (_) {
         //проверяем - запущено ли приложение впервые
         _isFirstLaunch().then(

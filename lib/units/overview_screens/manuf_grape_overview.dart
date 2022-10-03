@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/units/overview_screens/item_filter.dart';
 import 'package:provider/provider.dart';
 
-import '../../screens/overview_screens/item_filter.dart';
 import '../../models/wine_item.dart';
 import '../../models/wine_overview_provider.dart';
 import '../../widgets/system_widget/custom_text_field.dart';

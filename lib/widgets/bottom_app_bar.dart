@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../screens/tabs_screen.dart';
+import '../units/tabs_screen.dart';
 import '../../widgets/system_widget/custom_showcase.dart';
 
 //навигационный бар

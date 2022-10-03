@@ -3,7 +3,7 @@ import 'package:flutter_my_wine_app/models/wine_filter_provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
-import '../../screens/wine_full_descrip_screen.dart';
+import '../../units/wine_full_descrip_screen.dart';
 import '../../models/wine_database_provider.dart';
 import '../../models/wine_item.dart';
 import '../../widgets/system_widget/note_item_detail_container.dart';

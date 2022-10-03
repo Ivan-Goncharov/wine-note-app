@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/units/tabs_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../screens/tabs_screen.dart';
 
 //виджет для одного интро экрана
 class PagesIntro extends StatelessWidget {
