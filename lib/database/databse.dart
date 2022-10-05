@@ -115,6 +115,17 @@ CREATE TABLE $_tableName (
     return maps.map((json) => WineItem.fromMap(json)).toList();
   }
 
+  /// Метод для получения последних 10 заметок
+  Future<List<WineItem>> fetchLastTenWine() async {
+    final db = await instanse.getDataBase();
+
+    //создаем map записей в базе
+    final maps = await db.query(_tableName, limit: 10, orderBy: WineNoteFields.creationDate);
+
+    //возвращаем список заметок
+    return maps.map((json) => WineItem.fromMap(json)).toList();
+  }
+
   //метод для получения заметки конкретного типа
   //принимает имя поля, по которому будем искать
   //и значение, по которому будем искать

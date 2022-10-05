@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/units/last_wine_notes.dart';
+import 'package:flutter_my_wine_app/units/last_wine/last_wine_notes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 
