@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/units/tabs_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //виджет для одного интро экрана
@@ -67,7 +66,7 @@ class PagesIntro extends StatelessWidget {
               final pref = await SharedPreferences.getInstance();
               pref.setBool(sharedKey, false);
 
-              Navigator.pushReplacementNamed(context, TabsScreen.routName);
+              Navigator.pushReplacementNamed(context, '/');
             },
             child: Container(
               margin: const EdgeInsets.only(bottom: 85, top: 60),

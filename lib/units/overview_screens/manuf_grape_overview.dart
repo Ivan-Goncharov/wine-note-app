@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/units/overview_screens/item_filter.dart';
+import 'package:flutter_my_wine_app/constants/routes.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/wine_item.dart';
@@ -8,7 +8,6 @@ import '../../widgets/system_widget/custom_text_field.dart';
 
 //экран для вывода всех производителей вина, которые использовались в заметках
 class ManufGrapeOverviewScreen extends StatefulWidget {
-  static const routName = './manufactScreen';
   const ManufGrapeOverviewScreen({Key? key}) : super(key: key);
 
   @override
@@ -122,7 +121,7 @@ class _ManufGrapeOverviewScreenState extends State<ManufGrapeOverviewScreen> {
                   return GestureDetector(
                     onTap: () => Navigator.pushNamed(
                       context,
-                      ItemFilterNotes.routName,
+                      itemFilterNotesRoute,
                       arguments: {
                         'dataTitle': _provider.manufactSearch[index]['title'] ==
                                 WineOverviewProvider.notFoundGrape

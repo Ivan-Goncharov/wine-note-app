@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/constants/routes.dart';
 import 'package:provider/provider.dart';
 
 import '../../icons/my_custom_icons.dart';
 import '../../models/wine_item.dart';
 import '../../models/wine_database_provider.dart';
-import '../../units/overview_screens/countries_overview.dart';
-import '../../units/overview_screens/manuf_grape_overview.dart';
 import '../system_widget/null_notes_message.dart';
 
 //виджет для вывода навигационных панелей по вину
@@ -27,8 +26,8 @@ class WineNavigatSections extends StatelessWidget {
                   flex: 1,
                   fit: FlexFit.loose,
                   child: GestureDetector(
-                    onTap: () => Navigator.pushNamed(
-                        context, CountriesOverview.routName),
+                    onTap: () =>
+                        Navigator.pushNamed(context, countriesOverviewRoute),
                     child: const ItemColumn(
                       icon: MyCustomIcons.flag,
                       title: 'Страны',
@@ -43,7 +42,7 @@ class WineNavigatSections extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () => Navigator.pushNamed(
                       context,
-                      ManufGrapeOverviewScreen.routName,
+                      manufGrapeOveviewRoute,
                       arguments: WineNoteFields.manufacturer,
                     ),
                     child: const ItemColumn(
@@ -60,7 +59,7 @@ class WineNavigatSections extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () => Navigator.pushNamed(
                       context,
-                      ManufGrapeOverviewScreen.routName,
+                      manufGrapeOveviewRoute,
                       arguments: WineNoteFields.grapeVariety,
                     ),
                     child: const ItemColumn(

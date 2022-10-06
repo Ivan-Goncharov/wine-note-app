@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/constants/routes.dart';
 
-import '../../units/overview_screens/item_filter.dart';
 
 //виджет, который вызывается при тапе на страну / производителя / сорт винограда
 //предлагает перейти на экраны со всеми винами категории
@@ -74,7 +74,7 @@ class TransitionItem extends StatelessWidget {
     return InkWell(
       onTap: () => Navigator.pushNamed(
         context,
-        ItemFilterNotes.routName,
+        itemFilterNotesRoute,
         arguments: <String, dynamic>{
           'dataTitle': data,
           'filterName': type,

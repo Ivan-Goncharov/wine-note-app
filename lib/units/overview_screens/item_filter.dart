@@ -10,7 +10,6 @@ import '../../widgets/system_widget/wine_note_item.dart';
 
 //экран для вывода всех заметок, связанных с одной страной/ производителем / сортом
 class ItemFilterNotes extends StatefulWidget {
-  static const routName = ' ./itemFilter';
   const ItemFilterNotes({Key? key}) : super(key: key);
 
   @override

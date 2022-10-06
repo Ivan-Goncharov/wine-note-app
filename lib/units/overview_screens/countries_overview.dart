@@ -8,7 +8,6 @@ import '../../widgets/system_widget/app_bar.dart';
 
 //Экран с обзором заметок по странам
 class CountriesOverview extends StatefulWidget {
-  static const routName = './countryOverview';
   const CountriesOverview({Key? key}) : super(key: key);
 
   @override

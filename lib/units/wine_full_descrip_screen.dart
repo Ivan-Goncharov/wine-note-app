@@ -1,10 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/constants/routes.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-
-import 'edit_wine_screen.dart';
 import '../models/wine_item.dart';
 import '../models/wine_rating.dart';
 import '../models/wine_database_provider.dart';
@@ -48,7 +47,7 @@ class _WineFullDescripScreenState extends State<WineFullDescripScreen> {
             onPressed: () {
               Navigator.pushNamed(
                 context,
-                EditWineScreen.routName,
+                editWineRoute,
                 arguments: _wineNote.id,
               );
             },

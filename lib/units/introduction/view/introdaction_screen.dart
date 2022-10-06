@@ -9,7 +9,6 @@ import 'pages_intro.dart';
 
 //интро экран для первого запуска приложения
 class IntroductionScreen extends StatelessWidget {
-  static const routName = './introScreen';
   const IntroductionScreen({Key? key}) : super(key: key);
 
   @override

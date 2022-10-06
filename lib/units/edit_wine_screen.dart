@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/constants/routes.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
@@ -16,14 +17,10 @@ import '../widgets/edit_wine/image_pick.dart';
 import '../widgets/edit_wine/text_field_hint.dart';
 import '../widgets/edit_wine/text_field_rating.dart';
 import '../widgets/system_widget/toast_message.dart';
-import 'tabs_screen.dart';
 
 //экран для добавления и редактирования записей о вине
 class EditWineScreen extends StatefulWidget {
   const EditWineScreen({Key? key}) : super(key: key);
-
-  //переменная для записи экрана в списке маршрутов навигации
-  static const routName = './screen/edit_wine';
 
   @override
   State<EditWineScreen> createState() => _EditWineScreenState();
@@ -436,7 +433,7 @@ class _EditWineScreenState extends State<EditWineScreen> {
           ),
         );
         Navigator.of(context).popUntil(
-          ModalRoute.withName(TabsScreen.routName),
+          ModalRoute.withName(tabsScreenRoute),
         );
       }
     }

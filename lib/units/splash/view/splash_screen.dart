@@ -10,7 +10,6 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('DEBUG BUILD');
     return ChangeNotifierProvider(
       create: (_) => getIt<SplachListener>(),
       child: const _SplashScreenBody(),

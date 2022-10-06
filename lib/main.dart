@@ -28,11 +28,12 @@ class _MyAppState extends State<MyApp> {
     return ChangeNotifierProvider(
       create: (_) => ChangeThemeProvider(),
       builder: (context, child) {
-        return MaterialApp.router(
+        return MaterialApp(
           theme: context.watch<ChangeThemeProvider>().isDark
               ? MyTheme.darkTheme
               : MyTheme.lightTheme,
-          routerConfig: NavigateRouter.router,
+          initialRoute: '/',
+          onGenerateRoute: getRoutes,
         );
       },
     );

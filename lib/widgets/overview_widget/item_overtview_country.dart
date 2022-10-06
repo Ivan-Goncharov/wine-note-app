@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/constants/routes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../models/wine_item.dart';
-import '../../units/overview_screens/item_filter.dart';
 
 //виджет для вывода одного элемента в списке стран
 class ItemOverviewCountry extends StatelessWidget {
@@ -21,7 +21,7 @@ class ItemOverviewCountry extends StatelessWidget {
       //и передаем название страны и поле для фильтрации записей
       onTap: () => Navigator.pushNamed(
         context,
-        ItemFilterNotes.routName,
+        itemFilterNotesRoute,
         arguments: <String, dynamic>{
           'dataTitle': country['country'],
           'filterName': WineNoteFields.country,

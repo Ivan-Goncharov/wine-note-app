@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/constants/routes.dart';
 import 'package:flutter_my_wine_app/units/last_wine/last_wine_notes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
-
-import 'edit_wine_screen.dart';
 import 'overview_screens/wine_overview_screen.dart';
 import '../../widgets/bottom_app_bar.dart';
 import '../../widgets/system_widget/custom_showcase.dart';
 
 //экран для навигации между вкладками
 class TabsScreen extends StatefulWidget {
-  static const routName = './tabScreen';
-
   //ключи к показу инструкции для приложения
   static final keyLastWineIcon = GlobalKey();
   static final keyWineNavigation = GlobalKey();
@@ -145,8 +142,7 @@ class FloatButton extends StatelessWidget {
       ),
       foregroundColor: Theme.of(context).colorScheme.onPrimary,
       backgroundColor: Theme.of(context).colorScheme.primary,
-      onPressed: () => Navigator.of(context)
-          .pushNamed(EditWineScreen.routName, arguments: null),
+      onPressed: () => Navigator.of(context).pushNamed(editWineRoute),
     );
   }
 }
