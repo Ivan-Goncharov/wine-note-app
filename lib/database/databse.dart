@@ -83,9 +83,9 @@ CREATE TABLE $_tableName (
     return note.copyWith(id: id.toString());
   }
 
-  //метод для чтения одной заметки о вине
+  //метод для поиска одной заметки о вине
   //принимает id данной заметки
-  Future<WineItem> read(String id) async {
+  Future<WineItem> searchWineItem(String id) async {
     final db = await instanse.getDataBase();
 
     //читаем заметку, если id совпадает
@@ -114,6 +114,7 @@ CREATE TABLE $_tableName (
     //возвращаем список заметок
     return maps.map((json) => WineItem.fromMap(json)).toList();
   }
+
 
   /// Метод для получения последних 10 заметок
   Future<List<WineItem>> fetchLastTenWine() async {

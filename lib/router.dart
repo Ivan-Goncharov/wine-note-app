@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/constants/routes.dart';
-import 'package:flutter_my_wine_app/units/edit_wine_screen.dart';
+import 'package:flutter_my_wine_app/units/edit_wine/edit_wine_screen.dart';
 import 'package:flutter_my_wine_app/units/introduction/view/introdaction_screen.dart';
 import 'package:flutter_my_wine_app/units/overview_screens/countries_overview.dart';
 import 'package:flutter_my_wine_app/units/overview_screens/item_filter.dart';
