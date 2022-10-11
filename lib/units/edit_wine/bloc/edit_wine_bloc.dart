@@ -35,6 +35,8 @@ class EditWineBloc extends Bloc<EditWineEvent, EditWineState> {
     ));
   }
 
+  
+
   Future<void> _onSaveNote(
     EditWineEvent event,
     Emitter<EditWineState> emit,

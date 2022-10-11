@@ -13,7 +13,7 @@ import '../../widgets/system_widget/text_field_container.dart';
 import '../../widgets/edit_wine/drop_down_colors.dart';
 import '../../widgets/edit_wine/wine_year.dart';
 import '../../widgets/edit_wine/text_fied_country.dart';
-import '../../widgets/edit_wine/image_pick.dart';
+import 'view/components/image_pick/image_pick.dart';
 import '../../widgets/edit_wine/text_field_hint.dart';
 import '../../widgets/edit_wine/text_field_rating.dart';
 import '../../widgets/system_widget/toast_message.dart';

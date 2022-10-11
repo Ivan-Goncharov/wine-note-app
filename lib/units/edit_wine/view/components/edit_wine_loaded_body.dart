@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_my_wine_app/units/edit_wine/bloc/edit_wine_bloc.dart';
+import 'package:flutter_my_wine_app/units/edit_wine/view/components/image_pick/image_pick.dart';
 import 'package:flutter_my_wine_app/widgets/system_widget/edit_save_dialog.dart';
 
 class EditWineLoadedBody extends StatelessWidget {
@@ -14,12 +16,12 @@ class EditWineLoadedBody extends StatelessWidget {
           onPressed: () => showDialog(
             context: context,
             builder: (context) => EditWineDialog(
-              saveNote: _savedNote,
+              saveNote: () =>   BlocProvider.of<EditWineBloc>(context).add(EditWineSaveEvent()),
             ),
           ),
         ),
         title: Text(
-          _isChange ? 'Изменить заметку' : 'Добавить заметку',
+          state.screenState.isChange ? 'Изменить заметку' : 'Добавить заметку',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 22,
@@ -31,7 +33,7 @@ class EditWineLoadedBody extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              _savedNote();
+              () =>   BlocProvider.of<EditWineBloc>(context).add(EditWineSaveEvent());
             },
             icon: const Icon(Icons.save),
           ),
@@ -45,7 +47,7 @@ class EditWineLoadedBody extends StatelessWidget {
           width: double.infinity,
           height: double.infinity,
           child: Form(
-            key: _key,
+            key: GlobalKey(),
             child: SingleChildScrollView(
               //при прокручивании полей убираем клавиатуру
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,

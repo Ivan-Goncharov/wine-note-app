@@ -2,80 +2,33 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_my_wine_app/getIt.dart';
+import 'package:flutter_my_wine_app/units/edit_wine/view/components/image_pick/cubit/image_pick_cubit.dart';
 import 'package:image_picker/image_picker.dart';
 
 //виджет для выбора изображения для вывода на экран
-class WineImagePick extends StatefulWidget {
+class WineImagePick extends StatelessWidget {
   //принимаем аргументы - путь к изображению, если оно уже выбрано
   //и функция для сохранения изображения в заметке
   final String imagePath;
-  final Function function;
-  const WineImagePick(
-      {Key? key, required this.imagePath, required this.function})
-      : super(key: key);
-  @override
-  State<WineImagePick> createState() => _WineImagePickState();
-}
-
-class _WineImagePickState extends State<WineImagePick> {
-//переменная для хранения выбранного изображения
-  File? image;
-
-  //путь, который сохранен в заметке на данный момент
-  //нам нужна эта переменная для отслеживания,
-  //не поставлено ли системное изображение по умолчанию
-  late String _imagePath = '';
-
-  @override
-  void initState() {
-    _imagePath = widget.imagePath;
-    //проверяем - было ли выбрано уже изображение и не стоит ли изображение по умолчанию
-    if (_imagePath.isNotEmpty && !_imagePath.contains('assets')) {
-      image = File(widget.imagePath);
-    }
-    super.initState();
-  }
-
-  //метод для выбора изображения
-  //принимаем тип источника, либо галерея, либо камера
-  Future<void> imagePick(ImageSource source) async {
-    try {
-      //вызываем метод для выбора изображения
-      final imageGalerry = await ImagePicker().pickImage(source: source);
-
-      //если пользователь ничего не выбрал, то выходим из метода
-      if (imageGalerry == null) return;
-
-      //вызываем функцию для сохранения нового пути к изображению в заметке
-      widget.function(imageGalerry.path);
-
-      //получаем файл, выбранного изображения
-      final imageTemp = File(imageGalerry.path);
-
-      //присваиваем новое значение переменной, которая хранит изображение
-      setState(() {
-        image = imageTemp;
-        _imagePath = imageGalerry.path;
-      });
-    } on PlatformException {
-      image = null;
-    }
-  }
+  const WineImagePick({Key? key, required this.imagePath}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    return BlocProvider(
+        create: (_) => getIt<ImagePickCubit>()..initial(imagePath), c);
+  }
+}
+
+class _WineImagePickBody extends StatelessWidget {
+  const _WineImagePickBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final colorScheme = Theme.of(context).colorScheme;
-
-    if (image == null && _imagePath != widget.imagePath) {
-      setState(
-        () => _imagePath = widget.imagePath,
-      );
-    }
-
-    //контейнер с изображением, нажатие на который,
-    //открывает окно с выбором изображения
-    return GestureDetector(
+    return  GestureDetector(
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
@@ -138,6 +91,68 @@ class _WineImagePickState extends State<WineImagePick> {
         );
       },
     );
+  }
+}
+
+class _WineImagePickState extends State<WineImagePick> {
+//переменная для хранения выбранного изображения
+  File? image;
+
+  //путь, который сохранен в заметке на данный момент
+  //нам нужна эта переменная для отслеживания,
+  //не поставлено ли системное изображение по умолчанию
+  late String _imagePath = '';
+
+  @override
+  void initState() {
+    _imagePath = widget.imagePath;
+    //проверяем - было ли выбрано уже изображение и не стоит ли изображение по умолчанию
+    if (_imagePath.isNotEmpty && !_imagePath.contains('assets')) {
+      image = File(widget.imagePath);
+    }
+    super.initState();
+  }
+
+  //метод для выбора изображения
+  //принимаем тип источника, либо галерея, либо камера
+  Future<void> imagePick(ImageSource source) async {
+    try {
+      //вызываем метод для выбора изображения
+      final imageGalerry = await ImagePicker().pickImage(source: source);
+
+      //если пользователь ничего не выбрал, то выходим из метода
+      if (imageGalerry == null) return;
+
+      //вызываем функцию для сохранения нового пути к изображению в заметке
+      widget.function(imageGalerry.path);
+
+      //получаем файл, выбранного изображения
+      final imageTemp = File(imageGalerry.path);
+
+      //присваиваем новое значение переменной, которая хранит изображение
+      setState(() {
+        image = imageTemp;
+        _imagePath = imageGalerry.path;
+      });
+    } on PlatformException {
+      image = null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    if (image == null && _imagePath != widget.imagePath) {
+      setState(
+        () => _imagePath = widget.imagePath,
+      );
+    }
+
+    //контейнер с изображением, нажатие на который,
+    //открывает окно с выбором изображения
+    return 
   }
 }
 
