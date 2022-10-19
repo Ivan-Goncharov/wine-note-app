@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/get_it.dart';
+import 'package:flutter_my_wine_app/units/splash/domain/shared_repo.dart';
 
 /// Listener для переключения
 class PagesIntroListener extends ChangeNotifier {
@@ -18,6 +20,10 @@ class PagesIntroListener extends ChangeNotifier {
       _controller.animateToPage(_currentPage,
           duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
     });
+  }
+
+  Future<void> saveFirstLaunchApp() async {
+    await getIt<SharedPrefRepo>().saveFirstLaunch();
   }
 
   @override

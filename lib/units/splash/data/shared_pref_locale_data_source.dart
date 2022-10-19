@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SharedPrefLocaleDataSource {
   Future<bool> isFirstLaunch();
+  Future<void> saveFirstLaunch();
 }
 
 class SharedPrefeLocaleDataSourceImpl implements SharedPrefLocaleDataSource {
@@ -12,5 +13,11 @@ class SharedPrefeLocaleDataSourceImpl implements SharedPrefLocaleDataSource {
     // Делаем запрос на наличие флага - обозначения первого запуска приложения
     final SharedPreferences _sharedPref = await SharedPreferences.getInstance();
     return _sharedPref.getBool(sharedPrefFirstLaunchKey) ?? true;
+  }
+
+  @override
+  Future<void> saveFirstLaunch() async {
+    final pref = await SharedPreferences.getInstance();
+    pref.setBool(sharedPrefFirstLaunchKey, false);
   }
 }

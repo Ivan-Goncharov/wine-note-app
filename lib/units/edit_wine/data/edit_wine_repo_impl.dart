@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/database/databse.dart';
 import 'package:flutter_my_wine_app/units/edit_wine/domain/edit_wine_repo.dart';
 import 'package:flutter_my_wine_app/units/edit_wine/data/edit_wine_model.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class EditWineRepoImpl implements EditWineRepo {
   @override

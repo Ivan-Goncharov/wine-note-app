@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_wine_app/getIt.dart';
+import 'package:flutter_my_wine_app/get_it.dart';
 import 'package:flutter_my_wine_app/units/splash/listener/splash_listener.dart';
 import 'package:provider/provider.dart';
 

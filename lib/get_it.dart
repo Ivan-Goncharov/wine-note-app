@@ -25,7 +25,7 @@ void setupGetIt() {
       EditWineLocaleDataSourceImpl());
 
   /// Repositories
-  getIt.registerSingleton<SharedPrefRepo>(SharedPrefRepoImpl());
+  getIt.registerSingleton<SharedPrefRepo>(SharedPrefRepoImpl(getIt()));
   getIt.registerSingleton<LastWineRepo>(LastWineRepoImpl());
   getIt.registerSingleton<EditWineRepo>(EditWineRepoImpl());
 

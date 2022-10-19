@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_my_wine_app/getIt.dart';
+import 'package:flutter_my_wine_app/get_it.dart';
 import 'package:flutter_my_wine_app/units/last_wine/bloc/last_wine_bloc.dart';
 import 'package:flutter_my_wine_app/units/tabs_screen.dart';
 import '../../widgets/system_widget/app_bar.dart';

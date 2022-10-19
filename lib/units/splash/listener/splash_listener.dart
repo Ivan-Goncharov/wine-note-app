@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/constants/routes.dart';
-import 'package:flutter_my_wine_app/getIt.dart';
+import 'package:flutter_my_wine_app/get_it.dart';
 import 'package:flutter_my_wine_app/units/splash/domain/shared_repo.dart';
 
 class SplachListener extends ChangeNotifier {
