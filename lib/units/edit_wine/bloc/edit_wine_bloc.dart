@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/units/edit_wine/data/edit_wine_screen_state.dart';
@@ -15,6 +17,7 @@ class EditWineBloc extends Bloc<EditWineEvent, EditWineState> {
   EditWineBloc(this.editWineRepo) : super(EditWineInitial()) {
     on<EditWineInitialEvent>(_onInitial);
     on<EditWineSaveEvent>(_onSaveNote);
+    on<EditWineSaveImage>(_onSaveImage);
   }
 
   Future<void> _onInitial(
@@ -39,11 +42,11 @@ class EditWineBloc extends Bloc<EditWineEvent, EditWineState> {
     }
   }
 
-  void printImage(
+  Future<void> _onSaveImage(
     EditWineSaveImage event,
     Emitter<EditWineState> emit,
-  ) {
-    print('DEBUG IMAGE ${event.image}');
+  ) async {
+     
   }
 
   Future<void> _onSaveNote(

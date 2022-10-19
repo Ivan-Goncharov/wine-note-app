@@ -10,6 +10,9 @@ abstract class EditWineLocaleDataSource {
 
   /// Создать новую заметку
   Future<void> addNewNote(WineItem note);
+
+  /// Создать новый файл по данному пути
+  Future<String> saveImageFile(String fileImage);
 }
 
 class EditWineLocaleDataSourceImpl extends EditWineLocaleDataSource {
@@ -26,5 +29,11 @@ class EditWineLocaleDataSourceImpl extends EditWineLocaleDataSource {
   @override
   Future<void> updateNote(WineItem note) {
     return DBProvider.instanse.update(note);
+  }
+  
+  @override
+  Future<String> saveImageFile(String fileImage) {
+    // TODO: implement saveImageFile
+    throw UnimplementedError();
   }
 }

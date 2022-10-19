@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/database/databse.dart';
 import 'package:flutter_my_wine_app/units/edit_wine/domain/edit_wine_repo.dart';
@@ -50,4 +52,12 @@ class EditWineRepoImpl implements EditWineRepo {
 
     return DBProvider.instanse.create(editWineModel.fromEditWineModel());
   }
+
+  @override
+  Future<String> saveImageFile(File image) {
+    // TODO: implement saveImageFile
+    throw UnimplementedError();
+  }
+
+  
 }

@@ -3,9 +3,11 @@
 <plist version="1.0">
 	<dict>
 	    <key>NSCameraUsageDescription</key>
-        <string>camera</string>
+        <string>Для фото винных этикеток.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-        <string>photos</string>
+        <string>Для выбора фотографий для заметки.</string>
+		<key>NSAppleMusicUsageDescription</key>
+        <string>Для выбора медиа для заметки.</string>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleExecutable</key>

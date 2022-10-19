@@ -25,14 +25,18 @@ class ImagePickCubit extends Cubit<ImagePickState> {
   /// Метод для выбора изображения
   /// Принимаем тип источника, либо галерея, либо камера
   Future<void> imagePick(ImageSource imageSource) async {
-    /// Вызываем метод для выбора изображения
-    
+    // Вызываем метод для выбора изображения
     final imageGalerry = await ImagePicker().pickImage(source: imageSource);
 
-    /// Если пользователь ничего не выбрал, то выходим из метода
+    // Если пользователь ничего не выбрал, то выходим из метода
     if (imageGalerry == null) return;
 
     imageFile = File(imageGalerry.path);
-    emit(ImagePickSuccefulState(imageFile!.path, imageFile!));
+
+    // Сперва event об успешном выборе фото
+    emit(ImagePickSuccefulState(imageFile!));
+    
+    // Затем event для перестроения виджета выбора фотографии
+    emit(ImagePickUserPhotoState(imageFile!));
   }
 }

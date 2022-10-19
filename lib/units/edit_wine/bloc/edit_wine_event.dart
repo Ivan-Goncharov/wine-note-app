@@ -11,6 +11,6 @@ class EditWineInitialEvent implements EditWineEvent {
 class EditWineSaveEvent implements EditWineEvent {}
 
 class EditWineSaveImage implements EditWineEvent {
-  final String image;
+  final File image;
   EditWineSaveImage(this.image);
 }

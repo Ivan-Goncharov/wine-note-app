@@ -21,8 +21,6 @@ class ImagePickUserPhotoState extends ImagePickState {
 }
 
 class ImagePickSuccefulState extends ImagePickState {
-  final String imagePath;
   final File image;
-
-  ImagePickSuccefulState(this.imagePath, this.image);
+  ImagePickSuccefulState(this.image);
 }
