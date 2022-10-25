@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_my_wine_app/units/components/edit_wine_chapter/item_chapter_edit.dart';
+import 'package:flutter_my_wine_app/units/components/image_pick/image_pick.dart';
 import 'package:flutter_my_wine_app/units/edit_wine/bloc/edit_wine_bloc.dart';
-import 'package:flutter_my_wine_app/units/edit_wine/view/components/image_pick/image_pick.dart';
 import 'package:flutter_my_wine_app/widgets/system_widget/edit_save_dialog.dart';
 
 class EditWineLoadedBody extends StatelessWidget {
@@ -51,14 +52,23 @@ class EditWineLoadedBody extends StatelessWidget {
           child: Form(
             key: GlobalKey(),
             child: SingleChildScrollView(
-                //при прокручивании полей убираем клавиатуру
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                child: Column(
-                  children: [
-                    WineImagePick(imagePath: state.editWineModel.imageUrl),
-                  ],
-                )),
+              //при прокручивании полей убираем клавиатуру
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: Column(
+                children: [
+                  // Выбор изображения для вина.
+                  WineImagePick(imagePath: state.editWineModel.imageUrl),
+
+                  ItemChapterEdit(
+                    title: 'Общая информация о вине',
+                    changeVisible: () {
+                      BlocProvider.of<EditWineBloc>(context)
+                          .add(ChangeVisibleGeneralInfoEvent());
+                    },
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

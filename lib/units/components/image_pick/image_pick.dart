@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_my_wine_app/get_it.dart';
+import 'package:flutter_my_wine_app/units/components/image_pick/cubit/image_pick_cubit.dart';
 import 'package:flutter_my_wine_app/units/edit_wine/bloc/edit_wine_bloc.dart';
-import 'package:flutter_my_wine_app/units/edit_wine/view/components/image_pick/cubit/image_pick_cubit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 

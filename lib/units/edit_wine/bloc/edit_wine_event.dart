@@ -14,3 +14,6 @@ class EditWineSaveImage implements EditWineEvent {
   final File image;
   EditWineSaveImage(this.image);
 }
+
+class ChangeVisibleGeneralInfoEvent implements EditWineEvent {
+}

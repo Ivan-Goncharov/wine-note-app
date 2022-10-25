@@ -10,4 +10,17 @@ class EditWineScreenState {
     this.isVisMainFeatures = false,
     this.isVisTasting = false,
   });
+
+  EditWineScreenState copyWith({
+    bool? newisVisGeneralInfo,
+    bool? newisVisMainFeatures,
+    bool? newisVisTasting,
+  }) {
+    return EditWineScreenState(
+      isChange: isChange,
+      isVisGeneralInfo: newisVisGeneralInfo ?? isVisGeneralInfo,
+      isVisMainFeatures: newisVisMainFeatures ?? isVisMainFeatures,
+      isVisTasting: newisVisTasting ?? isVisTasting,
+    );
+  }
 }

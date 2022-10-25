@@ -18,6 +18,7 @@ class EditWineBloc extends Bloc<EditWineEvent, EditWineState> {
     on<EditWineInitialEvent>(_onInitial);
     on<EditWineSaveEvent>(_onSaveNote);
     on<EditWineSaveImage>(_onSaveImage);
+    on<ChangeVisibleGeneralInfoEvent>(_changeVisibleGeneralInfo);
   }
 
   Future<void> _onInitial(
@@ -42,11 +43,8 @@ class EditWineBloc extends Bloc<EditWineEvent, EditWineState> {
     }
   }
 
-  Future<void> _onSaveImage(
-    EditWineSaveImage event,
-    Emitter<EditWineState> emit,
-  ) async {
-     
+  void _onSaveImage(EditWineSaveImage event, _) {
+    editWineModel.imageUrl = event.image.path;
   }
 
   Future<void> _onSaveNote(
@@ -58,5 +56,18 @@ class EditWineBloc extends Bloc<EditWineEvent, EditWineState> {
     } else {
       await editWineRepo.createNewNote(editWineModel);
     }
+  }
+
+  void _changeVisibleGeneralInfo(
+    ChangeVisibleGeneralInfoEvent event,
+    Emitter<EditWineState> emit,
+  ) {
+    screenState = screenState.copyWith(
+        newisVisGeneralInfo: !screenState.isVisGeneralInfo);
+    print('DEBUG CHNAGE STATE');
+    emit(EditWineLoadedState(
+      editWineModel,
+      screenState,
+    ));
   }
 }

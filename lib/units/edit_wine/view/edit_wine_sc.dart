@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_my_wine_app/get_it.dart';
 import 'package:flutter_my_wine_app/units/edit_wine/bloc/edit_wine_bloc.dart';
-import 'package:flutter_my_wine_app/units/edit_wine/view/components/edit_wine_loaded_body.dart';
+import 'package:flutter_my_wine_app/units/edit_wine/view/edit_wine_loaded_body.dart';
 
 class EditWineScreen extends StatelessWidget {
   final String? id;
