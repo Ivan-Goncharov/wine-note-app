@@ -64,10 +64,10 @@ class EditWineBloc extends Bloc<EditWineEvent, EditWineState> {
   ) {
     screenState = screenState.copyWith(
         newisVisGeneralInfo: !screenState.isVisGeneralInfo);
-    print('DEBUG CHNAGE STATE');
     emit(EditWineLoadedState(
       editWineModel,
       screenState,
     ));
   }
+
 }

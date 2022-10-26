@@ -11,14 +11,19 @@ class ItemChapterEdit extends StatelessWidget {
 
   // Функция  открытия списка
   final void Function() changeVisible;
-  const ItemChapterEdit(
-      {Key? key, required this.title, required this.changeVisible})
-      : super(key: key);
+
+  final bool initialVisible;
+  const ItemChapterEdit({
+    Key? key,
+    required this.title,
+    required this.changeVisible,
+    required this.initialVisible,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<EditWineChapterCubit>(
-      create: (_) => getIt<EditWineChapterCubit>()..initial(),
+      create: (_) => getIt<EditWineChapterCubit>()..initial(initialVisible),
       child: _EditWineChapterBody(title: title, changeVisible: changeVisible),
     );
   }

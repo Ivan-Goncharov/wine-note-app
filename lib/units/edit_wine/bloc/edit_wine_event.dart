@@ -15,5 +15,10 @@ class EditWineSaveImage implements EditWineEvent {
   EditWineSaveImage(this.image);
 }
 
-class ChangeVisibleGeneralInfoEvent implements EditWineEvent {
+class ChangeVisibleGeneralInfoEvent implements EditWineEvent {}
+
+/// Event о cохранении ввода названия вина.
+class WineNameSaveEvent implements EditWineEvent {
+  final String wineName;
+  WineNameSaveEvent(this.wineName);
 }

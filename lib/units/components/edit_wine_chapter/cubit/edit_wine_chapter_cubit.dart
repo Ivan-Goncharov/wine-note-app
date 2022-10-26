@@ -5,9 +5,10 @@ part 'edit_wine_chapter_state.dart';
 
 class EditWineChapterCubit extends Cubit<EditWineChapterState> {
   EditWineChapterCubit() : super(EditWineChapterInitial());
-  var _isOpen = false;
+  late bool _isOpen = false;
 
-  void initial() {
+  void initial(bool initValue) {
+    _isOpen = initValue;
     emit(EditWineChapterChangeState(_isOpen));
   }
 

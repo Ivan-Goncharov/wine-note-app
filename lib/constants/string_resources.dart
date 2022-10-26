@@ -6,5 +6,6 @@ abstract class SResources {
   static const introNavigateTitle = 'Навигация по винам';
   static const introSearchTitle = 'Поиск заметок';
   static const introSearchSub = 'Быстрый поиск по вашему собранию вин';
-  
+  static const wineEditNameTitle = 'Название вина';
+  static const wineEditNameHint = 'Введите название вина';
 }

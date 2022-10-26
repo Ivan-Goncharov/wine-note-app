@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_my_wine_app/units/components/edit_wine_chapter/item_chapter_edit.dart';
 import 'package:flutter_my_wine_app/units/components/image_pick/image_pick.dart';
 import 'package:flutter_my_wine_app/units/edit_wine/bloc/edit_wine_bloc.dart';
+import 'package:flutter_my_wine_app/units/edit_wine/view/components/wine_edit_general_info.dart';
 import 'package:flutter_my_wine_app/widgets/system_widget/edit_save_dialog.dart';
 
 class EditWineLoadedBody extends StatelessWidget {
@@ -59,13 +60,18 @@ class EditWineLoadedBody extends StatelessWidget {
                   // Выбор изображения для вина.
                   WineImagePick(imagePath: state.editWineModel.imageUrl),
 
+                  // Глава об общей информации.
                   ItemChapterEdit(
                     title: 'Общая информация о вине',
                     changeVisible: () {
                       BlocProvider.of<EditWineBloc>(context)
                           .add(ChangeVisibleGeneralInfoEvent());
                     },
+                    initialVisible: state.screenState.isVisGeneralInfo,
                   ),
+
+                  // Visible поля для ввода общей информации о вине.
+                  WineEditGeneralInfo(state: state),
                 ],
               ),
             ),
@@ -76,90 +82,8 @@ class EditWineLoadedBody extends StatelessWidget {
   }
 }
 
-                  // //общая информация о вине
-                  // ItemChapterEdit(
-                  //   title: 'Общая информация о вине',
-                  //   changeVisible: () {
-                  //     setState(() => _isVisGeneralInfo = !_isVisGeneralInfo);
-                  //   },
-                  // ),
-                  // Visibility(
-                  //   visible: _isVisGeneralInfo,
-                  //   child: Column(
-                  //     children: [
-                  //       //название вина
-                  //       TextFieldInput(
-                  //         initialValue: _note.name,
-                  //         lableText: 'Название вина',
-                  //         hintText: 'Введите название вина',
-                  //         changeNote: (value) {
-                  //           _note = _note.copyWith(name: value);
-                  //         },
-                  //         fieldAction: TextInputAction.done,
-                  //       ),
-
-                  //       //Производитель вина
-                  //       TextInputWithHint(
-                  //         fieldType: WineNoteFields.manufacturer,
-                  //         changeData: _changeManufactor,
-                  //         data: _note.manufacturer,
-                  //         hintText: 'Введите название производителя',
-                  //         title: 'Производитель',
-                  //       ),
-
-                  //       // указываем год вина
-                  //       WineYear(
-                  //         currentWineYear: _note.year,
-                  //         changeDateNote: _changeWineDate,
-                  //       ),
-
-                  //       //Страна вина
-                  //       TextFieldCountry(
-                  //         countryName: _countryName,
-                  //         func: _changeNoteCountry,
-                  //       ),
-
-                  //       //Регион вина
-                  //       TextInputWithHint(
-                  //         changeData: _changeNoteRegion,
-                  //         fieldType: WineNoteFields.region,
-                  //         data: _regionName,
-                  //         hintText: 'Укажите регион',
-                  //         countryName: _countryName,
-                  //         title: 'Регион',
-                  //       ),
-
-                  //       //цена
-                  //       TextFieldInput(
-                  //         //если цена не указана, то передаем пустую строку
-                  //         initialValue:
-                  //             _note.price == 0.0 ? '' : _note.price.toString(),
-
-                  //         //сохраняем данные
-                  //         changeNote: (value) {
-                  //           //парсимм значение в double и сохраняем в заметку
-                  //           _note = _note.copyWith(
-                  //               price: double.parse(parseDoubleInfo(value)));
-                  //         },
-                  //         fieldAction: TextInputAction.done,
-                  //         hintText: 'Укажите стоимость вина',
-                  //         lableText: 'Цена',
-                  //         keyboardType: TextInputType.number,
-                  //       ),
-
-                  //       //поставщик
-                  //       TextInputWithHint(
-                  //         fieldType: WineNoteFields.vendor,
-                  //         changeData: (vendor) {
-                  //           _note = _note.copyWith(vendor: vendor);
-                  //         },
-                  //         data: _note.vendor,
-                  //         hintText: 'Введите название поставщика',
-                  //         title: 'Поставщик',
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
+                  
+                  // 
                   // const Divider(height: 1),
 
                   // //Основные характеристики
