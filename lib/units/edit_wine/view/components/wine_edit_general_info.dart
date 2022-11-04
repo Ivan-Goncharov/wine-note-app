@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_wine_app/constants/string_resources.dart';
 import 'package:flutter_my_wine_app/units/edit_wine/bloc/edit_wine_bloc.dart';
-import 'package:flutter_my_wine_app/widgets/edit_wine/text_field_hint.dart';
 import 'package:flutter_my_wine_app/widgets/system_widget/text_field_container.dart';
 
 class WineEditGeneralInfo extends StatelessWidget {
@@ -14,13 +13,7 @@ class WineEditGeneralInfo extends StatelessWidget {
       visible: state.screenState.isVisGeneralInfo,
       child: Column(
         children: [
-          // название вина
-          TextFieldInput(
-            controller: state.editWineModel.nameTextController,
-            lableText: SResources.wineEditNameTitle,
-            hintText: SResources.wineEditNameHint,
-            fieldAction: TextInputAction.done,
-          ),
+         
 
           // //Производитель вина
           //               TextInputWithHint(

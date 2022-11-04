@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_my_wine_app/get_it.dart';
 import 'package:flutter_my_wine_app/router.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:provider/provider.dart';
 
 import './models/my_themes.dart';
@@ -34,6 +35,7 @@ class _MyAppState extends State<MyApp> {
               : MyTheme.lightTheme,
           initialRoute: '/',
           onGenerateRoute: getRoutes,
+          builder: FlutterSmartDialog.init(),
         );
       },
     );

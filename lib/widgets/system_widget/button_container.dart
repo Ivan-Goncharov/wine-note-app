@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 //виджет для стилизации кнопок - перехода на экраны ввода региона/страны и т.д
-class ButtonContainer extends StatelessWidget {
+class InputButtonWidget extends StatelessWidget {
   final Widget child;
-  const ButtonContainer({Key? key, required this.child}) : super(key: key);
+  const InputButtonWidget({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

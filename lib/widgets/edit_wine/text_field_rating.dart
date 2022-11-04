@@ -52,7 +52,7 @@ class _TextFieldRatingState extends State<TextFieldRating> {
       },
 
       //выводим данные по рейтингу
-      child: ButtonContainer(
+      child: InputButtonWidget(
         child: Row(
           children: [
             //заголовок

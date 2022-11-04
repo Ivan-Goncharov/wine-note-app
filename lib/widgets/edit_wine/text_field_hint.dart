@@ -9,9 +9,9 @@ import 'package:provider/provider.dart';
 import '../../string_resourses.dart';
 import 'bottom_sheet_input.dart';
 
-//виджет для ввода текста с возможной подсказкой по вводу
-//пользователь вводит название, и если оно уже использовалось до этого
-//в каком-либо виде, то всплывет подсказка
+// виджет для ввода текста с возможной подсказкой по вводу
+// пользователь вводит название, и если оно уже использовалось до этого
+// в каком-либо виде, то всплывет подсказка
 class TextInputWithHint extends StatefulWidget {
   final String fieldType;
   final String hintText;
@@ -125,7 +125,7 @@ class _TextInputWithHintState extends State<TextInputWithHint> {
           },
         );
       },
-      child: ButtonContainer(
+      child: InputButtonWidget(
         child: Row(
           children: [
             Text(widget.title),

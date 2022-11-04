@@ -10,11 +10,11 @@ part 'edit_wine_event.dart';
 part 'edit_wine_state.dart';
 
 class EditWineBloc extends Bloc<EditWineEvent, EditWineState> {
-  late EditWineModel editWineModel;
-  final EditWineRepo editWineRepo;
-  late EditWineScreenState screenState;
+  late EditWineModel _editWineModel;
+  final EditWineRepo _editWineRepo;
+  late EditWineScreenState _screenState;
   String? id;
-  EditWineBloc(this.editWineRepo) : super(EditWineInitial()) {
+  EditWineBloc(this._editWineRepo) : super(EditWineInitial()) {
     on<EditWineInitialEvent>(_onInitial);
     on<EditWineSaveEvent>(_onSaveNote);
     on<EditWineSaveImage>(_onSaveImage);
@@ -26,16 +26,16 @@ class EditWineBloc extends Bloc<EditWineEvent, EditWineState> {
     emit(EditWineLoadingState());
     try {
       if (event.id != null) {
-        editWineModel = await editWineRepo.getModelDB(event.id!);
-        screenState = EditWineScreenState(isChange: true);
+        _editWineModel = await _editWineRepo.getModelDB(event.id!);
+        _screenState = EditWineScreenState(isChange: true);
         id = event.id;
       } else {
-        editWineModel = editWineRepo.createEditWineModel();
-        screenState = EditWineScreenState(isChange: false);
+        _editWineModel = _editWineRepo.createEditWineModel();
+        _screenState = EditWineScreenState(isChange: false);
       }
       emit(EditWineLoadedState(
-        editWineModel,
-        screenState,
+        _editWineModel,
+        _screenState,
       ));
     } catch (er) {
       debugPrint(er.toString());
@@ -44,7 +44,7 @@ class EditWineBloc extends Bloc<EditWineEvent, EditWineState> {
   }
 
   void _onSaveImage(EditWineSaveImage event, _) {
-    editWineModel.imageUrl = event.image.path;
+    _editWineModel.imageUrl = event.image.path;
   }
 
   Future<void> _onSaveNote(
@@ -52,9 +52,9 @@ class EditWineBloc extends Bloc<EditWineEvent, EditWineState> {
     Emitter<EditWineState> emit,
   ) async {
     if (id != null) {
-      await editWineRepo.updateNoteWine(editWineModel);
+      await _editWineRepo.updateNoteWine(_editWineModel);
     } else {
-      await editWineRepo.createNewNote(editWineModel);
+      await _editWineRepo.createNewNote(_editWineModel);
     }
   }
 
@@ -62,12 +62,11 @@ class EditWineBloc extends Bloc<EditWineEvent, EditWineState> {
     ChangeVisibleGeneralInfoEvent event,
     Emitter<EditWineState> emit,
   ) {
-    screenState = screenState.copyWith(
-        newisVisGeneralInfo: !screenState.isVisGeneralInfo);
+    _screenState = _screenState.copyWith(
+        newisVisGeneralInfo: !_screenState.isVisGeneralInfo);
     emit(EditWineLoadedState(
-      editWineModel,
-      screenState,
+      _editWineModel,
+      _screenState,
     ));
   }
-
 }

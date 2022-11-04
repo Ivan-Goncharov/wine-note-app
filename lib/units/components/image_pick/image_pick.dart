@@ -107,6 +107,7 @@ class _WineImagePickBody extends StatelessWidget {
                 imagePick: BlocProvider.of<ImagePickCubit>(context).imagePick,
               );
             },
+            
           );
         },
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_wine_app/helpers/inputBorderHelper.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../widgets/edit_wine/button_search.dart';
@@ -144,8 +145,8 @@ class _BottomSheetInputGeneralState extends State<BottomSheetInputGeneral> {
               },
               decoration: InputDecoration(
                 hintText: widget.hintText,
-                enabledBorder: _inputBorder(_theme.colorScheme.onBackground),
-                focusedBorder: _inputBorder(_theme.colorScheme.primary),
+                enabledBorder: inputBorder(_theme.colorScheme.onBackground),
+                focusedBorder: inputBorder(_theme.colorScheme.primary),
                 labelStyle: _theme.textTheme.bodyMedium,
                 hintStyle: TextStyle(
                   color: _theme.colorScheme.outline,
@@ -216,13 +217,7 @@ class _BottomSheetInputGeneralState extends State<BottomSheetInputGeneral> {
     );
   }
 
-  //метод для создания рамки для ввода
-  OutlineInputBorder _inputBorder(Color color) {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
-      borderSide: BorderSide(color: color),
-    );
-  }
+  
 }
 
 //виджет для вывода одной подсказки

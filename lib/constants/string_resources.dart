@@ -8,4 +8,6 @@ abstract class SResources {
   static const introSearchSub = 'Быстрый поиск по вашему собранию вин';
   static const wineEditNameTitle = 'Название вина';
   static const wineEditNameHint = 'Введите название вина';
+  static const manufactorTitle = 'Производитель';
+  static const manufactorHint = 'Введите название производителя';
 }
